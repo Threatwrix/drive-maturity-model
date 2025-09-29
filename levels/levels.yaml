@@ -1,0 +1,40 @@
+# DRIVE Maturity Levels (gating and weights)
+# Level thresholds are illustrative; tune in product.
+levels:
+  - id: 1
+    name: Foundational
+    min_score: 0
+    description: "Basic hygiene; risks largely unmanaged."
+    required_controls: []
+  - id: 2
+    name: Baseline
+    min_score: 20
+    description: "Core identity & data protections in place but inconsistent."
+    required_controls:
+      - "MFA enforced for all users"
+      - "External sharing policy scoped"
+      - "Purview Audit enabled"
+  - id: 3
+    name: Managed
+    min_score: 40
+    description: "Policies enforced and measured; frameworks adopted."
+    required_controls:
+      - "Conditional Access policies for risky sign-ins"
+      - "Sensitivity labels applied to sensitive repositories"
+      - "Guest lifecycle policy (review/expiration)"
+  - id: 4
+    name: Advanced
+    min_score: 60
+    description: "Automated controls; active monitoring and classification coverage."
+    required_controls:
+      - "Privileged Identity Management (PIM) for admins"
+      - "Auto-labeling for sensitive data (where licensed)"
+      - "Restricted site search for sensitive sites"
+  - id: 5
+    name: Optimized
+    min_score: 80
+    description: "Continuous risk assessment and policy-as-code."
+    required_controls:
+      - "Continuous risk scoring pipeline"
+      - "Policy-as-code with change control"
+      - "Zero Trust access for sensitive data"
