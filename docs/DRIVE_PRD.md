@@ -25,23 +25,42 @@ Goals:
 - Teams
 - Exchange Online (EX)
 
-### 2.2 Scoring Model
+### 2.2 DRIVE Maturity Assessment Model
 
-**Total Score Range:** 0–100 (higher = more mature / lower risk)  
-**Components:**  
-- Sensitive Data Exposure (max 30 pts)  
-- Access Hygiene (max 25 pts)  
-- External Sharing Risk (max 20 pts)  
-- Classification & Labeling (max 15 pts)  
-- Configuration Risk (max 10 pts)  
+**Threat-Focused Binary Advancement:** Organizations progress through 5 maturity levels based on **binary pass/fail** criteria for each level. All required checks must pass to advance.
 
-**Formula:**  
+**Five Maturity Levels:**
+1. **Critical Exposure (Immediate Threat)** - 16 checks
+   - Anonymous access, weak admin credentials, critical AD misconfigurations
+   - *Risk Timeline: Exploitable within hours/days*
+
+2. **High Risk Mitigated (Short-term Protection)** - 42 checks  
+   - Privileged access controls, guest lifecycle, external sharing governance
+   - *Risk Timeline: Exploitable within weeks/months*
+
+3. **Standard Security Baseline (Default Plus)** - 35 checks
+   - Conditional access, data classification, regular reviews, baseline policies  
+   - *Risk Timeline: Standard security practices*
+
+4. **Enhanced Security Posture (Proactive Management)** - 12 checks
+   - Advanced automation, behavioral analytics, Zero Trust implementation
+   - *Risk Timeline: Proactive threat prevention*
+
+5. **State-of-the-Art Security (Continuous Excellence)** - 12 checks
+   - Predictive security, policy-as-code, continuous optimization
+   - *Risk Timeline: Future-proofed security*
+
+**Advancement Criteria:**
 ```
-Risk Points = SeverityWeight × ExposureFactor
-ExposureFactor = 1 / (1 + e^(-k × (PctAffected – 0.15)))
+Customer Maturity Level = Highest level where ALL required checks pass
+
+Examples:
+- Pass all Level 1 & 2 checks, fail 1 Level 3 check → Level 2
+- Pass all Level 1-4 checks, fail 1 Level 5 check → Level 4  
+- Pass all 117 checks → Level 5
 ```
-- SeverityWeight: Critical=5, High=4, Medium=3, Low=1  
-- Logistic curve (`k=18`, midpoint=15%) ensures fairness across tenants.  
+
+**No Complex Scoring:** Simple binary model eliminates confusing point calculations and focuses on actual risk remediation.  
 
 ### 2.3 Maturity Levels
 

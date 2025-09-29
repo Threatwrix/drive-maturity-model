@@ -1,7 +1,7 @@
 [
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-001-EX",
     "title": "External recipient/guest has access to sensitive mailbox items or shared mailboxes.",
     "category": "Access Control",
@@ -28,7 +28,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-012",
     "title": "File system broad access to hidden/admin shares",
     "category": "Access Control",
@@ -55,7 +55,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-007",
     "title": "File system broken inheritance with excessive explicit aces",
     "category": "Access Control",
@@ -82,7 +82,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-005",
     "title": "File system change permissions/take ownership to non-admins",
     "category": "Access Control",
@@ -109,7 +109,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-OH-003",
     "title": "File system excessive acl entries (acl bloat)",
     "category": "Access Control",
@@ -136,7 +136,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-010",
     "title": "File system local accounts on in acls",
     "category": "Access Control",
@@ -163,7 +163,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-033",
     "title": "File System missing full control ACE",
     "category": "Access Control",
@@ -190,7 +190,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-008",
     "title": "File system orphaned sids in acls",
     "category": "Access Control",
@@ -217,7 +217,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-009",
     "title": "File system over-nested groups creating implicit access",
     "category": "Access Control",
@@ -244,7 +244,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-011",
     "title": "File system stale privileged access",
     "category": "Access Control",
@@ -271,7 +271,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-006",
     "title": "File system unintended inheritance to sensitive paths",
     "category": "Access Control",
@@ -298,7 +298,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "DE-002-OD",
     "title": "Anonymous sharing links are enabled (scope == anonymous).",
     "category": "Access Control",
@@ -325,7 +325,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-001-OD",
     "title": "Guest user has access to sensitive content.",
     "category": "Access Control",
@@ -352,7 +352,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "CC-002-OD",
     "title": "Non-expiring (permanent) links are allowed.",
     "category": "Access Control",
@@ -379,7 +379,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-003-OD",
     "title": "Orphaned users (not resolvable in directory) still appear on ACLs.",
     "category": "Access Control",
@@ -406,7 +406,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-010",
     "title": "Sharepoint 'everyone except external users' on sensitive libraries",
     "category": "Access Control",
@@ -433,7 +433,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-002",
     "title": "Sharepoint anyone links with edit",
     "category": "Access Control",
@@ -460,7 +460,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-006",
     "title": "Sharepoint external sharing to consumer domains",
     "category": "Access Control",
@@ -487,7 +487,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-008",
     "title": "Sharepoint guest accounts as site owners / full control",
     "category": "Access Control",
@@ -514,7 +514,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-001",
     "title": "Sharepoint open access (anyone links present)",
     "category": "Access Control",
@@ -541,7 +541,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-AX-001",
     "title": "Sharepoint sensitive data with visitors group misconfigured for edit",
     "category": "Access Control",
@@ -568,7 +568,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "DE-002-SPO",
     "title": "Anonymous sharing links are enabled (scope == anonymous).",
     "category": "Access Control",
@@ -595,7 +595,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-006",
     "title": "Broken permission inheritance",
     "category": "Access Control",
@@ -622,7 +622,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-001-SPO",
     "title": "Guest user has access to sensitive content.",
     "category": "Access Control",
@@ -649,7 +649,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "CC-002-SPO",
     "title": "Non-expiring (permanent) links are allowed.",
     "category": "Access Control",
@@ -676,7 +676,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-003-SPO",
     "title": "Orphaned users (not resolvable in directory) still appear on ACLs.",
     "category": "Access Control",
@@ -703,7 +703,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "DE-003",
     "title": "File Shared with Everyone",
     "category": "Access Control",
@@ -730,7 +730,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-001-SPO",
     "title": "Inactive user (>90 days) still retains permissions to SharePoint Online resources.",
     "category": "Access Control",
@@ -757,7 +757,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "DE-002-Teams",
     "title": "Anonymous links to files shared via Teams (backed by SharePoint/OneDrive) are enabled (scope == anonymous).",
     "category": "Access Control",
@@ -784,7 +784,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-001-Teams",
     "title": "Guest user has access to sensitive content.",
     "category": "Access Control",
@@ -811,7 +811,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "DE-001",
     "title": "Org-wide Teams sharing  (scope == organization)",
     "category": "Access Control",
@@ -838,7 +838,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-001-Teams",
     "title": "Inactive user (>90 days) still retains permissions to Microsoft Teams resources.",
     "category": "Access Control",
@@ -865,7 +865,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-032",
     "title": "File System Empty Shares",
     "category": "Compliance & Governance",
@@ -892,7 +892,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-007-OD",
     "title": "Site/workload is stale (no activity >180 days).",
     "category": "Compliance & Governance",
@@ -919,7 +919,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-003",
     "title": "Sharepoint anyone links without expiration",
     "category": "Compliance & Governance",
@@ -946,7 +946,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-009",
     "title": "Sharepoint excessive unique permissions (broken inheritance sprawl)",
     "category": "Compliance & Governance",
@@ -973,7 +973,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-MB-005",
     "title": "Sharepoint files unresolved owner",
     "category": "Compliance & Governance",
@@ -1000,7 +1000,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-CH-001",
     "title": "Sharepoint missing site owners (orphaned site)",
     "category": "Compliance & Governance",
@@ -1027,7 +1027,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-007-SPO",
     "title": "Site/workload is stale (no activity >180 days).",
     "category": "Compliance & Governance",
@@ -1054,7 +1054,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-002-EX",
     "title": "Sensitive data (emails/attachments) shared externally across multiple domains.",
     "category": "Data Discovery & Classification",
@@ -1081,7 +1081,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-AX-017",
     "title": "File system sensitive data at share root with modify rights",
     "category": "Data Discovery & Classification",
@@ -1108,7 +1108,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-008-OD",
     "title": "Files are stale (no access >365 days).",
     "category": "Data Discovery & Classification",
@@ -1135,7 +1135,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-002-OD",
     "title": "Sensitive files shared to multiple external domains.",
     "category": "Data Discovery & Classification",
@@ -1162,7 +1162,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-SR-008",
     "title": "Onedrive sensitive data in personal employee drives",
     "category": "Data Discovery & Classification",
@@ -1189,7 +1189,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-MB-003",
     "title": "Sharepoint sensitive data + anyone link",
     "category": "Data Discovery & Classification",
@@ -1216,7 +1216,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-011",
     "title": "Sharepoint sensitive data accessible to 'everyone except external users'",
     "category": "Data Discovery & Classification",
@@ -1243,7 +1243,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "SP-ES-013",
     "title": "Sharepoint sensitive data in communication sites with anonymous links",
     "category": "Data Discovery & Classification",
@@ -1270,7 +1270,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-008-SPO",
     "title": "Files are stale (no access >365 days).",
     "category": "Data Discovery & Classification",
@@ -1297,7 +1297,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-002-SPO",
     "title": "Sensitive files shared to multiple external domains.",
     "category": "Data Discovery & Classification",
@@ -1324,7 +1324,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-002-Teams",
     "title": "Sensitive files shared to multiple external domains.",
     "category": "Data Discovery & Classification",
@@ -1351,7 +1351,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-003",
     "title": "Shared Channels with sensitive content",
     "category": "Data Discovery & Classification",
@@ -1378,7 +1378,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "FS-OH-005",
     "title": "File system sensitive data unencrypted at rest",
     "category": "Data Protection",
@@ -1405,7 +1405,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-018",
     "title": "Accounts with adminCount=1 but not currently in privileged groups",
     "category": "Identity",
@@ -1432,7 +1432,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-032",
     "title": "Admin accounts not in Protected Users group",
     "category": "Identity",
@@ -1459,7 +1459,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-033",
     "title": "Admin accounts with SPN configured",
     "category": "Identity",
@@ -1486,7 +1486,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-034",
     "title": "Admin accounts with unprivileged owners",
     "category": "Identity",
@@ -1513,7 +1513,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-035",
     "title": "Admin accounts without adminCount=1",
     "category": "Identity",
@@ -1540,7 +1540,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-036",
     "title": "Clear Text Password",
     "category": "Identity",
@@ -1567,7 +1567,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-012",
     "title": "Constrained delegation with protocol transition (TRUSTED_TO_AUTH_FOR_DELEGATION)",
     "category": "Identity",
@@ -1594,7 +1594,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-003",
     "title": "Contractor accounts (employeeType=Contractor) without 'accountExpires'",
     "category": "Identity",
@@ -1621,7 +1621,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-037",
     "title": "DES Encryption Only",
     "category": "Identity",
@@ -1648,7 +1648,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-002",
     "title": "Disabled accounts still members of groups",
     "category": "Identity",
@@ -1675,7 +1675,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-038",
     "title": "Disabled admin accounts present",
     "category": "Identity",
@@ -1702,7 +1702,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-039",
     "title": "Disabled members in sensitive groups",
     "category": "Identity",
@@ -1729,7 +1729,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-009",
     "title": "Domain password policy too weak (length/history/lockout/complexity)",
     "category": "Identity",
@@ -1756,7 +1756,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-001",
     "title": "Enabled user accounts stale (no recent lastLogonTimestamp)",
     "category": "Identity",
@@ -1783,7 +1783,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-030",
     "title": "External/forest trusts without SID filtering (SIDHistory allowed)",
     "category": "Identity",
@@ -1810,7 +1810,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-040",
     "title": "Foreign Security Principals in admin groups",
     "category": "Identity",
@@ -1837,7 +1837,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-041",
     "title": "Guest account enabled",
     "category": "Identity",
@@ -1864,7 +1864,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-017",
     "title": "Indirect privileged access via nested groups",
     "category": "Identity",
@@ -1891,7 +1891,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-042",
     "title": "Kerberos krbtgt account with old password",
     "category": "Identity",
@@ -1918,7 +1918,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-043",
     "title": "Krbtgt account with Resource-Based Constrained Delegation",
     "category": "Identity",
@@ -1945,7 +1945,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-008",
     "title": "krbtgt password age exceeds threshold",
     "category": "Identity",
@@ -1972,7 +1972,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-044",
     "title": "LM Hash",
     "category": "Identity",
@@ -1999,7 +1999,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-029",
     "title": "MachineAccountQuota allows non\u2011admins to join computers (ms-DS-MachineAccountQuota > 0)",
     "category": "Identity",
@@ -2026,7 +2026,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-045",
     "title": "Non-admins in DNS Admins group",
     "category": "Identity",
@@ -2053,7 +2053,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-046",
     "title": "Objects created in past 7 days",
     "category": "Identity",
@@ -2080,7 +2080,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-047",
     "title": "Objects with Constrained Delegation",
     "category": "Identity",
@@ -2107,7 +2107,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-048",
     "title": "Old password (>180 days) in Sensitive Security Groups",
     "category": "Identity",
@@ -2134,7 +2134,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-049",
     "title": "Oldest password in sensitive groups",
     "category": "Identity",
@@ -2161,7 +2161,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-050",
     "title": "Password expired",
     "category": "Identity",
@@ -2188,7 +2188,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-051",
     "title": "Password never expires",
     "category": "Identity",
@@ -2215,7 +2215,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-052",
     "title": "Password not required",
     "category": "Identity",
@@ -2242,7 +2242,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-053",
     "title": "Password not required in sensitive groups",
     "category": "Identity",
@@ -2269,7 +2269,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-054",
     "title": "Passwords older than a year",
     "category": "Identity",
@@ -2296,7 +2296,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-055",
     "title": "Passwords stored with reversible encryption",
     "category": "Identity",
@@ -2323,7 +2323,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-056",
     "title": "Pre-Windows 2000 Compatible Access group members",
     "category": "Identity",
@@ -2350,7 +2350,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-021",
     "title": "Privileged accounts with 'Password never expires' set",
     "category": "Identity",
@@ -2377,7 +2377,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-023",
     "title": "Privileged accounts with SIDHistory present",
     "category": "Identity",
@@ -2404,7 +2404,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-022",
     "title": "Privileged accounts without 'Smartcard required'",
     "category": "Identity",
@@ -2431,7 +2431,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-016",
     "title": "Privileged group membership too broad (e.g., Domain Admins, Enterprise Admins)",
     "category": "Identity",
@@ -2458,7 +2458,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-020",
     "title": "Privileged groups missing 'managedBy' owner",
     "category": "Identity",
@@ -2485,7 +2485,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-019",
     "title": "Privileged groups with foreign members (ForeignSecurityPrincipals)",
     "category": "Identity",
@@ -2512,7 +2512,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-024",
     "title": "Privileged user accounts with Service Principal Names (SPNs) set",
     "category": "Identity",
@@ -2539,7 +2539,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-057",
     "title": "Recent logon by BUILTIN\\Administrator",
     "category": "Identity",
@@ -2566,7 +2566,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-058",
     "title": "Recently created admins",
     "category": "Identity",
@@ -2593,7 +2593,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-059",
     "title": "Resource-Based Constrained Delegation on a computer",
     "category": "Identity",
@@ -2620,7 +2620,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-014",
     "title": "Resource\u2011based constrained delegation (RBCD) grants to low\u2011priv principals",
     "category": "Identity",
@@ -2647,7 +2647,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-013",
     "title": "Risky constrained delegation targets (msDS-AllowedToDelegateTo includes DC services)",
     "category": "Identity",
@@ -2674,7 +2674,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-025",
     "title": "Service accounts (SPN set) with 'Password never expires'",
     "category": "Identity",
@@ -2701,7 +2701,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-027",
     "title": "Service accounts not marked 'Account is sensitive and cannot be delegated' (NOT_DELEGATED)",
     "category": "Identity",
@@ -2728,7 +2728,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-060",
     "title": "Service Accounts trusted for delegation",
     "category": "Identity",
@@ -2755,7 +2755,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-026",
     "title": "Service accounts with old 'pwdLastSet' (key age)",
     "category": "Identity",
@@ -2782,7 +2782,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-015",
     "title": "Service accounts with SPN but no AES keys configured",
     "category": "Identity",
@@ -2809,7 +2809,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-011",
     "title": "Unconstrained delegation enabled (TRUSTED_FOR_DELEGATION)",
     "category": "Identity",
@@ -2836,7 +2836,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-031",
     "title": "UPN suffix outside approved domains",
     "category": "Identity",
@@ -2863,7 +2863,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-061",
     "title": "User accounts with SPN configured",
     "category": "Identity",
@@ -2890,7 +2890,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-028",
     "title": "User SPNs on non\u2011service users (misuse of user accounts for services)",
     "category": "Identity",
@@ -2917,7 +2917,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-007",
     "title": "Users with 'Do not require Kerberos preauthentication' (DONT_REQUIRE_PREAUTH)",
     "category": "Identity",
@@ -2944,7 +2944,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-010",
     "title": "Users with 'Password never expires' (DONT_EXPIRE_PASSWORD)",
     "category": "Identity",
@@ -2971,7 +2971,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-005",
     "title": "Users with 'Password not required' (PASSWD_NOTREQD)",
     "category": "Identity",
@@ -2998,7 +2998,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-006",
     "title": "Users with reversible encryption allowed (ENCRYPTED_TEXT_PWD_ALLOWED)",
     "category": "Identity",
@@ -3025,7 +3025,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-062",
     "title": "Users with Unconstrained Delegation",
     "category": "Identity",
@@ -3052,7 +3052,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AD-004",
     "title": "Users without manager/ownership metadata (no 'manager' attribute) in privileged groups",
     "category": "Identity",
@@ -3079,7 +3079,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "ES-004-EX",
     "title": "Inactive external recipient/guest still has access to sensitive mailbox data.",
     "category": "Identity",
@@ -3106,7 +3106,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-001-EX",
     "title": "Inactive user (>90 days) still retains permissions to Exchange resources.",
     "category": "Identity",
@@ -3133,7 +3133,7 @@
   },
   {
     "version": "1.0.0",
-    "last_updated_utc": "2025-09-29T11:17:12Z",
+    "last_updated_utc": "2025-09-29T11:40:50Z",
     "check_id": "AC-001-OD",
     "title": "Inactive user (>90 days) still retains permissions to OneDrive resources.",
     "category": "Identity",

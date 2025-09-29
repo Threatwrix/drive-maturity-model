@@ -3,113 +3,124 @@
 
 levels:
   - id: 1
-    name: "Foundational (Reactive)"
-    min_score: 0
-    max_score: 19
-    description: "Minimal hygiene, unmanaged risks. Reactive response to security incidents."
+    name: "Critical Exposure (Immediate Threat)"
+    threat_timeline: "immediate"
+    description: "Critical data and identity exposures pose immediate threat to organizational assets. Corrective actions should be taken immediately."
+    threat_scenarios:
+      - "Anonymous file access enabling immediate data theft"
+      - "Weak admin credentials allowing instant compromise"
+      - "Unrestricted external sharing creating public data leaks"
+      - "Critical AD misconfigurations enabling domain takeover"
     focus_areas:
-      - "Basic password policies"
-      - "Essential access controls" 
-      - "Fundamental sharing restrictions"
+      - "Stop active data leaks"
+      - "Secure administrative access"
+      - "Eliminate anonymous access"
+      - "Fix critical identity vulnerabilities"
     required_controls:
-      - "Password policy enforced"
-      - "External sharing not set to 'Anyone'"
-      - "Admin accounts do not have 'Password never expires'"
-      - "Basic file sharing permissions exist"
-    policy_checks:
-      - "Domain password policy configured"
-      - "Anonymous sharing disabled"
-      - "Admin password requirements enabled"
-    risk_tolerance: "High - Many critical and high risks present"
-    measurement: "Pass/fail on basic security hygiene"
+      - "No anonymous sharing links (SharePoint/OneDrive)"
+      - "Admin accounts have strong passwords and no 'never expires'"
+      - "No 'Anyone' file access permissions"
+      - "Critical AD delegation issues resolved"
+      - "No clear-text password storage"
+      - "No unconstrained delegation on critical accounts"
+    risk_tolerance: "Zero - Any finding blocks advancement"
+    advancement_criteria: "ALL Level 1 risk checks must pass"
     
   - id: 2  
-    name: "Baseline (Defined)"
-    min_score: 20
-    max_score: 39
-    description: "Core protections in place, inconsistent coverage across platforms."
+    name: "High Risk Mitigated (Short-term Protection)"
+    threat_timeline: "weeks_to_months"
+    description: "High-risk data and identity exposures that could lead to compromise within weeks or months have been addressed."
+    threat_scenarios:
+      - "Privileged accounts without MFA vulnerable to takeover"
+      - "Unmanaged guest accounts creating persistent backdoors"
+      - "External sharing without authentication enabling data harvesting"
+      - "Stale admin accounts providing easy attack targets"
     focus_areas:
-      - "Multi-factor authentication"
-      - "Guest account lifecycle"
-      - "External sharing governance"
+      - "Strengthen privileged access controls"
+      - "Implement guest lifecycle management"
+      - "Secure external collaboration"
+      - "Clean up legacy access"
     required_controls:
-      - "MFA enforced for privileged users"
-      - "External sharing policies defined and scoped"
-      - "Guest account expiration configured"
-      - "Audit logging enabled across M365"
-    policy_checks:
-      - "Conditional Access baseline policies exist"
-      - "Guest access has defined expiration timeframes"
+      - "MFA enforced for all privileged accounts"
+      - "Guest account expiration and review processes"
       - "External sharing requires authentication"
-      - "Privileged group membership is controlled"
-    risk_tolerance: "Medium-High - Some critical gaps remain"
-    measurement: "Policy configuration coverage + risk remediation rate"
+      - "Privileged group membership actively managed"
+      - "Stale admin accounts removed or disabled"
+      - "Admin accounts protected from kerberoasting"
+    risk_tolerance: "Low - High severity findings block advancement"
+    advancement_criteria: "ALL Level 1 + Level 2 risk checks must pass"
 
   - id: 3
-    name: "Managed (Preventive)" 
-    min_score: 40
-    max_score: 59
-    description: "Policies enforced and measured; frameworks adopted; consistent governance."
+    name: "Standard Security Baseline (Default Plus)" 
+    threat_timeline: "months_to_year"
+    description: "Data and identity infrastructure exceeds default installation security and follows established baseline practices."
+    threat_scenarios:
+      - "Lateral movement through uncontrolled access paths"
+      - "Data exposure through lack of classification"
+      - "Insider threats due to excessive permissions"
+      - "Compliance violations from inadequate controls"
     focus_areas:
-      - "Comprehensive access reviews"
-      - "Data classification deployment"
-      - "Identity lifecycle management"
+      - "Implement conditional access controls"
+      - "Deploy data classification and protection"
+      - "Establish regular access reviews"
+      - "Block legacy authentication methods"
     required_controls:
-      - "Conditional Access for risky sign-ins and locations"
-      - "Sensitivity labels applied to sensitive repositories"
-      - "Regular access reviews (quarterly for high-privilege)"
-      - "Privileged account monitoring and alerting"
-    policy_checks:
+      - "Conditional Access policies for risky sign-ins and locations"
+      - "Data classification labels applied to sensitive content"
+      - "Regular access reviews conducted (quarterly for high-privilege)"
       - "Data Loss Prevention (DLP) policies active"
-      - "Information barriers configured where applicable"
       - "Legacy authentication protocols blocked"
-      - "Break-glass procedures documented and tested"
-    risk_tolerance: "Medium - Most high and critical risks mitigated"
-    measurement: "Policy effectiveness metrics + automated enforcement + review completion rates"
+      - "Privileged account monitoring and alerting enabled"
+    risk_tolerance: "Medium - Some medium risks acceptable while building baseline"
+    advancement_criteria: "ALL Level 1-3 risk checks pass + baseline policies implemented"
 
   - id: 4
-    name: "Advanced (Adaptive)"
-    min_score: 60  
-    max_score: 79
-    description: "Automation + monitoring, strong identity & classification coverage, adaptive responses."
+    name: "Enhanced Security Posture (Proactive Management)"
+    threat_timeline: "long_term_strategic"
+    description: "Data and identity infrastructure demonstrates enhanced security with proactive monitoring and automated controls."
+    threat_scenarios:
+      - "Advanced persistent threats requiring behavioral detection"
+      - "Zero-day exploits mitigated by proactive controls"
+      - "Insider threats detected through analytics"
+      - "Supply chain attacks blocked by Zero Trust architecture"
     focus_areas:
-      - "Automated classification and protection"
-      - "Just-in-time privileged access"
-      - "Behavioral analytics and anomaly detection"
+      - "Deploy just-in-time privileged access"
+      - "Implement automated data protection"
+      - "Enable behavioral analytics"
+      - "Establish Zero Trust principles"
     required_controls:
-      - "Privileged Identity Management (PIM) for all admin roles"
-      - "Auto-labeling for sensitive data (where licensed)"
-      - "Continuous compliance monitoring with automation"
-      - "Identity Protection with risk-based policies"
-    policy_checks:
+      - "Privileged Identity Management (PIM) for all administrative roles"
+      - "Automated data labeling and protection active"
+      - "Identity Protection with risk-based policies deployed"
+      - "Microsoft Defender for Cloud Apps monitoring external access"
+      - "Insider Risk Management configured and monitoring"
       - "Zero Trust Network Access implemented"
-      - "Microsoft Defender for Cloud Apps policies active"
-      - "Insider Risk Management configured"
-      - "Automated remediation workflows operational"
-    risk_tolerance: "Low - Most risks prevented or quickly detected and remediated"
-    measurement: "Automation coverage % + mean time to remediation + policy adherence score"
+    risk_tolerance: "Low - Focus on proactive prevention"
+    advancement_criteria: "ALL Level 1-4 checks pass + advanced automation deployed"
 
   - id: 5
-    name: "Optimized (Proactive)"
-    min_score: 80
-    max_score: 100  
-    description: "Continuous risk scoring, policy-as-code, predictive security capabilities."
+    name: "State-of-the-Art Security (Continuous Excellence)"
+    threat_timeline: "future_proofing"
+    description: "Data and identity infrastructure implements latest state-of-the-art security features with continuous optimization and predictive capabilities."
+    threat_scenarios:
+      - "Emerging threats predicted and prevented"
+      - "Security posture continuously optimized"
+      - "Full attack lifecycle visibility and response"
+      - "Business-aligned risk management"
     focus_areas:
-      - "Predictive risk modeling and prevention"
-      - "Infrastructure and security as code"
-      - "Full data lifecycle automation"
+      - "Predictive threat detection and prevention"
+      - "Full security automation and orchestration"
+      - "Continuous compliance and optimization"
+      - "Business-driven security metrics"
     required_controls:
-      - "Continuous risk scoring pipeline with ML/AI"
-      - "Policy-as-code with change control"
-      - "Zero Trust access for sensitive data"
-      - "Proactive threat hunting integration"
-    policy_checks:
-      - "GitOps-based policy management"
-      - "AI-driven anomaly detection and response"
-      - "Cross-platform risk correlation"
-      - "Predictive access recommendations"
-    risk_tolerance: "Very Low - Risks prevented before they manifest"
-    measurement: "Predictive accuracy + automation coverage + business risk alignment + time-to-value"
+      - "ML-driven continuous risk scoring pipeline active"
+      - "Infrastructure and security policy-as-code implemented"
+      - "Predictive access analytics and recommendations"
+      - "Cross-platform risk correlation and response"
+      - "Automated data lifecycle management"
+      - "Proactive threat hunting integrated with business processes"
+    risk_tolerance: "Very Low - Continuous improvement mindset"
+    advancement_criteria: "ALL checks pass + state-of-the-art automation + predictive capabilities"
 
 # DRIVE Pillars (Independent of Maturity Levels)
 # These categorize risks across all maturity levels
@@ -120,15 +131,50 @@ drive_pillars:
   V: "Vulnerability Management - Security gaps, misconfigurations, exposure assessment"
   E: "Exposure Analysis - Attack surface, external access, behavioral anomalies"
 
-# Scoring Calculation
-scoring_methodology:
-  base_score: "Risk assessment coverage (0-70 points)"
-  policy_bonus: "Policy implementation bonus (0-20 points)" 
-  control_gating: "Required controls must pass to advance levels"
-  automation_multiplier: "Automation increases effectiveness scores"
+# Maturity Level Advancement (Simplified Binary Model)
+advancement_model:
+  principle: "Binary pass/fail for each level - ALL required checks must pass to advance"
+  calculation: "Highest maturity level = highest level where ALL checks pass"
+  gating: "Sequential progression - cannot skip levels"
   
-# Maturity Level Progression
-level_progression:
-  principle: "Both score threshold AND required controls must be met"
-  gating: "Cannot skip levels - must progress sequentially"
-  measurement: "Combination of risk remediation + policy implementation + automation"
+scoring_methodology:
+  level_1: "Pass ALL Critical severity checks + specific high-risk identity issues"
+  level_2: "Pass ALL Level 1 checks + high-severity privilege/access issues"  
+  level_3: "Pass ALL Level 1-2 checks + medium-severity baseline controls"
+  level_4: "Pass ALL Level 1-3 checks + advanced automation requirements"
+  level_5: "Pass ALL Level 1-4 checks + state-of-the-art capabilities"
+  
+threat_focus:
+  immediate: "Level 1 - Threats exploitable within hours/days"
+  short_term: "Level 2 - Threats exploitable within weeks/months"
+  baseline: "Level 3 - Standard security practices and controls"
+  advanced: "Level 4 - Proactive and automated security measures"
+  optimal: "Level 5 - Predictive and continuously optimized security"
+
+# Risk Check Mapping Criteria
+mapping_criteria:
+  level_1_indicators:
+    - "Critical severity AND immediate exploitability"
+    - "Anonymous access or public data exposure"
+    - "Weak admin credentials or clear-text passwords"
+    - "Unconstrained delegation or critical AD misconfigurations"
+  level_2_indicators:
+    - "High severity privilege escalation risks"
+    - "Unmanaged external access (guests, sharing)"
+    - "Weak MFA or authentication controls"
+    - "Stale privileged accounts"
+  level_3_indicators:
+    - "Medium severity access control issues"
+    - "Missing baseline security policies"
+    - "Inadequate monitoring or auditing"
+    - "Legacy authentication methods"
+  level_4_indicators:
+    - "Advanced threats requiring behavioral detection"
+    - "Missing automation or just-in-time access"
+    - "Inadequate Zero Trust implementation"
+    - "Manual security processes"
+  level_5_indicators:
+    - "Missing predictive capabilities"
+    - "Manual policy management"
+    - "Lack of cross-platform correlation"
+    - "Reactive rather than proactive security"
