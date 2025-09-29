@@ -1,40 +1,134 @@
-# DRIVE Maturity Levels (gating and weights)
-# Level thresholds are illustrative; tune in product.
+# DRIVE Maturity Levels - Data Risk and Identity Vulnerability Exposure
+# Clear measurement criteria for product integration
+
 levels:
   - id: 1
-    name: Foundational
+    name: "Foundational (Reactive)"
     min_score: 0
-    description: "Basic hygiene; risks largely unmanaged."
-    required_controls: []
-  - id: 2
-    name: Baseline
+    max_score: 19
+    description: "Minimal hygiene, unmanaged risks. Reactive response to security incidents."
+    focus_areas:
+      - "Basic password policies"
+      - "Essential access controls" 
+      - "Fundamental sharing restrictions"
+    required_controls:
+      - "Password policy enforced"
+      - "External sharing not set to 'Anyone'"
+      - "Admin accounts do not have 'Password never expires'"
+      - "Basic file sharing permissions exist"
+    policy_checks:
+      - "Domain password policy configured"
+      - "Anonymous sharing disabled"
+      - "Admin password requirements enabled"
+    risk_tolerance: "High - Many critical and high risks present"
+    measurement: "Pass/fail on basic security hygiene"
+    
+  - id: 2  
+    name: "Baseline (Defined)"
     min_score: 20
-    description: "Core identity & data protections in place but inconsistent."
+    max_score: 39
+    description: "Core protections in place, inconsistent coverage across platforms."
+    focus_areas:
+      - "Multi-factor authentication"
+      - "Guest account lifecycle"
+      - "External sharing governance"
     required_controls:
-      - "MFA enforced for all users"
-      - "External sharing policy scoped"
-      - "Purview Audit enabled"
+      - "MFA enforced for privileged users"
+      - "External sharing policies defined and scoped"
+      - "Guest account expiration configured"
+      - "Audit logging enabled across M365"
+    policy_checks:
+      - "Conditional Access baseline policies exist"
+      - "Guest access has defined expiration timeframes"
+      - "External sharing requires authentication"
+      - "Privileged group membership is controlled"
+    risk_tolerance: "Medium-High - Some critical gaps remain"
+    measurement: "Policy configuration coverage + risk remediation rate"
+
   - id: 3
-    name: Managed
+    name: "Managed (Preventive)" 
     min_score: 40
-    description: "Policies enforced and measured; frameworks adopted."
+    max_score: 59
+    description: "Policies enforced and measured; frameworks adopted; consistent governance."
+    focus_areas:
+      - "Comprehensive access reviews"
+      - "Data classification deployment"
+      - "Identity lifecycle management"
     required_controls:
-      - "Conditional Access policies for risky sign-ins"
+      - "Conditional Access for risky sign-ins and locations"
       - "Sensitivity labels applied to sensitive repositories"
-      - "Guest lifecycle policy (review/expiration)"
+      - "Regular access reviews (quarterly for high-privilege)"
+      - "Privileged account monitoring and alerting"
+    policy_checks:
+      - "Data Loss Prevention (DLP) policies active"
+      - "Information barriers configured where applicable"
+      - "Legacy authentication protocols blocked"
+      - "Break-glass procedures documented and tested"
+    risk_tolerance: "Medium - Most high and critical risks mitigated"
+    measurement: "Policy effectiveness metrics + automated enforcement + review completion rates"
+
   - id: 4
-    name: Advanced
-    min_score: 60
-    description: "Automated controls; active monitoring and classification coverage."
+    name: "Advanced (Adaptive)"
+    min_score: 60  
+    max_score: 79
+    description: "Automation + monitoring, strong identity & classification coverage, adaptive responses."
+    focus_areas:
+      - "Automated classification and protection"
+      - "Just-in-time privileged access"
+      - "Behavioral analytics and anomaly detection"
     required_controls:
-      - "Privileged Identity Management (PIM) for admins"
+      - "Privileged Identity Management (PIM) for all admin roles"
       - "Auto-labeling for sensitive data (where licensed)"
-      - "Restricted site search for sensitive sites"
+      - "Continuous compliance monitoring with automation"
+      - "Identity Protection with risk-based policies"
+    policy_checks:
+      - "Zero Trust Network Access implemented"
+      - "Microsoft Defender for Cloud Apps policies active"
+      - "Insider Risk Management configured"
+      - "Automated remediation workflows operational"
+    risk_tolerance: "Low - Most risks prevented or quickly detected and remediated"
+    measurement: "Automation coverage % + mean time to remediation + policy adherence score"
+
   - id: 5
-    name: Optimized
+    name: "Optimized (Proactive)"
     min_score: 80
-    description: "Continuous risk assessment and policy-as-code."
+    max_score: 100  
+    description: "Continuous risk scoring, policy-as-code, predictive security capabilities."
+    focus_areas:
+      - "Predictive risk modeling and prevention"
+      - "Infrastructure and security as code"
+      - "Full data lifecycle automation"
     required_controls:
-      - "Continuous risk scoring pipeline"
+      - "Continuous risk scoring pipeline with ML/AI"
       - "Policy-as-code with change control"
       - "Zero Trust access for sensitive data"
+      - "Proactive threat hunting integration"
+    policy_checks:
+      - "GitOps-based policy management"
+      - "AI-driven anomaly detection and response"
+      - "Cross-platform risk correlation"
+      - "Predictive access recommendations"
+    risk_tolerance: "Very Low - Risks prevented before they manifest"
+    measurement: "Predictive accuracy + automation coverage + business risk alignment + time-to-value"
+
+# DRIVE Pillars (Independent of Maturity Levels)
+# These categorize risks across all maturity levels
+drive_pillars:
+  D: "Data Protection - Data classification, encryption, retention, sharing controls"
+  R: "Risk Management - Risk identification, assessment, mitigation, monitoring" 
+  I: "Identity Security - Authentication, authorization, access management, lifecycle"
+  V: "Vulnerability Management - Security gaps, misconfigurations, exposure assessment"
+  E: "Exposure Analysis - Attack surface, external access, behavioral anomalies"
+
+# Scoring Calculation
+scoring_methodology:
+  base_score: "Risk assessment coverage (0-70 points)"
+  policy_bonus: "Policy implementation bonus (0-20 points)" 
+  control_gating: "Required controls must pass to advance levels"
+  automation_multiplier: "Automation increases effectiveness scores"
+  
+# Maturity Level Progression
+level_progression:
+  principle: "Both score threshold AND required controls must be met"
+  gating: "Cannot skip levels - must progress sequentially"
+  measurement: "Combination of risk remediation + policy implementation + automation"
