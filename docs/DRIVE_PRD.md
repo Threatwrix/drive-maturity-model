@@ -186,27 +186,64 @@ Overall Maturity Level = MIN(Data Maturity Level, Identity Maturity Level)
 - **Overall DRIVE Maturity Level** (1–5 with level badge and name)
 - **Data Security DRIVE Score** (1.0–5.0) - based on data-focused risk checks
 - **Identity Security DRIVE Score** (1.0–5.0) - based on identity-focused risk checks
+- **Interactive Level Cards** - clickable level overview showing check counts per level
 - **Combined DRIVE Score** calculation methodology display
 
-### 5.2 Score Calculation Display
+### 5.2 Interactive Level Overview
 ```
-Example Customer View:
-┌─────────────────────────────────────────┐
-│ Overall DRIVE Maturity: Level 3.0       │
-│ Standard Security Baseline (Default+)   │
-├─────────────────────────────────────────┤
-│ Data Security DRIVE: 3.5                │
-│ │ ████████████████████░░░░ 70% complete  │
-│ │ Blocked by: Missing DLP policies       │
-│                                         │
-│ Identity Security DRIVE: 2.5            │
-│ │ ████████████░░░░░░░░░░░░ 50% complete  │
-│ │ Blocked by: MFA gaps for admins       │
-│                              [Present] │
-└─────────────────────────────────────────┘
+Level Cards (PingCastle-inspired):
+┌─────────────────────────────────────────────────────────────────┐
+│ [Level 1] [Level 2] [Level 3] [Level 4] [Level 5]              │
+│   16      42 ✓      35 ✓      12       12                     │
+│ rules     rules     rules     rules     rules                 │
+│ matched   passed    passed    failed    failed                │
+├─────────────────────────────────────────────────────────────────┤
+│ Current Level: 2 (High Risk Mitigated)                        │
+│                                                                │
+│ To reach Level 3 you need to fix the following checks:        │
+│ • Missing data classification labels         [🔧 1Secure Fix] │
+│ • Conditional access policies incomplete     [📝 Guide]       │
+│ • Legacy authentication protocols enabled   [🔧 1Secure Fix] │
+│ • Guest account lifecycle not managed       [📝 Guide]       │
+│                                           [Present Mode] │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### 5.3 Presentation Mode
+### 5.3 Level Drilling Interaction
+- **Click any level card** to view specific requirements for that level
+- **Binary status display** - passed/failed checks with clear visual indicators
+- **Blocking findings** highlighted with remediation options
+- **Check count per level** showing progress (e.g., "16 checks passed", "12 checks failed")
+
+### 5.4 Finding Detail Workflow
+- **Clickable finding titles** lead to detailed finding view
+- **Finding detail modal/page** showing full description, detection logic, business impact
+- **Smart remediation routing**:
+  - **1Secure Supported**: [🔧 Fix in 1Secure] button → policy configuration UI
+  - **Manual Fix Required**: [📝 Generate Guide] button → step-by-step remediation script
+- **Framework mappings** showing which compliance requirements this addresses
+- **Threat timeline context** explaining why this matters for current maturity level
+
+```
+Finding Detail View:
+┌─────────────────────────────────────────────────────────────────┐
+│ ❌ DRS-045: Missing data classification labels                  │
+├─────────────────────────────────────────────────────────────────┤
+│ Description: Sensitive data lacks proper classification...      │
+│ Business Impact: Data breach risk, compliance violations        │
+│ Detection Logic: Scan for unlabeled files in SharePoint/OneDrive│
+│                                                                │
+│ Framework Mappings:                                            │
+│ • NIST CSF: ID.AM-5 (Asset Management)                       │
+│ • ISO 27001: A.8.2.1 (Classification of information)         │
+│ • GDPR: Article 25 (Data protection by design)               │
+│                                                                │
+│ Remediation Options:                                           │
+│ [🔧 Configure in 1Secure] [📝 Generate PowerShell Script]     │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 5.5 Presentation Mode
 - **Full-screen presentation** triggered by "Present" button
 - **Executive-friendly visuals** with large fonts and clear metrics
 - **Auto-advancing slides** showing key areas (optional timer)
@@ -248,7 +285,7 @@ Slide 6: Peer Comparison & Investment ROI
 └─ Compliance Readiness Trend: +15% (90 days)
 ```
 
-### 5.4 Compliance Framework Maturity Views
+### 5.6 Compliance Framework Maturity Views
 - **Framework selector** - view maturity through different compliance lenses
 - **Framework-specific scoring** based on mapped controls and requirements
 - **Compliance readiness percentage** for each selected framework
@@ -274,20 +311,20 @@ Supported Compliance Frameworks:
 └─────────────────────────────────────────────────┘
 ```
 
-### 5.5 Framework Comparison Dashboard
+### 5.7 Framework Comparison Dashboard
 - **Side-by-side framework comparison** showing readiness across multiple standards
 - **Control overlap analysis** highlighting shared requirements
 - **Priority matrix** showing which controls satisfy multiple frameworks
 - **Investment ROI** calculation for implementing controls that cover multiple frameworks
 
-### 5.6 Detailed Breakdown
+### 5.8 Detailed Breakdown
 - **Per-domain risk findings** (Data vs Identity focused)
 - **Platform coverage** (SharePoint, OneDrive, Teams, Exchange, AD)
 - **Threat timeline view** (Immediate → Short-term → Baseline → Advanced → Optimal)
 - **Key blocking findings** with remediation priorities
 - **Framework compliance** mapped to each domain
 
-### 5.7 Organizational Benchmarking
+### 5.9 Organizational Benchmarking
 - **Peer comparison** by organization size (Small <500, Medium 500-5K, Large 5K+)
 - **Industry benchmarks** showing percentile ranking per domain
 - **Maturity distribution** showing where customer stands vs peers
@@ -303,14 +340,14 @@ Your Organization (Medium, 2,500 employees)
 └─────────────────────────────────────────────────┘
 ```
 
-### 5.8 Detailed Findings Management
+### 5.10 Detailed Findings Management
 - **All checks view** with pass/fail status and severity filtering
 - **Finding details** with full description, detection logic, and impact
 - **Framework mappings** showing NIST CSF, CIS, ISO 27001 alignments per finding
 - **Search and filtering** by platform, severity, maturity level, DRIVE pillar
 - **Bulk actions** for findings management and tracking
 
-### 5.9 Remediation Workflow
+### 5.11 Remediation Workflow
 - **Recommended Actions** dashboard prioritized by threat timeline
 - **1Secure Integration** - direct links to policy configuration for remediable findings
 - **External Remediation** - step-by-step guidance for manual fixes
@@ -328,7 +365,7 @@ Apply Policy →
 Re-validate Finding
 ```
 
-### 5.10 Progress Tracking & Analytics
+### 5.12 Progress Tracking & Analytics
 - **Historical trendlines** (90-day retention) with milestone markers
 - **Remediation velocity** showing findings resolved per time period
 - **Domain improvement** tracking Data vs Identity progress separately
@@ -336,7 +373,7 @@ Re-validate Finding
 - **Compliance readiness** trending for each framework
 - **Executive reporting** with high-level metrics and key achievements
 
-### 5.11 Assessment Configuration Management
+### 5.13 Assessment Configuration Management
 - **Check catalog view** showing all 117 checks with metadata
 - **Individual check toggle** - enable/disable specific checks per organization
 - **Disabled checks counter** prominently displayed on dashboard
@@ -358,7 +395,7 @@ Example Configuration View:
 └─────────────────────────────────────────────────┘
 ```
 
-### 5.12 Export and Integration
+### 5.14 Export and Integration
 - **CSV export** of all findings with Data/Identity classification and remediation status
 - **PDF reports** for executive briefings and compliance documentation
 - **API endpoints** for integration with SIEM/SOAR platforms
@@ -414,10 +451,12 @@ Build a **DRIVE Maturity Assessment** web application in Replit that integrates 
 **✅ User Interface Features**
 - [ ] Overall DRIVE maturity level display (1-5) with level names
 - [ ] Separate Data and Identity DRIVE scores (1.0-5.0)
+- [ ] Interactive level cards with click-to-drill functionality (PingCastle-style)
+- [ ] Level detail view showing required checks to advance
+- [ ] Clickable finding titles leading to detailed finding modal/page
+- [ ] Smart remediation routing (1Secure vs manual guide)
 - [ ] Compliance framework selector and readiness percentages
 - [ ] Full-screen Presentation Mode with 6-slide flow
-- [ ] Detailed findings management with pass/fail status
-- [ ] 1Secure integration workflow for automated remediation
 - [ ] Assessment configuration with check disable/enable
 - [ ] Progress tracking and analytics with 90-day retention
 
@@ -444,11 +483,15 @@ const techStack = {
   ├── dashboard/
   │   ├── MaturityOverview.tsx
   │   ├── ScoreBreakdown.tsx
+  │   ├── InteractiveLevelCards.tsx     // PingCastle-style level drilling
+  │   ├── LevelDetailView.tsx           // Show checks required for level
   │   ├── ComplianceFrameworkSelector.tsx
   │   └── PresentationMode.tsx
   ├── findings/
   │   ├── FindingsTable.tsx
-  │   ├── FindingDetail.tsx
+  │   ├── FindingDetail.tsx             // Modal/page with full finding info
+  │   ├── FindingDetailModal.tsx        // Quick view modal
+  │   ├── RemediationButton.tsx         // Smart 1Secure vs manual routing
   │   └── RemediationWorkflow.tsx
   ├── charts/
   │   ├── RadialProgressChart.tsx
@@ -505,7 +548,120 @@ const GITHUB_CONFIG = {
 }
 ```
 
-### 7.4 Assessment Engine Implementation
+### 7.4 Interactive Level Drilling Implementation
+
+**Level Card Component:**
+```typescript
+interface LevelCard {
+  level: number
+  name: string
+  checkCount: number
+  passedChecks: number
+  failedChecks: number
+  status: 'passed' | 'current' | 'blocked'
+  isClickable: boolean
+}
+
+const InteractiveLevelCards = ({ assessment, onLevelClick }) => {
+  const levelCards = [
+    { level: 1, name: "Critical Exposure", checkCount: 16, status: 'passed' },
+    { level: 2, name: "High Risk Mitigated", checkCount: 42, status: 'current' },
+    { level: 3, name: "Standard Baseline", checkCount: 35, status: 'blocked' },
+    { level: 4, name: "Enhanced Security", checkCount: 12, status: 'blocked' },
+    { level: 5, name: "State-of-the-Art", checkCount: 12, status: 'blocked' }
+  ]
+  
+  return (
+    <div className="level-cards-container">
+      {levelCards.map(card => (
+        <LevelCard 
+          key={card.level}
+          {...card}
+          onClick={() => onLevelClick(card.level)}
+          className={`level-${card.status}`}
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+**Level Detail View:**
+```typescript
+const LevelDetailView = ({ level, findings, onFindingClick }) => {
+  const levelFindings = findings.filter(f => f.drive_maturity_min === level)
+  const blockers = levelFindings.filter(f => f.status === 'failed')
+  
+  return (
+    <div className="level-detail">
+      <h2>To reach Level {level} you need to fix the following checks:</h2>
+      {blockers.map(finding => (
+        <FindingRow 
+          key={finding.check_id}
+          finding={finding}
+          onClick={() => onFindingClick(finding)}
+          showRemediationButton={true}
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+### 7.5 Finding Detail Modal Implementation
+
+**Finding Detail Component:**
+```typescript
+interface FindingDetail {
+  check_id: string
+  title: string
+  description: string
+  businessImpact: string
+  detectionLogic: string
+  frameworkMappings: FrameworkMapping[]
+  isSecureRemediable: boolean
+  remediationGuidance: string
+}
+
+const FindingDetailModal = ({ finding, onClose, onRemediate }) => {
+  return (
+    <Modal onClose={onClose} size="large">
+      <div className="finding-detail">
+        <Header>
+          <StatusIcon status={finding.status} />
+          <h1>{finding.check_id}: {finding.title}</h1>
+        </Header>
+        
+        <Section title="Description">
+          <p>{finding.description}</p>
+        </Section>
+        
+        <Section title="Business Impact">
+          <p>{finding.businessImpact}</p>
+        </Section>
+        
+        <Section title="Framework Mappings">
+          <FrameworkTags mappings={finding.frameworkMappings} />
+        </Section>
+        
+        <RemediationSection>
+          {finding.isSecureRemediable ? (
+            <Button onClick={() => onRemediate('1secure')} variant="primary">
+              🔧 Configure in 1Secure
+            </Button>
+          ) : (
+            <Button onClick={() => onRemediate('manual')} variant="secondary">
+              📝 Generate Remediation Script
+            </Button>
+          )}
+        </RemediationSection>
+      </div>
+    </Modal>
+  )
+}
+```
+
+### 7.6 Assessment Engine Implementation
 
 **Binary Advancement Logic:**
 ```typescript
@@ -514,6 +670,7 @@ interface AssessmentResult {
   dataSecurityScore: number
   identitySecurityScore: number
   frameworkReadiness: Record<string, number>
+  levelDetails: LevelDetail[]
   blockers: Finding[]
   nextSteps: RemediationAction[]
 }
@@ -530,18 +687,22 @@ const assessMaturityLevel = (findings: Finding[]): AssessmentResult => {
   // Overall = MIN of both domains
   const overallLevel = Math.min(dataLevel, identityLevel)
   
+  // Generate level details for interactive drilling
+  const levelDetails = generateLevelDetails(findings)
+  
   return {
     overallMaturity: overallLevel,
     dataSecurityScore: dataLevel,
     identitySecurityScore: identityLevel,
     frameworkReadiness: calculateFrameworkReadiness(findings),
+    levelDetails,
     blockers: identifyBlockers(findings, overallLevel + 1),
     nextSteps: generateRemediationPlan(findings)
   }
 }
 ```
 
-### 7.5 Presentation Mode Implementation
+### 7.7 Presentation Mode Implementation
 
 **Full-Screen Mode:**
 ```typescript
@@ -571,7 +732,7 @@ const PresentationMode = () => {
 }
 ```
 
-### 7.6 Performance & UX Optimization
+### 7.8 Performance & UX Optimization
 
 **Loading States:**
 ```typescript
@@ -600,7 +761,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => (
 )
 ```
 
-### 7.7 Success Metrics & KPIs
+### 7.9 Success Metrics & KPIs
 
 | Metric | Target | Implementation |
 |--------|--------|----------------|
@@ -611,7 +772,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }) => (
 | Accessibility score | WCAG 2.1 AA | Automated testing + manual review |
 | Performance score | >90 Lighthouse | Code splitting + optimization |
 
-### 7.8 Deployment Checklist
+### 7.10 Deployment Checklist
 
 **Pre-Launch:**
 - [ ] Environment variables configured
