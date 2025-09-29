@@ -94,7 +94,8 @@ Each check includes:
 - `remediation_guidance` (step-by-step fix instructions)
 - `1secure_remediable` (boolean - can 1Secure automatically fix this)
 - `1secure_policy_template` (policy configuration template if applicable)
-- `threat_timeline` (immediate, short_term, baseline, advanced, optimal)  
+- `threat_timeline` (immediate, short_term, baseline, advanced, optimal)
+- Framework mappings: `nist_csf_function`, `nist_csf_id`, `cis_v8_control`, `cis_m365_benchmark`, `iso_27001_annex`, `gdpr_article`, `mitre_attack_technique`, `soc2_criterion`, `anssi_level`  
 
 ### 3.1 Data & Identity Score Calculation
 
@@ -148,6 +149,12 @@ Overall Maturity Level = MIN(Data Maturity Level, Identity Maturity Level)
 - `catalog_last_updated` - timestamp of last GitHub sync
 - `disabled_count` - total number of disabled checks for dashboard display
 
+**Framework-Specific Maturity:**
+- `framework_scores{}` - calculated compliance readiness per framework (NIST CSF, CIS v8, ISO 27001, GDPR, etc.)
+- `framework_gaps{}` - missing controls count per framework
+- `framework_priorities[]` - prioritized controls that satisfy multiple frameworks
+- `control_mappings{}` - which DRIVE checks satisfy which framework controls
+
 ---
 
 ## 4. Repo & Tooling
@@ -157,7 +164,10 @@ Overall Maturity Level = MIN(Data Maturity Level, Identity Maturity Level)
 - JSON export auto-generated (`drive_risk_catalog.json`).
 
 ### 4.2 Frameworks
-- CSV files for mappings (`nist_csf.csv`, `cis_v8.csv`, `cis_m365.csv`, `iso_27001.csv`, `anssi_pingcastle.csv`).
+- CSV files for mappings (`nist_csf.csv`, `cis_v8.csv`, `cis_m365.csv`, `iso_27001.csv`, `anssi_pingcastle.csv`)
+- Additional framework files: `gdpr.csv`, `mitre_attack.csv`, `soc2.csv` for comprehensive compliance coverage
+- Framework-specific control definitions and scoring methodologies
+- Cross-framework mapping analysis for control overlap identification
 
 ### 4.3 Levels
 - `levels/levels.yaml` defines 5 maturity levels with required controls.  
@@ -220,25 +230,64 @@ Slide 3: Identity Security Domain
 ├─ Critical Gap: Admin MFA enforcement
 └─ Timeline: 30 days to Level 3
 
-Slide 4: Remediation Progress
+Slide 4: Compliance Framework Status
+├─ NIST CSF 2.0: 65% ready (130/200 controls)
+├─ ISO 27001: 78% ready (85/109 controls)
+├─ GDPR: 82% ready (Privacy controls strong)
+└─ CIS v8: 71% ready (Critical controls focus)
+
+Slide 5: Remediation Progress
 ├─ Completed: 12 findings (last quarter)
 ├─ In Progress: 8 findings
 └─ 1Secure Automation: 67% of fixes
 
-Slide 5: Peer Comparison
+Slide 6: Peer Comparison & Investment ROI
 ├─ Industry Ranking: Top 25%
 ├─ Improvement Velocity: 2x peer average
-└─ Compliance Readiness: 85% NIST CSF
+├─ Multi-Framework Controls: 67% efficiency
+└─ Compliance Readiness Trend: +15% (90 days)
 ```
 
-### 5.4 Detailed Breakdown
+### 5.4 Compliance Framework Maturity Views
+- **Framework selector** - view maturity through different compliance lenses
+- **Framework-specific scoring** based on mapped controls and requirements
+- **Compliance readiness percentage** for each selected framework
+- **Gap analysis** showing missing controls per framework
+- **Multi-framework comparison** to understand overlap and unique requirements
+
+```
+Supported Compliance Frameworks:
+┌─────────────────────────────────────────────────┐
+│ Select Framework View:                          │
+│ [NIST CSF 2.0] [CIS v8] [ISO 27001] [GDPR]    │
+│ [CIS M365] [MITRE ATT&CK] [ANSSI] [SOC 2]     │
+├─────────────────────────────────────────────────┤
+│ NIST CSF 2.0 Maturity View:                    │
+│ ├─ Identify: 85% (34/40 controls)              │
+│ ├─ Protect: 72% (29/40 controls)               │
+│ ├─ Detect: 65% (26/40 controls)                │
+│ ├─ Respond: 58% (23/40 controls)               │
+│ └─ Recover: 45% (18/40 controls)               │
+│                                                 │
+│ Overall NIST CSF Readiness: 65%                │
+│ Gap: 87 controls need implementation            │
+└─────────────────────────────────────────────────┘
+```
+
+### 5.5 Framework Comparison Dashboard
+- **Side-by-side framework comparison** showing readiness across multiple standards
+- **Control overlap analysis** highlighting shared requirements
+- **Priority matrix** showing which controls satisfy multiple frameworks
+- **Investment ROI** calculation for implementing controls that cover multiple frameworks
+
+### 5.6 Detailed Breakdown
 - **Per-domain risk findings** (Data vs Identity focused)
 - **Platform coverage** (SharePoint, OneDrive, Teams, Exchange, AD)
 - **Threat timeline view** (Immediate → Short-term → Baseline → Advanced → Optimal)
 - **Key blocking findings** with remediation priorities
 - **Framework compliance** mapped to each domain
 
-### 5.5 Organizational Benchmarking
+### 5.7 Organizational Benchmarking
 - **Peer comparison** by organization size (Small <500, Medium 500-5K, Large 5K+)
 - **Industry benchmarks** showing percentile ranking per domain
 - **Maturity distribution** showing where customer stands vs peers
@@ -254,14 +303,14 @@ Your Organization (Medium, 2,500 employees)
 └─────────────────────────────────────────────────┘
 ```
 
-### 5.6 Detailed Findings Management
+### 5.8 Detailed Findings Management
 - **All checks view** with pass/fail status and severity filtering
 - **Finding details** with full description, detection logic, and impact
 - **Framework mappings** showing NIST CSF, CIS, ISO 27001 alignments per finding
 - **Search and filtering** by platform, severity, maturity level, DRIVE pillar
 - **Bulk actions** for findings management and tracking
 
-### 5.7 Remediation Workflow
+### 5.9 Remediation Workflow
 - **Recommended Actions** dashboard prioritized by threat timeline
 - **1Secure Integration** - direct links to policy configuration for remediable findings
 - **External Remediation** - step-by-step guidance for manual fixes
@@ -279,7 +328,7 @@ Apply Policy →
 Re-validate Finding
 ```
 
-### 5.8 Progress Tracking & Analytics
+### 5.10 Progress Tracking & Analytics
 - **Historical trendlines** (90-day retention) with milestone markers
 - **Remediation velocity** showing findings resolved per time period
 - **Domain improvement** tracking Data vs Identity progress separately
@@ -287,7 +336,7 @@ Re-validate Finding
 - **Compliance readiness** trending for each framework
 - **Executive reporting** with high-level metrics and key achievements
 
-### 5.9 Assessment Configuration Management
+### 5.11 Assessment Configuration Management
 - **Check catalog view** showing all 117 checks with metadata
 - **Individual check toggle** - enable/disable specific checks per organization
 - **Disabled checks counter** prominently displayed on dashboard
@@ -309,7 +358,7 @@ Example Configuration View:
 └─────────────────────────────────────────────────┘
 ```
 
-### 5.10 Export and Integration
+### 5.12 Export and Integration
 - **CSV export** of all findings with Data/Identity classification and remediation status
 - **PDF reports** for executive briefings and compliance documentation
 - **API endpoints** for integration with SIEM/SOAR platforms
@@ -333,25 +382,274 @@ Example Configuration View:
 | Executive reporting and PDF export | Yes |
 | Assessment configuration management | Yes |
 | Individual check disable/enable functionality | Yes |
+| Compliance framework maturity views (NIST, ISO, GDPR, etc.) | Yes |
+| Multi-framework comparison and control overlap analysis | Yes |
 | Full-screen Presentation Mode for stakeholder briefings | Yes |
 | UI dashboard functional prototype in Replit | Yes |
 
 ---
 
-## 7. Future Phases / Backlog
+## 7. Replit Implementation Guide
 
-- Automated CI validation workflow (GitHub Actions).  
-- React dashboard (Replit) for visualization.  
-- Integration with Netwrix DSPM detection engines.  
-- API for exporting findings.  
-- Expansion beyond M365 (Azure AD, Google Workspace, etc.).  
+Build a **DRIVE Maturity Assessment** web application in Replit that integrates with this GitHub repository to provide real-time threat-focused maturity assessment.
+
+**Target URL**: https://1securexspm.replit.app/maturity-level
+
+### 7.1 Implementation Checklist
+
+**✅ Core Data Integration**
+- [ ] Pull catalog data from GitHub repository (`Threatwrix/drive-maturity-model`)
+- [ ] Real-time updates when catalog changes are pushed  
+- [ ] JSON API endpoints to serve risk checks and maturity definitions
+- [ ] Version tracking to ensure data consistency
+- [ ] Framework mappings integration (NIST, CIS, ISO, GDPR, etc.)
+
+**✅ Binary Assessment Engine**
+- [ ] Implement threat-focused binary advancement model
+- [ ] Support all 117 risk checks with proper level distribution (16-42-35-12-12)
+- [ ] Separate Data Security and Identity Security scoring
+- [ ] Multi-framework compliance readiness calculations
+- [ ] Organizational benchmarking by size and industry
+
+**✅ User Interface Features**
+- [ ] Overall DRIVE maturity level display (1-5) with level names
+- [ ] Separate Data and Identity DRIVE scores (1.0-5.0)
+- [ ] Compliance framework selector and readiness percentages
+- [ ] Full-screen Presentation Mode with 6-slide flow
+- [ ] Detailed findings management with pass/fail status
+- [ ] 1Secure integration workflow for automated remediation
+- [ ] Assessment configuration with check disable/enable
+- [ ] Progress tracking and analytics with 90-day retention
+
+### 7.2 Modern UI Best Practices
+
+**Design System:**
+```javascript
+// Recommended modern UI stack
+const techStack = {
+  framework: 'Next.js 14+ with App Router',
+  styling: 'Tailwind CSS + shadcn/ui components',
+  charts: 'Recharts or Chart.js for data visualization',
+  icons: 'Lucide React or Heroicons',
+  animations: 'Framer Motion for smooth transitions',
+  state: 'Zustand or React Query for state management'
+}
+```
+
+**Component Architecture:**
+```typescript
+// Modern component structure
+/components
+  ├── ui/                    // shadcn/ui components
+  ├── dashboard/
+  │   ├── MaturityOverview.tsx
+  │   ├── ScoreBreakdown.tsx
+  │   ├── ComplianceFrameworkSelector.tsx
+  │   └── PresentationMode.tsx
+  ├── findings/
+  │   ├── FindingsTable.tsx
+  │   ├── FindingDetail.tsx
+  │   └── RemediationWorkflow.tsx
+  ├── charts/
+  │   ├── RadialProgressChart.tsx
+  │   ├── ComplianceRadar.tsx
+  │   └── TrendLineChart.tsx
+  └── layout/
+      ├── Sidebar.tsx
+      ├── Header.tsx
+      └── Breadcrumbs.tsx
+```
+
+**Visual Design Principles:**
+- **Dark/Light Mode**: Toggle support with system preference detection
+- **Responsive Design**: Mobile-first approach with breakpoints
+- **Typography Scale**: Consistent font sizing and weights
+- **Color Palette**: Semantic colors for risk levels (red/amber/green)
+- **Micro-interactions**: Hover states, loading spinners, success animations
+- **Accessibility**: WCAG 2.1 AA compliance with proper ARIA labels
+
+### 7.3 Technical Architecture
+
+**Frontend Structure:**
+```javascript
+// Next.js App Router structure
+/app
+  ├── page.tsx                     // Landing page
+  ├── dashboard/
+  │   ├── page.tsx                 // Main dashboard
+  │   ├── findings/page.tsx        // Detailed findings
+  │   ├── compliance/page.tsx      // Framework views
+  │   ├── config/page.tsx          // Assessment configuration
+  │   └── present/page.tsx         // Presentation mode
+  ├── api/
+  │   ├── catalog/route.ts         // GitHub data proxy
+  │   ├── assessment/route.ts      // Assessment engine
+  │   ├── frameworks/route.ts      // Compliance mappings
+  │   └── simulate/route.ts        // Risk simulation
+  └── globals.css                  // Tailwind CSS
+```
+
+**Data Integration:**
+```typescript
+// GitHub integration with caching
+const GITHUB_CONFIG = {
+  baseUrl: 'https://raw.githubusercontent.com/Threatwrix/drive-maturity-model/main',
+  endpoints: {
+    catalog: '/catalog/drive_risk_catalog.json',
+    levels: '/levels/levels.yaml',
+    frameworks: '/frameworks/',
+    scoring: '/scoring/scoring.yaml'
+  },
+  cacheStrategy: 'stale-while-revalidate',
+  updateInterval: '5m'
+}
+```
+
+### 7.4 Assessment Engine Implementation
+
+**Binary Advancement Logic:**
+```typescript
+interface AssessmentResult {
+  overallMaturity: number
+  dataSecurityScore: number
+  identitySecurityScore: number
+  frameworkReadiness: Record<string, number>
+  blockers: Finding[]
+  nextSteps: RemediationAction[]
+}
+
+const assessMaturityLevel = (findings: Finding[]): AssessmentResult => {
+  // Separate Data (D,R,V) and Identity (I,R,E) findings
+  const dataFindings = findings.filter(f => ['D', 'R', 'V'].includes(f.drive_pillar))
+  const identityFindings = findings.filter(f => ['I', 'R', 'E'].includes(f.drive_pillar))
+  
+  // Binary advancement per domain
+  const dataLevel = calculateBinaryLevel(dataFindings)
+  const identityLevel = calculateBinaryLevel(identityFindings)
+  
+  // Overall = MIN of both domains
+  const overallLevel = Math.min(dataLevel, identityLevel)
+  
+  return {
+    overallMaturity: overallLevel,
+    dataSecurityScore: dataLevel,
+    identitySecurityScore: identityLevel,
+    frameworkReadiness: calculateFrameworkReadiness(findings),
+    blockers: identifyBlockers(findings, overallLevel + 1),
+    nextSteps: generateRemediationPlan(findings)
+  }
+}
+```
+
+### 7.5 Presentation Mode Implementation
+
+**Full-Screen Mode:**
+```typescript
+const PresentationMode = () => {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  
+  const slides = [
+    { title: "Executive Summary", component: <ExecutiveSummarySlide /> },
+    { title: "Data Security", component: <DataSecuritySlide /> },
+    { title: "Identity Security", component: <IdentitySecuritySlide /> },
+    { title: "Compliance Status", component: <ComplianceSlide /> },
+    { title: "Remediation Progress", component: <RemediationSlide /> },
+    { title: "Peer Comparison", component: <BenchmarkingSlide /> }
+  ]
+  
+  const enterPresentationMode = () => {
+    document.documentElement.requestFullscreen()
+    setIsFullscreen(true)
+  }
+  
+  return (
+    <div className={`presentation-mode ${isFullscreen ? 'fullscreen' : ''}`}>
+      {/* Slide content with navigation */}
+    </div>
+  )
+}
+```
+
+### 7.6 Performance & UX Optimization
+
+**Loading States:**
+```typescript
+// Skeleton loading for better perceived performance
+const DashboardSkeleton = () => (
+  <div className="space-y-6">
+    <Skeleton className="h-32 w-full" />
+    <div className="grid grid-cols-3 gap-4">
+      <Skeleton className="h-24" />
+      <Skeleton className="h-24" />
+      <Skeleton className="h-24" />
+    </div>
+  </div>
+)
+```
+
+**Error Handling:**
+```typescript
+// Graceful error boundaries with retry mechanisms
+const ErrorFallback = ({ error, resetErrorBoundary }) => (
+  <div className="error-state">
+    <h2>Something went wrong</h2>
+    <p>{error.message}</p>
+    <Button onClick={resetErrorBoundary}>Try again</Button>
+  </div>
+)
+```
+
+### 7.7 Success Metrics & KPIs
+
+| Metric | Target | Implementation |
+|--------|--------|----------------|
+| Data sync latency | < 5 minutes | GitHub webhook + caching |
+| Assessment speed | < 3 seconds | Optimized algorithms + loading states |
+| Time to insight | < 2 minutes | Streamlined UX flow |
+| Mobile responsiveness | 100% features | Progressive web app |
+| Accessibility score | WCAG 2.1 AA | Automated testing + manual review |
+| Performance score | >90 Lighthouse | Code splitting + optimization |
+
+### 7.8 Deployment Checklist
+
+**Pre-Launch:**
+- [ ] Environment variables configured
+- [ ] GitHub API rate limiting handled
+- [ ] Error monitoring setup (Sentry)
+- [ ] Performance monitoring (Web Vitals)
+- [ ] Accessibility testing completed
+- [ ] Cross-browser testing (Chrome, Firefox, Safari, Edge)
+- [ ] Mobile device testing
+- [ ] Load testing for concurrent users
+
+**Go-Live:**
+- [ ] Custom domain configured
+- [ ] SSL certificate active
+- [ ] Analytics tracking enabled
+- [ ] User feedback collection setup
+- [ ] Documentation and help system
+- [ ] Backup and recovery procedures
 
 ---
 
-## 8. References
+## 8. Future Phases / Backlog
+
+- Automated CI validation workflow (GitHub Actions)
+- Advanced analytics and ML-driven insights
+- Integration with Netwrix DSPM detection engines
+- API for third-party integrations
+- Expansion beyond M365 (Azure AD, Google Workspace, AWS)
+- Mobile native applications (React Native)
+- White-label customization options
+
+---
+
+## 9. References
 
 - CIS Microsoft 365 Foundations Benchmark v5.0  
 - NIST CSF 2.0  
 - CIS Critical Security Controls v8  
 - PingCastle ANSSI maturity model  
-- Copilot Readiness Assessment PRD (risk scoring logic)
+- ISO/IEC 27001:2022
+- GDPR Articles 25, 32, 35
