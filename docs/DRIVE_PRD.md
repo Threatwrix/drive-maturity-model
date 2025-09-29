@@ -90,7 +90,63 @@ Each check includes:
 - `drive_pillar` (D, R, I, V, E)  
 - `drive_maturity_min` (lowest maturity level required)  
 - `drive_weight` (0–1)  
-- Framework references (nist_csf_id, cis_v8_control, etc.)  
+- Framework references (nist_csf_id, cis_v8_control, etc.)
+- `remediation_guidance` (step-by-step fix instructions)
+- `1secure_remediable` (boolean - can 1Secure automatically fix this)
+- `1secure_policy_template` (policy configuration template if applicable)
+- `threat_timeline` (immediate, short_term, baseline, advanced, optimal)  
+
+### 3.1 Data & Identity Score Calculation
+
+**Data Security DRIVE Score** includes checks from:
+- **D** (Data Protection): Data classification, encryption, retention, sharing controls
+- **R** (Risk Management): Risk identification, assessment, mitigation, monitoring
+- **V** (Vulnerability Management): Security gaps, misconfigurations, exposure assessment
+
+**Identity Security DRIVE Score** includes checks from:
+- **I** (Identity Security): Authentication, authorization, access management, lifecycle  
+- **R** (Risk Management): Risk identification, assessment, mitigation, monitoring
+- **E** (Exposure Analysis): Attack surface, external access, behavioral anomalies
+
+**Overall DRIVE Score** = Average of Data Security and Identity Security scores
+
+**Binary Advancement per Domain:**
+```
+Data Maturity Level = Highest level where ALL data-related checks pass
+Identity Maturity Level = Highest level where ALL identity-related checks pass
+Overall Maturity Level = MIN(Data Maturity Level, Identity Maturity Level)
+```
+
+**Example:**
+- Data Security: Pass all L1-L3 data checks, fail L4 → Data DRIVE = 3.0
+- Identity Security: Pass all L1-L2 identity checks, fail L3 → Identity DRIVE = 2.0  
+- Overall DRIVE: MIN(3.0, 2.0) = 2.0 (blocked by weakest domain)
+
+### 3.2 Assessment Results Data Model
+
+**Per-Organization Assessment:**
+- `org_id`, `org_size` (Small/Medium/Large), `industry`
+- `assessment_date`, `drive_data_score`, `drive_identity_score`, `drive_overall_score`
+- `findings[]` - array of finding results per check_id
+- `remediation_plan[]` - prioritized actions with 1Secure integration flags
+
+**Finding Result:**
+- `check_id`, `status` (pass/fail), `finding_details`, `evidence`
+- `remediation_status` (not_started/planned/in_progress/completed)
+- `remediation_assignee`, `target_date`, `completion_date`
+- `1secure_policy_applied` (boolean), `validation_date`
+
+**Benchmarking Data:**
+- Anonymized aggregate scores by org_size and industry
+- Percentile calculations updated monthly from customer base
+- Maturity level distribution statistics for peer comparison
+
+**Organization Configuration:**
+- `org_id`, `disabled_checks[]` - array of check_ids that are disabled
+- `check_weights{}` - custom weightings per check_id (default 1.0)
+- `assessment_schedule` (daily/weekly/monthly)
+- `catalog_last_updated` - timestamp of last GitHub sync
+- `disabled_count` - total number of disabled checks for dashboard display
 
 ---
 
@@ -116,13 +172,148 @@ Each check includes:
 
 ## 5. UI Requirements
 
-- Dashboard:  
-  - Overall DRIVE Score (0–100)  
-  - Maturity Level (1–5 badge)  
-  - Per-category breakdown  
-  - Key risky findings + remediation guidance  
-- CSV export of results  
-- Historical trendline (90-day retention)  
+### 5.1 DRIVE Score Dashboard
+- **Overall DRIVE Maturity Level** (1–5 with level badge and name)
+- **Data Security DRIVE Score** (1.0–5.0) - based on data-focused risk checks
+- **Identity Security DRIVE Score** (1.0–5.0) - based on identity-focused risk checks
+- **Combined DRIVE Score** calculation methodology display
+
+### 5.2 Score Calculation Display
+```
+Example Customer View:
+┌─────────────────────────────────────────┐
+│ Overall DRIVE Maturity: Level 3.0       │
+│ Standard Security Baseline (Default+)   │
+├─────────────────────────────────────────┤
+│ Data Security DRIVE: 3.5                │
+│ │ ████████████████████░░░░ 70% complete  │
+│ │ Blocked by: Missing DLP policies       │
+│                                         │
+│ Identity Security DRIVE: 2.5            │
+│ │ ████████████░░░░░░░░░░░░ 50% complete  │
+│ │ Blocked by: MFA gaps for admins       │
+│                              [Present] │
+└─────────────────────────────────────────┘
+```
+
+### 5.3 Presentation Mode
+- **Full-screen presentation** triggered by "Present" button
+- **Executive-friendly visuals** with large fonts and clear metrics
+- **Auto-advancing slides** showing key areas (optional timer)
+- **Slide navigation** with arrow keys or click controls
+- **Presenter notes** overlay with talking points (toggle on/off)
+
+```
+Presentation Flow (Full Screen):
+Slide 1: Executive Summary
+├─ Overall DRIVE Score: 3.0/5.0
+├─ Risk Reduction: 45% (last 90 days)
+└─ Key Achievement: Level 2 → 3 advancement
+
+Slide 2: Data Security Domain
+├─ Current Level: 3.5/5.0 (75th percentile)
+├─ Recent Progress: +0.5 improvement
+└─ Next Priority: Implement DLP policies
+
+Slide 3: Identity Security Domain  
+├─ Current Level: 2.5/5.0 (45th percentile)
+├─ Critical Gap: Admin MFA enforcement
+└─ Timeline: 30 days to Level 3
+
+Slide 4: Remediation Progress
+├─ Completed: 12 findings (last quarter)
+├─ In Progress: 8 findings
+└─ 1Secure Automation: 67% of fixes
+
+Slide 5: Peer Comparison
+├─ Industry Ranking: Top 25%
+├─ Improvement Velocity: 2x peer average
+└─ Compliance Readiness: 85% NIST CSF
+```
+
+### 5.4 Detailed Breakdown
+- **Per-domain risk findings** (Data vs Identity focused)
+- **Platform coverage** (SharePoint, OneDrive, Teams, Exchange, AD)
+- **Threat timeline view** (Immediate → Short-term → Baseline → Advanced → Optimal)
+- **Key blocking findings** with remediation priorities
+- **Framework compliance** mapped to each domain
+
+### 5.5 Organizational Benchmarking
+- **Peer comparison** by organization size (Small <500, Medium 500-5K, Large 5K+)
+- **Industry benchmarks** showing percentile ranking per domain
+- **Maturity distribution** showing where customer stands vs peers
+```
+Example Benchmark View:
+Your Organization (Medium, 2,500 employees)
+┌─────────────────────────────────────────────────┐
+│ Data Security DRIVE: 3.5 (75th percentile)     │
+│ Industry Average: 2.8 │ Top Quartile: 4.1     │
+│                                                 │
+│ Identity Security DRIVE: 2.5 (45th percentile) │
+│ Industry Average: 2.7 │ Top Quartile: 3.8     │
+└─────────────────────────────────────────────────┘
+```
+
+### 5.6 Detailed Findings Management
+- **All checks view** with pass/fail status and severity filtering
+- **Finding details** with full description, detection logic, and impact
+- **Framework mappings** showing NIST CSF, CIS, ISO 27001 alignments per finding
+- **Search and filtering** by platform, severity, maturity level, DRIVE pillar
+- **Bulk actions** for findings management and tracking
+
+### 5.7 Remediation Workflow
+- **Recommended Actions** dashboard prioritized by threat timeline
+- **1Secure Integration** - direct links to policy configuration for remediable findings
+- **External Remediation** - step-by-step guidance for manual fixes
+- **Implementation Tracking** - mark actions as planned/in-progress/completed
+- **Validation** - re-run specific checks to verify remediation
+
+```
+Example Remediation Flow:
+Finding: "Admin accounts without MFA" → 
+Action: "Enable MFA for privileged accounts" →
+1Secure Can Fix: YES → 
+"Configure Conditional Access Policy" [Button] →
+Policy Configuration UI → 
+Apply Policy → 
+Re-validate Finding
+```
+
+### 5.8 Progress Tracking & Analytics
+- **Historical trendlines** (90-day retention) with milestone markers
+- **Remediation velocity** showing findings resolved per time period
+- **Domain improvement** tracking Data vs Identity progress separately
+- **ROI metrics** showing security posture improvement over time
+- **Compliance readiness** trending for each framework
+- **Executive reporting** with high-level metrics and key achievements
+
+### 5.9 Assessment Configuration Management
+- **Check catalog view** showing all 117 checks with metadata
+- **Individual check toggle** - enable/disable specific checks per organization
+- **Disabled checks counter** prominently displayed on dashboard
+- **Check update history** showing when catalog was last refreshed from GitHub
+- **Custom check weightings** for organization-specific risk priorities
+- **Assessment schedule** configuration (daily/weekly/monthly)
+
+```
+Example Configuration View:
+┌─────────────────────────────────────────────────┐
+│ Assessment Configuration                        │
+│ Last Updated: 2024-01-15 | ⚠️ 3 checks disabled │
+├─────────────────────────────────────────────────┤
+│ [✓] DRS-001: Anonymous sharing enabled         │
+│ [✗] DRS-003: Guest access review cadence       │
+│ [✓] IDS-012: Admin MFA enforcement             │
+│ [✗] DRS-045: Data classification labels        │
+│                           [View All 117 Checks]│
+└─────────────────────────────────────────────────┘
+```
+
+### 5.10 Export and Integration
+- **CSV export** of all findings with Data/Identity classification and remediation status
+- **PDF reports** for executive briefings and compliance documentation
+- **API endpoints** for integration with SIEM/SOAR platforms
+- **Webhook notifications** for critical finding alerts and remediation milestones  
 
 ---
 
@@ -133,7 +324,16 @@ Each check includes:
 | Catalog maintained in GitHub | Yes |
 | JSON regenerated on validation | Yes |
 | <5% false positives per check | Yes |
-| 90-day historical reporting | Yes |
+| Separate Data & Identity DRIVE scores | Yes |
+| Organizational benchmarking by size/industry | Yes |
+| Detailed findings view with framework mappings | Yes |
+| 1Secure integration for automatic remediation | Yes |
+| Progress tracking and analytics (90-day retention) | Yes |
+| Remediation workflow with validation | Yes |
+| Executive reporting and PDF export | Yes |
+| Assessment configuration management | Yes |
+| Individual check disable/enable functionality | Yes |
+| Full-screen Presentation Mode for stakeholder briefings | Yes |
 | UI dashboard functional prototype in Replit | Yes |
 
 ---
