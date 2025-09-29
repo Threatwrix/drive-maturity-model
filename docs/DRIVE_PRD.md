@@ -6,14 +6,15 @@ Build the **DRIVE Risk & Maturity Assessment** platform that helps organizations
 
 **DRIVE** stands for **Data Risk and Identity Vulnerability Exposure** maturity - a comprehensive assessment model focused on both data protection and identity security risks.
 
-The solution consolidates ~90 security checks into a unified **DRIVE Score** (0–100) and maps them to a 5-level **maturity model**.  
+The solution consolidates 117 security checks into a unified **DRIVE maturity assessment** and maps them to a 5-level **threat-focused maturity model**.  
 
 Goals:
-- Provide a **quantitative score** for data risk and identity vulnerability exposure.
-- Enable customers to understand both **risk exposure** and **maturity level** across data and identity domains.
+- Provide **clear maturity progression** for data risk and identity vulnerability exposure.
+- Enable customers to understand both **current security posture** and **actionable next steps** across data and identity domains.
 - Map results to industry frameworks (NIST CSF, CIS v8, CIS M365 Benchmark, ISO 27001, ANSSI/PingCastle).
 - Support **automation-first** (all checks measurable and API-driven).
 - Address both **data protection** (sensitive data exposure, classification, sharing) and **identity security** (access controls, permissions, authentication).
+- Focus on **threat timeline** - immediate threats first, then progressive security improvement.
 
 ---
 
@@ -60,27 +61,9 @@ Examples:
 - Pass all 117 checks → Level 5
 ```
 
-**No Complex Scoring:** Simple binary model eliminates confusing point calculations and focuses on actual risk remediation.  
+**No Complex Scoring:** Simple binary model eliminates confusing point calculations and focuses on actual risk remediation.
 
-### 2.3 Maturity Levels
-
-1. **Foundational (Reactive)** – minimal hygiene, unmanaged risks.  
-2. **Baseline (Defined)** – core protections in place, inconsistent coverage.  
-3. **Managed (Preventive)** – policies enforced, risks measured, frameworks adopted.  
-4. **Advanced (Adaptive)** – automation + monitoring, strong identity & classification coverage.  
-5. **Optimized (Proactive)** – continuous risk scoring, policy-as-code, predictive security.  
-
-Levels are determined by:  
-- **Score threshold** (e.g. L3 ≥ 40, L5 ≥ 80).  
-- **Control gating** (e.g. cannot reach L3 without MFA, cannot reach L5 without continuous risk pipeline).  
-
-### 2.4 Risk vs Controls
-
-- **Risk Assessment**: presence of risky findings lowers the score.  
-- **Control Adoption**: mandatory controls required to unlock higher levels.  
-- This hybrid model ensures tenants can’t achieve high maturity with risky misconfigs.  
-
-### 2.5 Framework Mapping
+### 2.3 Framework Mapping
 
 Each check is mapped to external standards:  
 - **NIST CSF 2.0** (Identify, Protect, Detect, Respond, Recover).  
