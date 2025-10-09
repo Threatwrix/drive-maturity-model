@@ -3,6 +3,7 @@
 // State management
 let allChecks = [];
 let filteredChecks = [];
+let currentView = 'cards'; // 'cards' or 'table'
 
 // Load checks from YAML files or catalog
 async function loadChecks() {
@@ -33,12 +34,23 @@ function renderChecks() {
     const container = document.getElementById('checks-list');
 
     if (filteredChecks.length === 0) {
+        container.className = 'checks-list';
         container.innerHTML = `
             <div class="loading">No checks match your filters.</div>
         `;
         return;
     }
 
+    if (currentView === 'table') {
+        renderTableView(container);
+    } else {
+        renderCardView(container);
+    }
+}
+
+// Render card view
+function renderCardView(container) {
+    container.className = 'checks-list';
     container.innerHTML = filteredChecks.map(check => `
         <div class="check-item" onclick="showCheckDetail('${check.check_id}')">
             <div class="check-id">${check.check_id}</div>
@@ -53,6 +65,41 @@ function renderChecks() {
             </div>
         </div>
     `).join('');
+}
+
+// Render table view
+function renderTableView(container) {
+    container.className = 'checks-list table-view';
+    container.innerHTML = `
+        <table class="checks-table">
+            <thead>
+                <tr>
+                    <th>Check ID</th>
+                    <th>Title</th>
+                    <th>Platform</th>
+                    <th>Severity</th>
+                    <th>Level</th>
+                    <th>Pillar</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${filteredChecks.map(check => `
+                    <tr onclick="showCheckDetail('${check.check_id}')">
+                        <td class="check-id-cell">${check.check_id}</td>
+                        <td class="check-title-cell">${check.title}</td>
+                        <td>${check.platform}</td>
+                        <td>
+                            <span class="badge badge-${getSeverityClass(check.severity)}">
+                                ${check.severity}
+                            </span>
+                        </td>
+                        <td>Level ${check.drive_maturity_min || 'N/A'}</td>
+                        <td>${check.drive_pillar || 'N/A'}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
 }
 
 // Get severity class for badge styling
@@ -191,6 +238,18 @@ function closeModal() {
     document.getElementById('check-modal').style.display = 'none';
 }
 
+// Toggle view
+function toggleView(view) {
+    currentView = view;
+
+    // Update button states
+    document.getElementById('view-cards').classList.toggle('active', view === 'cards');
+    document.getElementById('view-table').classList.toggle('active', view === 'table');
+
+    // Re-render
+    renderChecks();
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     // Load checks
@@ -201,6 +260,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('level-filter').addEventListener('change', filterChecks);
     document.getElementById('pillar-filter').addEventListener('change', filterChecks);
     document.getElementById('search-input').addEventListener('input', filterChecks);
+
+    // Set up view toggle listeners
+    document.getElementById('view-cards').addEventListener('click', () => toggleView('cards'));
+    document.getElementById('view-table').addEventListener('click', () => toggleView('table'));
 
     // Modal close button
     document.querySelector('.close').addEventListener('click', closeModal);
