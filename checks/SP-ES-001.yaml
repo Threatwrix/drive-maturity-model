@@ -1,0 +1,351 @@
+# DRIVE Check Definition - ANSSI-Inspired Multi-Level Format
+check_id: "SP-ES-001"
+title: "Anonymous sharing links enabled"
+short_description: "Anyone links allow unauthenticated access from public internet"
+detailed_description: |
+  SharePoint and OneDrive support "Anyone" links (also called anonymous links)
+  that allow unauthenticated access from the public internet. These links can be
+  shared via email, chat, or any other medium and provide access without requiring
+  sign-in or authentication. This creates significant data exposure risk, especially
+  when combined with Edit permissions or access to sensitive data.
+
+category: "Access Control"
+platform: "SharePoint"
+drive_pillars:
+  - "D"  # Data Protection
+  - "E"  # Exposure Analysis
+
+automatable: true
+owner: "DRIVE-Team"
+status: "active"
+created_date: "2024-01-15"
+last_updated: "2025-10-09"
+
+# Detection logic and data requirements
+detection:
+  data_sources:
+    - "SharePoint Admin API"
+    - "Microsoft Graph API - /shares endpoint"
+    - "SharePoint sharing links report"
+
+  query_logic: |
+    1. Enumerate all sharing links across SharePoint Online tenant
+    2. Filter for links where scope = 'anonymous' or linkKind = 'AnonymousAccess'
+    3. Check associated item's sensitivity label / classification
+    4. Evaluate link permissions (Read, Edit, Review, etc.)
+    5. Check link expiration status
+    6. Count links matching each threshold condition
+
+  data_points_required:
+    - "Sharing link ID and URL"
+    - "Link scope (anonymous, organization, specific people)"
+    - "Link permissions level (Read, Edit, Review)"
+    - "Target item path and name"
+    - "Target item sensitivity label"
+    - "Link expiration date (if set)"
+    - "Link creation date and creator"
+    - "Link last accessed date"
+
+  sample_powershell: |
+    # Get all sites
+    $sites = Get-SPOSite -Limit All
+
+    # Check each site for anonymous links
+    foreach ($site in $sites) {
+        $links = Get-SPOSiteFileAnonymousLink -Site $site.Url
+        foreach ($link in $links) {
+            # Analyze link permissions and target content
+            # Check if Edit permissions
+            # Check if target has sensitivity label
+        }
+    }
+
+# Multi-level thresholds (ANSSI-style progressive severity)
+level_thresholds:
+  # LEVEL 1: Critical - Immediate Threat
+  - level: 1
+    threshold_id: "SP-ES-001-L1-EDIT"
+    threshold_condition: "COUNT(anonymous_links WHERE permissions = 'Edit') > 0"
+    threshold_description: "Any anonymous links with Edit permissions exist"
+    severity: "Critical"
+    business_impact: |
+      Unauthenticated users from the public internet can modify or delete
+      organizational data. This enables data tampering, ransomware deployment
+      via uploaded files, and complete data destruction.
+    threat_timeline: "Exploitable within hours"
+    attacker_profile: "Low skill - anyone with the link"
+    cvss_score: 9.1
+    points_deduction: 30
+    remediation_priority: 1
+
+  - level: 1
+    threshold_id: "SP-ES-001-L1-CRITICAL"
+    threshold_condition: "COUNT(anonymous_links WHERE target_classification IN ['Critical', 'Highly Confidential']) > 0"
+    threshold_description: "Any anonymous links to Critical or Highly Confidential data"
+    severity: "Critical"
+    business_impact: |
+      Public internet access to organization's most sensitive data creates
+      immediate breach risk, regulatory violations (GDPR, HIPAA), and potential
+      for competitive harm, intellectual property theft, or legal liability.
+    threat_timeline: "Exploitable within hours"
+    attacker_profile: "Low skill - anyone with the link"
+    cvss_score: 9.8
+    points_deduction: 30
+    remediation_priority: 1
+
+  # LEVEL 2: High - Short-term Threat
+  - level: 2
+    threshold_id: "SP-ES-001-L2-CONFIDENTIAL"
+    threshold_condition: "COUNT(anonymous_links WHERE target_classification = 'Confidential') > 10"
+    threshold_description: "More than 10 anonymous links to Confidential data"
+    severity: "High"
+    business_impact: |
+      Significant confidential data exposed to public internet. While not the
+      highest classification, broad exposure of confidential data creates
+      material breach risk, compliance violations, and reputational harm.
+    threat_timeline: "Exploitable within days to weeks"
+    attacker_profile: "Low to medium skill"
+    cvss_score: 7.5
+    points_deduction: 15
+    remediation_priority: 2
+
+  # LEVEL 3: Medium - Baseline Security Gap
+  - level: 3
+    threshold_id: "SP-ES-001-L3-PERMANENT"
+    threshold_condition: "COUNT(anonymous_links WHERE expiration IS NULL) > 50"
+    threshold_description: "More than 50 anonymous links without expiration date"
+    severity: "Medium"
+    business_impact: |
+      Permanent public links create persistent exposure vectors. Links shared
+      months or years ago may still be active, cached in emails/tickets, or
+      indexed by search engines. Lack of expiration prevents natural cleanup.
+    threat_timeline: "Exploitable within weeks to months"
+    attacker_profile: "Low skill - opportunistic"
+    cvss_score: 5.3
+    points_deduction: 8
+    remediation_priority: 3
+
+  # LEVEL 4: Low - Enhanced Security Practice
+  - level: 4
+    threshold_id: "SP-ES-001-L4-GOVERNANCE"
+    threshold_condition: "COUNT(anonymous_links WHERE created_date < NOW() - 90 days AND last_accessed IS NULL) > 20"
+    threshold_description: "More than 20 stale anonymous links (created >90 days ago, never accessed)"
+    severity: "Low"
+    business_impact: |
+      Old, unused anonymous links indicate lack of lifecycle management.
+      While not actively exploited, they represent forgotten exposure that
+      accumulates over time and complicates security reviews.
+    threat_timeline: "Low probability exploitation"
+    attacker_profile: "Opportunistic"
+    cvss_score: 3.1
+    points_deduction: 3
+    remediation_priority: 4
+
+# Framework mappings
+framework_mappings:
+  nist_csf:
+    function: "PROTECT"
+    categories:
+      - "PR.AC-4: Access permissions and authorizations are managed"
+      - "PR.DS-5: Protections against data leaks are implemented"
+    controls:
+      - "PR.AC-4"
+      - "PR.DS-5"
+
+  cis_v8:
+    controls:
+      - "3.3: Configure Data Access Control Lists"
+      - "14.6: Protect Information through Access Control Lists"
+
+  cis_m365:
+    version: "v5.0"
+    recommendations:
+      - "2.1.1: Ensure 'external sharing' of calendars is not available"
+      - "7.2.2: Ensure SharePoint external sharing is managed through domain whitelist"
+
+  iso_27001:
+    version: "2022"
+    controls:
+      - "A.9.1.2: Access to networks and network services"
+      - "A.13.2.1: Information transfer policies and procedures"
+
+  mitre_attack:
+    tactics:
+      - "TA0010: Exfiltration"
+    techniques:
+      - "T1530: Data from Cloud Storage Object"
+      - "T1567: Exfiltration Over Web Service"
+
+  gdpr:
+    articles:
+      - "Article 32: Security of Processing"
+      - "Article 5(1)(f): Integrity and Confidentiality"
+
+  soc2:
+    criteria:
+      - "CC6.1: Logical and Physical Access Controls"
+      - "CC6.6: Logical and Physical Access - Confidentiality"
+
+# Remediation guidance
+remediation:
+  automated_fix_available: true
+  1secure_remediable: true
+  fix_complexity: "Medium"
+  estimated_time_minutes: 90
+  estimated_cost: "Low"
+  business_disruption: "Low to Medium"
+
+  prerequisites:
+    - "SharePoint Administrator role"
+    - "Data classification labels defined"
+    - "Business stakeholder approval for sharing policy changes"
+
+  # Progressive remediation based on level
+  steps:
+    - step: 1
+      level_target: [1, 2, 3, 4]
+      action: "Audit existing anonymous links"
+      details: "Generate report of all anonymous links with metadata"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            # Export all anonymous links
+            Get-SPOSite -Limit All | ForEach-Object {
+                Get-SPOSiteFileAnonymousLink -Site $_.Url |
+                Select-Object Url, @{N='Site';E={$_.Url}}, AnonymousLinkType, Expiration |
+                Export-Csv -Path "AnonymousLinks_$(Get-Date -Format 'yyyyMMdd').csv" -Append
+            }
+
+    - step: 2
+      level_target: [1]
+      action: "Immediately revoke Edit anonymous links"
+      details: "Remove all anonymous links with Edit permissions"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            # Revoke Edit anonymous links
+            $editLinks = Get-SPOSiteFileAnonymousLink -Site $siteUrl |
+                Where-Object { $_.AnonymousLinkType -eq 'Edit' }
+            foreach ($link in $editLinks) {
+                Remove-SPOSiteFileAnonymousLink -Site $siteUrl -AnonymousLinkId $link.AnonymousLinkId
+            }
+
+    - step: 3
+      level_target: [1]
+      action: "Revoke anonymous links to Critical/Highly Confidential data"
+      details: "Remove all anonymous links where target has high sensitivity label"
+      requires_manual: true
+      manual_reason: "Requires sensitivity label evaluation per file"
+
+    - step: 4
+      level_target: [1, 2, 3]
+      action: "Configure tenant-level anonymous sharing policy"
+      details: "Set sharing capability to ExternalUserSharingOnly (disable anonymous)"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            Set-SPOTenant -SharingCapability ExternalUserSharingOnly
+
+    - step: 5
+      level_target: [3, 4]
+      action: "Enable anonymous link expiration"
+      details: "Require all anonymous links to expire within 30 days"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            Set-SPOTenant -RequireAnonymousLinksExpireInDays 30
+
+    - step: 6
+      level_target: [4]
+      action: "Implement periodic anonymous link review"
+      details: "Create automated workflow to review and expire stale anonymous links"
+      requires_manual: true
+      manual_reason: "Requires Power Automate flow or custom script deployment"
+
+  # 1Secure policy template
+  policy_template:
+    platform: "1Secure"
+    policy_name: "Disable Anonymous Sharing - DRIVE Compliance"
+    policy_type: "SharePoint Tenant Configuration"
+    configuration:
+      SharingCapability: "ExternalUserSharingOnly"
+      RequireAnonymousLinksExpireInDays: 30
+      DefaultSharingLinkType: "Direct"
+      PreventExternalUsersFromResharing: true
+      FileAnonymousLinkType: "None"
+      FolderAnonymousLinkType: "None"
+
+    validation_check: |
+      # Verify policy applied
+      $tenant = Get-SPOTenant
+      if ($tenant.SharingCapability -eq 'ExternalUserSharingOnly' -and
+          $tenant.RequireAnonymousLinksExpireInDays -le 30) {
+          Write-Host "Policy successfully applied" -ForegroundColor Green
+      }
+
+# Testing and validation
+validation:
+  test_queries:
+    - name: "Count anonymous edit links"
+      query: "SELECT COUNT(*) FROM sharing_links WHERE scope = 'anonymous' AND permission = 'Edit'"
+      expected_result: 0
+      validates_level: 1
+
+    - name: "Count anonymous links to critical data"
+      query: "SELECT COUNT(*) FROM sharing_links WHERE scope = 'anonymous' AND target_label IN ('Critical', 'Highly Confidential')"
+      expected_result: 0
+      validates_level: 1
+
+    - name: "Count anonymous links to confidential data"
+      query: "SELECT COUNT(*) FROM sharing_links WHERE scope = 'anonymous' AND target_label = 'Confidential'"
+      expected_result: "≤ 10"
+      validates_level: 2
+
+    - name: "Count permanent anonymous links"
+      query: "SELECT COUNT(*) FROM sharing_links WHERE scope = 'anonymous' AND expiration IS NULL"
+      expected_result: "≤ 50"
+      validates_level: 3
+
+  false_positive_scenarios:
+    - scenario: "Approved public marketing content with anonymous links"
+      mitigation: "Exclude specific site collections designated for public content"
+      exclusion_logic: "WHERE site_url NOT IN (public_marketing_sites_list)"
+
+    - scenario: "Temporary anonymous links for external collaboration"
+      mitigation: "Allow anonymous links with expiration ≤ 7 days"
+      exclusion_logic: "WHERE expiration <= NOW() + 7 days"
+
+# References and supporting documentation
+references:
+  microsoft_docs:
+    - title: "Manage sharing settings for SharePoint"
+      url: "https://learn.microsoft.com/en-us/sharepoint/turn-external-sharing-on-or-off"
+    - title: "Limit accidental exposure with anonymous access"
+      url: "https://learn.microsoft.com/en-us/microsoft-365/solutions/share-limit-accidental-exposure"
+
+  industry_guidance:
+    - title: "CIS Microsoft 365 Foundations Benchmark"
+      section: "7.2 SharePoint Online Security"
+      url: "https://www.cisecurity.org/benchmark/microsoft_365"
+
+  threat_intelligence:
+    - title: "MITRE ATT&CK - Data from Cloud Storage"
+      technique: "T1530"
+      url: "https://attack.mitre.org/techniques/T1530/"
+
+# Metadata for catalog management
+metadata:
+  version: "1.1.0"
+  schema_version: "2.0"
+  last_reviewed: "2025-10-09"
+  next_review_due: "2026-01-09"
+  reviewed_by: "DRIVE-Team"
+  change_history:
+    - date: "2025-10-09"
+      version: "1.1.0"
+      change: "Added multi-level thresholds (ANSSI model)"
+      author: "DRIVE-Team"
+    - date: "2024-01-15"
+      version: "1.0.0"
+      change: "Initial check creation"
+      author: "DRIVE-Team"

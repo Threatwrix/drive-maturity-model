@@ -1,0 +1,187 @@
+[
+  {
+    "check_id": "AD-FL-001",
+    "title": "Functional levels of the forest and domains",
+    "short_description": "AD forest/domain functional level determines available security features",
+    "description": "Active Directory forest and domain functional levels control which features are\navailable in the environment. Higher functional levels enable critical security\ncapabilities including fine-grained password policies, advanced audit capabilities,\nauthentication policies, Protected Users security group, and enhanced Kerberos\nprotections. Running older functional levels leaves the organization vulnerable\nto attacks that modern security features would prevent or detect.\n",
+    "category": "Configuration",
+    "platform": "Active Directory",
+    "severity": "Critical",
+    "drive_pillar": "I",
+    "drive_maturity_min": 1,
+    "drive_weight": 0.35,
+    "automatable": true,
+    "status": "active",
+    "nist_csf_function": "PROTECT",
+    "nist_csf_id": "PR.AC-1, PR.IP-1",
+    "cis_v8_control": "4.1: Establish and Maintain a Secure Configuration Process, 5.1: Establish and Maintain an Inventory of Accounts",
+    "cis_m365_benchmark": "",
+    "iso_27001_annex": "A.8.9: Configuration management, A.9.2.1: User registration and de-registration",
+    "last_updated": "2025-10-09",
+    "level_thresholds": [
+      {
+        "level": 1,
+        "threshold_id": "AD-FL-001-L1-LEGACY",
+        "threshold_condition": "forest_functional_level < Windows2008 OR any_domain_functional_level < Windows2008",
+        "threshold_description": "Forest or any domain at functional level below Windows Server 2008",
+        "severity": "Critical",
+        "business_impact": "Ancient functional levels (Windows 2000/2003) lack fundamental modern\nsecurity features:\n- No fine-grained password policies (different policies per user group)\n- No Read-Only Domain Controller (RODC) support\n- Weak Kerberos encryption (DES/RC4 only)\n- No Advanced Encryption Standard (AES) support\n- Limited audit capabilities\n- Vulnerable to known privilege escalation attacks\n\nThese environments are trivially compromised by modern attack tools.\n",
+        "threat_timeline": "Exploitable within hours with public tools",
+        "attacker_profile": "Low skill - script kiddie with Mimikatz",
+        "cvss_score": 9.8,
+        "points_deduction": 35,
+        "remediation_priority": 1,
+        "mitre_attack": [
+          "T1558.003: Kerberoasting",
+          "T1550.003: Pass the Ticket"
+        ]
+      },
+      {
+        "level": 2,
+        "threshold_id": "AD-FL-001-L2-2012",
+        "threshold_condition": "forest_functional_level < Windows2012R2 OR any_domain_functional_level < Windows2012R2",
+        "threshold_description": "Forest or any domain below Windows Server 2012 R2 functional level",
+        "severity": "High",
+        "business_impact": "Missing critical modern security features introduced in 2012 R2:\n- No Authentication Policies (restrict domain admin logon locations)\n- No Protected Users security group (uncacheable credentials, mandatory AES)\n- No Dynamic Access Control for file classification\n- Limited device claims and compound authentication\n- Reduced audit granularity for privilege operations\n\nAttackers can more easily move laterally with stolen admin credentials.\n",
+        "threat_timeline": "Exploitable within days by skilled attackers",
+        "attacker_profile": "Medium skill - understands AD attacks",
+        "cvss_score": 8.1,
+        "points_deduction": 20,
+        "remediation_priority": 2,
+        "missing_features": [
+          "Authentication Policies and Silos",
+          "Protected Users Security Group",
+          "Kerberos armoring (FAST)",
+          "Device registration and workplace join"
+        ]
+      },
+      {
+        "level": 3,
+        "threshold_id": "AD-FL-001-L3-2016",
+        "threshold_condition": "forest_functional_level < Windows2016 OR any_domain_functional_level < Windows2016",
+        "threshold_description": "Forest or any domain below Windows Server 2016 functional level",
+        "severity": "Medium",
+        "business_impact": "Missing security enhancements from Windows Server 2016:\n- No Privileged Access Management (time-bound admin rights)\n- Weaker credential guard capabilities\n- Limited rolling of KRBTGT account features\n- Reduced granularity in permission auditing\n- Missing security configuration improvements\n\nWhile not immediately exploitable, these gaps complicate security\noperations and incident response.\n",
+        "threat_timeline": "Increases risk during targeted attacks",
+        "attacker_profile": "Advanced persistent threat",
+        "cvss_score": 5.9,
+        "points_deduction": 10,
+        "remediation_priority": 3,
+        "missing_features": [
+          "Privileged Access Management (PAM)",
+          "Enhanced KRBTGT rollover procedures",
+          "Time-based group membership",
+          "Additional audit subcategories"
+        ]
+      },
+      {
+        "level": 4,
+        "threshold_id": "AD-FL-001-L4-2019",
+        "threshold_condition": "forest_functional_level < Windows2019 OR any_domain_functional_level < Windows2019",
+        "threshold_description": "Forest or any domain below Windows Server 2019 functional level",
+        "severity": "Low",
+        "business_impact": "Missing latest security improvements from Windows Server 2019/2022:\n- No LDAP channel binding enforcement options\n- Limited NTLM auditing capabilities\n- Missing some Kerberos encryption improvements\n- Reduced visibility in security event logging\n- Cannot leverage latest Microsoft Defender for Identity features\n\nThese are incremental improvements that provide defense-in-depth.\n",
+        "threat_timeline": "Low exploitation risk, limits advanced defense",
+        "attacker_profile": "Nation-state actors with novel techniques",
+        "cvss_score": 3.7,
+        "points_deduction": 5,
+        "remediation_priority": 4,
+        "missing_features": [
+          "Enhanced LDAP signing and channel binding",
+          "Improved NTLM audit capabilities",
+          "Additional Kerberos encryption options",
+          "Latest Microsoft Defender for Identity integration"
+        ]
+      }
+    ],
+    "tags": "T1558: Steal or Forge Kerberos Tickets, T1550: Use Alternate Authentication Material"
+  },
+  {
+    "check_id": "SP-ES-001",
+    "title": "Anonymous sharing links enabled",
+    "short_description": "Anyone links allow unauthenticated access from public internet",
+    "description": "SharePoint and OneDrive support \"Anyone\" links (also called anonymous links)\nthat allow unauthenticated access from the public internet. These links can be\nshared via email, chat, or any other medium and provide access without requiring\nsign-in or authentication. This creates significant data exposure risk, especially\nwhen combined with Edit permissions or access to sensitive data.\n",
+    "category": "Access Control",
+    "platform": "SharePoint",
+    "severity": "Critical",
+    "drive_pillar": "D",
+    "drive_maturity_min": 1,
+    "drive_weight": 0.3,
+    "automatable": true,
+    "status": "active",
+    "nist_csf_function": "PROTECT",
+    "nist_csf_id": "PR.AC-4, PR.DS-5",
+    "cis_v8_control": "3.3: Configure Data Access Control Lists, 14.6: Protect Information through Access Control Lists",
+    "cis_m365_benchmark": "2.1.1: Ensure 'external sharing' of calendars is not available, 7.2.2: Ensure SharePoint external sharing is managed through domain whitelist",
+    "iso_27001_annex": "A.9.1.2: Access to networks and network services, A.13.2.1: Information transfer policies and procedures",
+    "last_updated": "2025-10-09",
+    "level_thresholds": [
+      {
+        "level": 1,
+        "threshold_id": "SP-ES-001-L1-EDIT",
+        "threshold_condition": "COUNT(anonymous_links WHERE permissions = 'Edit') > 0",
+        "threshold_description": "Any anonymous links with Edit permissions exist",
+        "severity": "Critical",
+        "business_impact": "Unauthenticated users from the public internet can modify or delete\norganizational data. This enables data tampering, ransomware deployment\nvia uploaded files, and complete data destruction.\n",
+        "threat_timeline": "Exploitable within hours",
+        "attacker_profile": "Low skill - anyone with the link",
+        "cvss_score": 9.1,
+        "points_deduction": 30,
+        "remediation_priority": 1
+      },
+      {
+        "level": 1,
+        "threshold_id": "SP-ES-001-L1-CRITICAL",
+        "threshold_condition": "COUNT(anonymous_links WHERE target_classification IN ['Critical', 'Highly Confidential']) > 0",
+        "threshold_description": "Any anonymous links to Critical or Highly Confidential data",
+        "severity": "Critical",
+        "business_impact": "Public internet access to organization's most sensitive data creates\nimmediate breach risk, regulatory violations (GDPR, HIPAA), and potential\nfor competitive harm, intellectual property theft, or legal liability.\n",
+        "threat_timeline": "Exploitable within hours",
+        "attacker_profile": "Low skill - anyone with the link",
+        "cvss_score": 9.8,
+        "points_deduction": 30,
+        "remediation_priority": 1
+      },
+      {
+        "level": 2,
+        "threshold_id": "SP-ES-001-L2-CONFIDENTIAL",
+        "threshold_condition": "COUNT(anonymous_links WHERE target_classification = 'Confidential') > 10",
+        "threshold_description": "More than 10 anonymous links to Confidential data",
+        "severity": "High",
+        "business_impact": "Significant confidential data exposed to public internet. While not the\nhighest classification, broad exposure of confidential data creates\nmaterial breach risk, compliance violations, and reputational harm.\n",
+        "threat_timeline": "Exploitable within days to weeks",
+        "attacker_profile": "Low to medium skill",
+        "cvss_score": 7.5,
+        "points_deduction": 15,
+        "remediation_priority": 2
+      },
+      {
+        "level": 3,
+        "threshold_id": "SP-ES-001-L3-PERMANENT",
+        "threshold_condition": "COUNT(anonymous_links WHERE expiration IS NULL) > 50",
+        "threshold_description": "More than 50 anonymous links without expiration date",
+        "severity": "Medium",
+        "business_impact": "Permanent public links create persistent exposure vectors. Links shared\nmonths or years ago may still be active, cached in emails/tickets, or\nindexed by search engines. Lack of expiration prevents natural cleanup.\n",
+        "threat_timeline": "Exploitable within weeks to months",
+        "attacker_profile": "Low skill - opportunistic",
+        "cvss_score": 5.3,
+        "points_deduction": 8,
+        "remediation_priority": 3
+      },
+      {
+        "level": 4,
+        "threshold_id": "SP-ES-001-L4-GOVERNANCE",
+        "threshold_condition": "COUNT(anonymous_links WHERE created_date < NOW() - 90 days AND last_accessed IS NULL) > 20",
+        "threshold_description": "More than 20 stale anonymous links (created >90 days ago, never accessed)",
+        "severity": "Low",
+        "business_impact": "Old, unused anonymous links indicate lack of lifecycle management.\nWhile not actively exploited, they represent forgotten exposure that\naccumulates over time and complicates security reviews.\n",
+        "threat_timeline": "Low probability exploitation",
+        "attacker_profile": "Opportunistic",
+        "cvss_score": 3.1,
+        "points_deduction": 3,
+        "remediation_priority": 4
+      }
+    ],
+    "tags": "T1530: Data from Cloud Storage Object, T1567: Exfiltration Over Web Service"
+  }
+]

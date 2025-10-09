@@ -1,0 +1,18 @@
+{
+  "total_checks": 2,
+  "by_platform": {
+    "Active Directory": 1,
+    "SharePoint": 1
+  },
+  "by_severity": {
+    "Critical": 2
+  },
+  "by_level": {
+    "Level 1": 2
+  },
+  "by_pillar": {
+    "I": 1,
+    "D": 1
+  },
+  "last_updated": "2025-10-09"
+}

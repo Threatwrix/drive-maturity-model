@@ -1,0 +1,355 @@
+# DRIVE Check Definition - Active Directory Forest Functional Level
+check_id: "AD-FL-001"
+title: "Functional levels of the forest and domains"
+short_description: "AD forest/domain functional level determines available security features"
+detailed_description: |
+  Active Directory forest and domain functional levels control which features are
+  available in the environment. Higher functional levels enable critical security
+  capabilities including fine-grained password policies, advanced audit capabilities,
+  authentication policies, Protected Users security group, and enhanced Kerberos
+  protections. Running older functional levels leaves the organization vulnerable
+  to attacks that modern security features would prevent or detect.
+
+category: "Configuration"
+platform: "Active Directory"
+drive_pillars:
+  - "I"  # Identity Security
+  - "V"  # Vulnerability Management
+
+automatable: true
+owner: "DRIVE-Team"
+status: "active"
+created_date: "2024-01-15"
+last_updated: "2025-10-09"
+
+# Detection logic
+detection:
+  data_sources:
+    - "Active Directory Domain Services"
+    - "PowerShell Get-ADForest / Get-ADDomain"
+    - "ldapsearch against rootDSE"
+
+  query_logic: |
+    1. Query forest functional level from AD
+    2. Query each domain functional level
+    3. Map numeric level to Windows Server version
+    4. Compare against threshold requirements
+    5. Evaluate security feature availability
+
+  data_points_required:
+    - "Forest functional level (numeric and version)"
+    - "Domain functional level per domain"
+    - "Domain controller OS versions"
+    - "Available security features matrix"
+
+  sample_powershell: |
+    # Get forest functional level
+    $forest = Get-ADForest
+    $forestLevel = $forest.ForestMode
+
+    # Get domain functional levels
+    Get-ADDomain -Filter * | Select-Object Name, DomainMode
+
+    # Map levels
+    # 0 = Windows2000, 2 = Windows2003
+    # 3 = Windows2008, 4 = Windows2008R2
+    # 5 = Windows2012, 6 = Windows2012R2
+    # 7 = Windows2016, 10 = Windows2019, 11 = Windows2022
+
+# Multi-level thresholds (ANSSI-inspired)
+level_thresholds:
+  # LEVEL 1: Critical - Ancient functional level
+  - level: 1
+    threshold_id: "AD-FL-001-L1-LEGACY"
+    threshold_condition: "forest_functional_level < Windows2008 OR any_domain_functional_level < Windows2008"
+    threshold_description: "Forest or any domain at functional level below Windows Server 2008"
+    severity: "Critical"
+    business_impact: |
+      Ancient functional levels (Windows 2000/2003) lack fundamental modern
+      security features:
+      - No fine-grained password policies (different policies per user group)
+      - No Read-Only Domain Controller (RODC) support
+      - Weak Kerberos encryption (DES/RC4 only)
+      - No Advanced Encryption Standard (AES) support
+      - Limited audit capabilities
+      - Vulnerable to known privilege escalation attacks
+
+      These environments are trivially compromised by modern attack tools.
+    threat_timeline: "Exploitable within hours with public tools"
+    attacker_profile: "Low skill - script kiddie with Mimikatz"
+    cvss_score: 9.8
+    points_deduction: 35
+    remediation_priority: 1
+    mitre_attack:
+      - "T1558.003: Kerberoasting"
+      - "T1550.003: Pass the Ticket"
+
+  # LEVEL 2: High - Missing modern authentication features
+  - level: 2
+    threshold_id: "AD-FL-001-L2-2012"
+    threshold_condition: "forest_functional_level < Windows2012R2 OR any_domain_functional_level < Windows2012R2"
+    threshold_description: "Forest or any domain below Windows Server 2012 R2 functional level"
+    severity: "High"
+    business_impact: |
+      Missing critical modern security features introduced in 2012 R2:
+      - No Authentication Policies (restrict domain admin logon locations)
+      - No Protected Users security group (uncacheable credentials, mandatory AES)
+      - No Dynamic Access Control for file classification
+      - Limited device claims and compound authentication
+      - Reduced audit granularity for privilege operations
+
+      Attackers can more easily move laterally with stolen admin credentials.
+    threat_timeline: "Exploitable within days by skilled attackers"
+    attacker_profile: "Medium skill - understands AD attacks"
+    cvss_score: 8.1
+    points_deduction: 20
+    remediation_priority: 2
+    missing_features:
+      - "Authentication Policies and Silos"
+      - "Protected Users Security Group"
+      - "Kerberos armoring (FAST)"
+      - "Device registration and workplace join"
+
+  # LEVEL 3: Medium - Missing enhanced security controls
+  - level: 3
+    threshold_id: "AD-FL-001-L3-2016"
+    threshold_condition: "forest_functional_level < Windows2016 OR any_domain_functional_level < Windows2016"
+    threshold_description: "Forest or any domain below Windows Server 2016 functional level"
+    severity: "Medium"
+    business_impact: |
+      Missing security enhancements from Windows Server 2016:
+      - No Privileged Access Management (time-bound admin rights)
+      - Weaker credential guard capabilities
+      - Limited rolling of KRBTGT account features
+      - Reduced granularity in permission auditing
+      - Missing security configuration improvements
+
+      While not immediately exploitable, these gaps complicate security
+      operations and incident response.
+    threat_timeline: "Increases risk during targeted attacks"
+    attacker_profile: "Advanced persistent threat"
+    cvss_score: 5.9
+    points_deduction: 10
+    remediation_priority: 3
+    missing_features:
+      - "Privileged Access Management (PAM)"
+      - "Enhanced KRBTGT rollover procedures"
+      - "Time-based group membership"
+      - "Additional audit subcategories"
+
+  # LEVEL 4: Low - Missing latest security features
+  - level: 4
+    threshold_id: "AD-FL-001-L4-2019"
+    threshold_condition: "forest_functional_level < Windows2019 OR any_domain_functional_level < Windows2019"
+    threshold_description: "Forest or any domain below Windows Server 2019 functional level"
+    severity: "Low"
+    business_impact: |
+      Missing latest security improvements from Windows Server 2019/2022:
+      - No LDAP channel binding enforcement options
+      - Limited NTLM auditing capabilities
+      - Missing some Kerberos encryption improvements
+      - Reduced visibility in security event logging
+      - Cannot leverage latest Microsoft Defender for Identity features
+
+      These are incremental improvements that provide defense-in-depth.
+    threat_timeline: "Low exploitation risk, limits advanced defense"
+    attacker_profile: "Nation-state actors with novel techniques"
+    cvss_score: 3.7
+    points_deduction: 5
+    remediation_priority: 4
+    missing_features:
+      - "Enhanced LDAP signing and channel binding"
+      - "Improved NTLM audit capabilities"
+      - "Additional Kerberos encryption options"
+      - "Latest Microsoft Defender for Identity integration"
+
+# Framework mappings
+framework_mappings:
+  nist_csf:
+    function: "PROTECT"
+    categories:
+      - "PR.AC-1: Identities and credentials are issued, managed, verified"
+      - "PR.IP-1: A baseline configuration is created and maintained"
+    controls:
+      - "PR.AC-1"
+      - "PR.IP-1"
+
+  cis_v8:
+    controls:
+      - "4.1: Establish and Maintain a Secure Configuration Process"
+      - "5.1: Establish and Maintain an Inventory of Accounts"
+
+  iso_27001:
+    version: "2022"
+    controls:
+      - "A.8.9: Configuration management"
+      - "A.9.2.1: User registration and de-registration"
+
+  mitre_attack:
+    tactics:
+      - "TA0006: Credential Access"
+      - "TA0008: Lateral Movement"
+    techniques:
+      - "T1558: Steal or Forge Kerberos Tickets"
+      - "T1550: Use Alternate Authentication Material"
+
+  anssi:
+    level_mapping:
+      level_1: "Critical configuration weakness"
+      level_2: "Insufficient security baseline"
+      level_3: "Missing advanced protections"
+      level_4: "State-of-the-art gap"
+
+# Remediation guidance
+remediation:
+  automated_fix_available: false
+  1secure_remediable: false
+  fix_complexity: "High"
+  estimated_time_minutes: 480  # 8 hours planning + execution
+  estimated_cost: "Medium to High"
+  business_disruption: "High - requires planning and change window"
+
+  prerequisites:
+    - "Enterprise/Domain Admin privileges"
+    - "All domain controllers running target OS version or higher"
+    - "Thorough application compatibility testing completed"
+    - "Rollback plan documented"
+    - "Change approval from management"
+
+  warnings:
+    - "Functional level raise is IRREVERSIBLE - cannot downgrade"
+    - "May break legacy applications that rely on older AD features"
+    - "Requires ALL domain controllers to be at or above target OS level"
+    - "Must test in non-production environment first"
+
+  steps:
+    - step: 1
+      level_target: [1, 2, 3, 4]
+      action: "Verify all domain controllers meet minimum OS requirements"
+      details: "Check that all DCs are running OS version equal to or higher than target functional level"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            # Check all DC OS versions
+            Get-ADDomainController -Filter * |
+              Select-Object Name, OperatingSystem, OperatingSystemVersion |
+              Format-Table -AutoSize
+
+    - step: 2
+      level_target: [1, 2, 3, 4]
+      action: "Test application compatibility"
+      details: |
+        Test all applications that authenticate against AD:
+        - LDAP clients
+        - Legacy applications
+        - Third-party integrations
+        - Custom scripts
+
+    - step: 3
+      level_target: [1, 2, 3, 4]
+      action: "Plan upgrade path and rollback strategy"
+      details: |
+        Document:
+        - Current functional level
+        - Target functional level
+        - Intermediate steps required
+        - Forest-wide replication time
+        - Rollback options (note: functional level is irreversible)
+
+    - step: 4
+      level_target: [1, 2]
+      action: "Raise domain functional level (each domain)"
+      details: "Must be done for each domain before raising forest level"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            # Raise domain functional level to Windows2012R2
+            Set-ADDomainMode -Identity "domain.com" -DomainMode Windows2012R2Domain -Confirm:$false
+
+    - step: 5
+      level_target: [1, 2]
+      action: "Raise forest functional level"
+      details: "Only after ALL domains are at target level"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            # Raise forest functional level to Windows2012R2
+            Set-ADForestMode -Identity "domain.com" -ForestMode Windows2012R2Forest -Confirm:$false
+
+    - step: 6
+      level_target: [1, 2, 3, 4]
+      action: "Enable new security features"
+      details: |
+        After raising functional level, enable newly available features:
+        - Configure Authentication Policies (2012 R2+)
+        - Add privileged users to Protected Users group (2012 R2+)
+        - Configure Privileged Access Management (2016+)
+        - Enable LDAP channel binding (2019+)
+
+    - step: 7
+      level_target: [1, 2, 3, 4]
+      action: "Validate functional level and test applications"
+      details: "Verify new level is active and applications still function"
+      commands:
+        - tool: "PowerShell"
+          command: |
+            # Verify forest functional level
+            (Get-ADForest).ForestMode
+
+            # Verify domain functional levels
+            Get-ADDomain -Filter * | Select-Object Name, DomainMode
+
+  # No 1Secure policy template (manual infrastructure change)
+  policy_template: null
+
+# Validation
+validation:
+  test_queries:
+    - name: "Check forest functional level"
+      query: "Get-ADForest | Select-Object ForestMode"
+      expected_result: "Windows2012R2Forest or higher"
+      validates_level: 2
+
+    - name: "Check all domain functional levels"
+      query: "Get-ADDomain -Filter * | Select-Object Name, DomainMode"
+      expected_result: "All domains at Windows2012R2Domain or higher"
+      validates_level: 2
+
+  false_positive_scenarios:
+    - scenario: "Lab/test domains at lower functional level"
+      mitigation: "Exclude non-production domains from assessment"
+      exclusion_logic: "WHERE domain_name NOT IN (test_domains_list)"
+
+# References
+references:
+  microsoft_docs:
+    - title: "Forest and Domain Functional Levels"
+      url: "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/active-directory-functional-levels"
+    - title: "Raise the Forest Functional Level"
+      url: "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/raise-the-forest-functional-level"
+
+  industry_guidance:
+    - title: "ANSSI - Recommendations for Active Directory Hardening"
+      url: "https://www.cert.ssi.gouv.fr/"
+
+  threat_intelligence:
+    - title: "MITRE ATT&CK - Kerberoasting"
+      technique: "T1558.003"
+      url: "https://attack.mitre.org/techniques/T1558/003/"
+
+# Metadata
+metadata:
+  version: "1.1.0"
+  schema_version: "2.0"
+  last_reviewed: "2025-10-09"
+  next_review_due: "2026-01-09"
+  reviewed_by: "DRIVE-Team"
+  change_history:
+    - date: "2025-10-09"
+      version: "1.1.0"
+      change: "Added multi-level thresholds (ANSSI model)"
+      author: "DRIVE-Team"
+    - date: "2024-01-15"
+      version: "1.0.0"
+      change: "Initial check creation"
+      author: "DRIVE-Team"
