@@ -9,7 +9,7 @@ async function loadChecks() {
     try {
         // For now, load from the catalog JSON
         // In production, this would aggregate all YAML files
-        const response = await fetch('../catalog/drive_risk_catalog.json');
+        const response = await fetch('catalog/drive_risk_catalog.json');
         const checks = await response.json();
 
         allChecks = checks;
