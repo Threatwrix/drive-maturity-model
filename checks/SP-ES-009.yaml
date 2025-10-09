@@ -1,12 +1,12 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
-category: Access Control
+check_id: SP-ES-009
+title: Sharepoint excessive unique permissions (broken inheritance sprawl)
+short_description: Sharepoint excessive unique permissions (broken inheritance sprawl)
+detailed_description: Too many unique permissions create chaos and blind spots. If
+  exploited, attackers hide access in one-off ACLs that reviews miss.
+category: Compliance & Governance
 platform: SharePoint
 drive_pillars:
-- R
+- I
 automatable: true
 owner: DRIVE-Team
 status: active
@@ -16,32 +16,33 @@ detection:
   data_sources:
   - Microsoft 365 API
   - SharePoint API
-  query_logic: 'Exploitability: High, Business Impact: High'
+  query_logic: 'Exploitability: Medium, Business Impact: Medium'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 20'
 level_thresholds:
-- level: 1
-  threshold_id: SP-ES-001-L1
+- level: 4
+  threshold_id: SP-ES-009-L4
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
-  severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
-  threat_timeline: Exploitable within hours
-  attacker_profile: Low skill - script kiddie
-  cvss_score: 9.0
-  points_deduction: 45
-  remediation_priority: 1
+  threshold_description: Sharepoint excessive unique permissions (broken inheritance
+    sprawl)
+  severity: Low
+  business_impact: Too many unique permissions create chaos and blind spots. If exploited,
+    attackers hide access in one-off ACLs that reviews miss.
+  threat_timeline: Low probability exploitation
+  attacker_profile: Expert - APT groups
+  cvss_score: 3.5
+  points_deduction: 1
+  remediation_priority: 4
 framework_mappings:
   nist_csf:
     function: PROTECT
     categories:
-    - AC-14
+    - AC-3
     controls:
-    - AC-14
+    - AC-3
   cis_v8:
     controls:
-    - '15'
+    - '3'
   cis_m365:
     version: v5.0
     recommendations: []
@@ -60,7 +61,7 @@ remediation:
   steps:
   - step: 1
     level_target:
-    - 1
+    - 4
     action: Review and remediate finding
     details: Detailed remediation steps to be documented
     requires_manual: true

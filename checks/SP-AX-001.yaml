@@ -1,12 +1,14 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
+check_id: SP-AX-001
+title: Sharepoint sensitive data with visitors group misconfigured for edit
+short_description: Sharepoint sensitive data with visitors group misconfigured for
+  edit
+detailed_description: Visitors should be read‑only; granting edit to visitors broadens
+  write access. If exploited, attackers alter or plant malicious files and mislead
+  users.
 category: Access Control
 platform: SharePoint
 drive_pillars:
-- R
+- I
 automatable: true
 owner: DRIVE-Team
 status: active
@@ -16,22 +18,24 @@ detection:
   data_sources:
   - Microsoft 365 API
   - SharePoint API
-  query_logic: 'Exploitability: High, Business Impact: High'
+  query_logic: 'Exploitability: Medium, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 5'
 level_thresholds:
-- level: 1
-  threshold_id: SP-ES-001-L1
+- level: 2
+  threshold_id: SP-AX-001-L2
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
-  severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
-  threat_timeline: Exploitable within hours
-  attacker_profile: Low skill - script kiddie
-  cvss_score: 9.0
-  points_deduction: 45
-  remediation_priority: 1
+  threshold_description: Sharepoint sensitive data with visitors group misconfigured
+    for edit
+  severity: High
+  business_impact: Visitors should be read‑only; granting edit to visitors broadens
+    write access. If exploited, attackers alter or plant malicious files and mislead
+    users.
+  threat_timeline: Exploitable within days to weeks
+  attacker_profile: Medium skill - skilled attacker
+  cvss_score: 7.5
+  points_deduction: 25
+  remediation_priority: 2
 framework_mappings:
   nist_csf:
     function: PROTECT
@@ -60,7 +64,7 @@ remediation:
   steps:
   - step: 1
     level_target:
-    - 1
+    - 2
     action: Review and remediate finding
     details: Detailed remediation steps to be documented
     requires_manual: true

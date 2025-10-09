@@ -1,12 +1,12 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
-category: Access Control
+check_id: SP-MB-003
+title: Sharepoint sensitive data + anyone link
+short_description: Sharepoint sensitive data + anyone link
+detailed_description: Combining sensitive content with public links multiplies exposure.
+  If exploited, widespread, hard‑to‑trace data leaks occur rapidly.
+category: Data Discovery & Classification
 platform: SharePoint
 drive_pillars:
-- R
+- E
 automatable: true
 owner: DRIVE-Team
 status: active
@@ -18,19 +18,19 @@ detection:
   - SharePoint API
   query_logic: 'Exploitability: High, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 26'
 level_thresholds:
 - level: 1
-  threshold_id: SP-ES-001-L1
+  threshold_id: SP-MB-003-L1
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
+  threshold_description: Sharepoint sensitive data + anyone link
   severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
+  business_impact: Combining sensitive content with public links multiplies exposure.
+    If exploited, widespread, hard‑to‑trace data leaks occur rapidly.
   threat_timeline: Exploitable within hours
   attacker_profile: Low skill - script kiddie
   cvss_score: 9.0
-  points_deduction: 45
+  points_deduction: 1
   remediation_priority: 1
 framework_mappings:
   nist_csf:

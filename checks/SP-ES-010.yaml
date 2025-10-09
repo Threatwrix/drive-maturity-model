@@ -1,8 +1,9 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
+check_id: SP-ES-010
+title: Sharepoint 'everyone except external users' on sensitive libraries
+short_description: Sharepoint 'everyone except external users' on sensitive libraries
+detailed_description: This broad group grants access to nearly all employees. If exploited,
+  sensitive data spreads internally and is easier to exfiltrate by any compromised
+  user.
 category: Access Control
 platform: SharePoint
 drive_pillars:
@@ -18,20 +19,22 @@ detection:
   - SharePoint API
   query_logic: 'Exploitability: High, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 7'
 level_thresholds:
-- level: 1
-  threshold_id: SP-ES-001-L1
+- level: 3
+  threshold_id: SP-ES-010-L3
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
-  severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
-  threat_timeline: Exploitable within hours
-  attacker_profile: Low skill - script kiddie
-  cvss_score: 9.0
-  points_deduction: 45
-  remediation_priority: 1
+  threshold_description: Sharepoint 'everyone except external users' on sensitive
+    libraries
+  severity: Medium
+  business_impact: This broad group grants access to nearly all employees. If exploited,
+    sensitive data spreads internally and is easier to exfiltrate by any compromised
+    user.
+  threat_timeline: Exploitable within weeks to months
+  attacker_profile: Advanced - persistent threat actor
+  cvss_score: 5.5
+  points_deduction: 35
+  remediation_priority: 3
 framework_mappings:
   nist_csf:
     function: PROTECT
@@ -60,7 +63,7 @@ remediation:
   steps:
   - step: 1
     level_target:
-    - 1
+    - 3
     action: Review and remediate finding
     details: Detailed remediation steps to be documented
     requires_manual: true

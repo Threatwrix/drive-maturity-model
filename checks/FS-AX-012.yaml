@@ -1,12 +1,13 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
+check_id: FS-AX-012
+title: File system broad access to hidden/admin shares
+short_description: File system broad access to hidden/admin shares
+detailed_description: Administrative shares (e.g., C$, ADMIN$) and hidden shares should
+  be tightly controlled. If exploited, attackers sweep systems, deploy tools, and
+  exfiltrate data over SMB.
 category: Access Control
-platform: SharePoint
+platform: File System
 drive_pillars:
-- R
+- D
 automatable: true
 owner: DRIVE-Team
 status: active
@@ -15,33 +16,34 @@ last_updated: '2025-09-29T11:40:50Z'
 detection:
   data_sources:
   - Microsoft 365 API
-  - SharePoint API
+  - File System API
   query_logic: 'Exploitability: High, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 6'
 level_thresholds:
 - level: 1
-  threshold_id: SP-ES-001-L1
+  threshold_id: FS-AX-012-L1
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
+  threshold_description: File system broad access to hidden/admin shares
   severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
+  business_impact: Administrative shares (e.g., C$, ADMIN$) and hidden shares should
+    be tightly controlled. If exploited, attackers sweep systems, deploy tools, and
+    exfiltrate data over SMB.
   threat_timeline: Exploitable within hours
   attacker_profile: Low skill - script kiddie
   cvss_score: 9.0
-  points_deduction: 45
+  points_deduction: 30
   remediation_priority: 1
 framework_mappings:
   nist_csf:
     function: PROTECT
     categories:
-    - AC-14
+    - AC-3
     controls:
-    - AC-14
+    - AC-3
   cis_v8:
     controls:
-    - '15'
+    - '3'
   cis_m365:
     version: v5.0
     recommendations: []

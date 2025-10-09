@@ -1,10 +1,11 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
-category: Access Control
-platform: SharePoint
+check_id: FS-AX-017
+title: File system sensitive data at share root with modify rights
+short_description: File system sensitive data at share root with modify rights
+detailed_description: Placing sensitive data at share roots with modify permissions
+  increases accidental and malicious changes. If exploited, attackers overwrite or
+  encrypt data at scale (ransomware).
+category: Data Discovery & Classification
+platform: File System
 drive_pillars:
 - R
 automatable: true
@@ -15,33 +16,34 @@ last_updated: '2025-09-29T11:40:50Z'
 detection:
   data_sources:
   - Microsoft 365 API
-  - SharePoint API
+  - File System API
   query_logic: 'Exploitability: High, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 7'
 level_thresholds:
 - level: 1
-  threshold_id: SP-ES-001-L1
+  threshold_id: FS-AX-017-L1
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
+  threshold_description: File system sensitive data at share root with modify rights
   severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
+  business_impact: Placing sensitive data at share roots with modify permissions increases
+    accidental and malicious changes. If exploited, attackers overwrite or encrypt
+    data at scale (ransomware).
   threat_timeline: Exploitable within hours
   attacker_profile: Low skill - script kiddie
   cvss_score: 9.0
-  points_deduction: 45
+  points_deduction: 35
   remediation_priority: 1
 framework_mappings:
   nist_csf:
     function: PROTECT
     categories:
-    - AC-14
+    - AC-3
     controls:
-    - AC-14
+    - AC-3
   cis_v8:
     controls:
-    - '15'
+    - '3'
   cis_m365:
     version: v5.0
     recommendations: []

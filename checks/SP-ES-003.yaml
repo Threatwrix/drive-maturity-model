@@ -1,12 +1,12 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
-category: Access Control
+check_id: SP-ES-003
+title: Sharepoint anyone links without expiration
+short_description: Sharepoint anyone links without expiration
+detailed_description: Non‑expiring public links remain open indefinitely. If exploited,
+  long‑forgotten links enable ongoing data leakage.
+category: Compliance & Governance
 platform: SharePoint
 drive_pillars:
-- R
+- I
 automatable: true
 owner: DRIVE-Team
 status: active
@@ -18,20 +18,20 @@ detection:
   - SharePoint API
   query_logic: 'Exploitability: High, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 20'
 level_thresholds:
-- level: 1
-  threshold_id: SP-ES-001-L1
+- level: 3
+  threshold_id: SP-ES-003-L3
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
-  severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
-  threat_timeline: Exploitable within hours
-  attacker_profile: Low skill - script kiddie
-  cvss_score: 9.0
-  points_deduction: 45
-  remediation_priority: 1
+  threshold_description: Sharepoint anyone links without expiration
+  severity: Medium
+  business_impact: Non‑expiring public links remain open indefinitely. If exploited,
+    long‑forgotten links enable ongoing data leakage.
+  threat_timeline: Exploitable within weeks to months
+  attacker_profile: Advanced - persistent threat actor
+  cvss_score: 5.5
+  points_deduction: 1
+  remediation_priority: 3
 framework_mappings:
   nist_csf:
     function: PROTECT
@@ -60,7 +60,7 @@ remediation:
   steps:
   - step: 1
     level_target:
-    - 1
+    - 3
     action: Review and remediate finding
     details: Detailed remediation steps to be documented
     requires_manual: true

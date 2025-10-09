@@ -1,8 +1,8 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
+check_id: SP-ES-002
+title: Sharepoint anyone links with edit
+short_description: Sharepoint anyone links with edit
+detailed_description: Anonymous edit links let unauthenticated users change files.
+  If exploited, attackers deface content, insert malware, or corrupt records.
 category: Access Control
 platform: SharePoint
 drive_pillars:
@@ -18,19 +18,19 @@ detection:
   - SharePoint API
   query_logic: 'Exploitability: High, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 10'
 level_thresholds:
 - level: 1
-  threshold_id: SP-ES-001-L1
+  threshold_id: SP-ES-002-L1
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
+  threshold_description: Sharepoint anyone links with edit
   severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
+  business_impact: Anonymous edit links let unauthenticated users change files. If
+    exploited, attackers deface content, insert malware, or corrupt records.
   threat_timeline: Exploitable within hours
   attacker_profile: Low skill - script kiddie
   cvss_score: 9.0
-  points_deduction: 45
+  points_deduction: 50
   remediation_priority: 1
 framework_mappings:
   nist_csf:

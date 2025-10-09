@@ -1,12 +1,12 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
-category: Access Control
-platform: SharePoint
+check_id: AD-056
+title: Pre-Windows 2000 Compatible Access group members
+short_description: Pre-Windows 2000 Compatible Access group members
+detailed_description: This legacy group broadens read access for backward compatibility.
+  If exploited, attackers enumerate sensitive objects and plan targeted attacks.
+category: Identity
+platform: Active Directory
 drive_pillars:
-- R
+- I
 automatable: true
 owner: DRIVE-Team
 status: active
@@ -15,40 +15,40 @@ last_updated: '2025-09-29T11:40:50Z'
 detection:
   data_sources:
   - Microsoft 365 API
-  - SharePoint API
-  query_logic: 'Exploitability: High, Business Impact: High'
+  - Active Directory API
+  query_logic: 'Exploitability: Medium, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 1'
 level_thresholds:
-- level: 1
-  threshold_id: SP-ES-001-L1
+- level: 3
+  threshold_id: AD-056-L3
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
-  severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
-  threat_timeline: Exploitable within hours
-  attacker_profile: Low skill - script kiddie
-  cvss_score: 9.0
-  points_deduction: 45
-  remediation_priority: 1
+  threshold_description: Pre-Windows 2000 Compatible Access group members
+  severity: Medium
+  business_impact: This legacy group broadens read access for backward compatibility.
+    If exploited, attackers enumerate sensitive objects and plan targeted attacks.
+  threat_timeline: Exploitable within weeks to months
+  attacker_profile: Advanced - persistent threat actor
+  cvss_score: 5.5
+  points_deduction: 5
+  remediation_priority: 3
 framework_mappings:
   nist_csf:
     function: PROTECT
     categories:
-    - AC-14
+    - AC-2
     controls:
-    - AC-14
+    - AC-2
   cis_v8:
     controls:
-    - '15'
+    - '4'
   cis_m365:
     version: v5.0
     recommendations: []
   iso_27001:
     version: '2022'
     controls:
-    - 'Annex A: Access control; Annex A: Information classification & handling'
+    - A.9.1
 remediation:
   automated_fix_available: false
   1secure_remediable: false
@@ -60,7 +60,7 @@ remediation:
   steps:
   - step: 1
     level_target:
-    - 1
+    - 3
     action: Review and remediate finding
     details: Detailed remediation steps to be documented
     requires_manual: true

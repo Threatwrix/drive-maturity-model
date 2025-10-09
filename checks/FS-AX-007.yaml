@@ -1,10 +1,10 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
+check_id: FS-AX-007
+title: File system broken inheritance with excessive explicit aces
+short_description: File system broken inheritance with excessive explicit aces
+detailed_description: Too many explicit permissions make ACLs complex and error‑prone.
+  If exploited, attackers find overlooked grants to reach sensitive data unnoticed.
 category: Access Control
-platform: SharePoint
+platform: File System
 drive_pillars:
 - R
 automatable: true
@@ -15,33 +15,33 @@ last_updated: '2025-09-29T11:40:50Z'
 detection:
   data_sources:
   - Microsoft 365 API
-  - SharePoint API
-  query_logic: 'Exploitability: High, Business Impact: High'
+  - File System API
+  query_logic: 'Exploitability: Medium, Business Impact: Medium'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 4'
 level_thresholds:
-- level: 1
-  threshold_id: SP-ES-001-L1
+- level: 3
+  threshold_id: FS-AX-007-L3
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
-  severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
-  threat_timeline: Exploitable within hours
-  attacker_profile: Low skill - script kiddie
-  cvss_score: 9.0
-  points_deduction: 45
-  remediation_priority: 1
+  threshold_description: File system broken inheritance with excessive explicit aces
+  severity: Medium
+  business_impact: Too many explicit permissions make ACLs complex and error‑prone.
+    If exploited, attackers find overlooked grants to reach sensitive data unnoticed.
+  threat_timeline: Exploitable within weeks to months
+  attacker_profile: Advanced - persistent threat actor
+  cvss_score: 5.5
+  points_deduction: 20
+  remediation_priority: 3
 framework_mappings:
   nist_csf:
     function: PROTECT
     categories:
-    - AC-14
+    - AC-3
     controls:
-    - AC-14
+    - AC-3
   cis_v8:
     controls:
-    - '15'
+    - '3'
   cis_m365:
     version: v5.0
     recommendations: []
@@ -60,7 +60,7 @@ remediation:
   steps:
   - step: 1
     level_target:
-    - 1
+    - 3
     action: Review and remediate finding
     details: Detailed remediation steps to be documented
     requires_manual: true

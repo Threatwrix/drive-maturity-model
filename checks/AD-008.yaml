@@ -1,10 +1,11 @@
-check_id: SP-ES-001
-title: Sharepoint open access (anyone links present)
-short_description: Sharepoint open access (anyone links present)
-detailed_description: ‘Anyone’ links allow anonymous access from the internet. If
-  exploited, sensitive documents leak publicly and can be indexed by search engines.
-category: Access Control
-platform: SharePoint
+check_id: AD-008
+title: krbtgt password age exceeds threshold
+short_description: krbtgt password age exceeds threshold
+detailed_description: The krbtgt account keys sign Kerberos tickets across the domain;
+  they must be rotated regularly. If exploited, stolen keys allow ‘Golden Ticket’
+  creation, granting unlimited, stealthy domain access.
+category: Identity
+platform: Active Directory
 drive_pillars:
 - R
 automatable: true
@@ -15,40 +16,40 @@ last_updated: '2025-09-29T11:40:50Z'
 detection:
   data_sources:
   - Microsoft 365 API
-  - SharePoint API
-  query_logic: 'Exploitability: High, Business Impact: High'
+  - Active Directory API
+  query_logic: 'Exploitability: Medium, Business Impact: High'
   data_points_required:
-  - 'Score Deduction: 9'
+  - 'Score Deduction: 5'
 level_thresholds:
 - level: 1
-  threshold_id: SP-ES-001-L1
+  threshold_id: AD-008-L1
   threshold_condition: Condition to be defined
-  threshold_description: Sharepoint open access (anyone links present)
+  threshold_description: krbtgt password age exceeds threshold
   severity: Critical
-  business_impact: ‘Anyone’ links allow anonymous access from the internet. If exploited,
-    sensitive documents leak publicly and can be indexed by search engines.
+  business_impact: The krbtgt account keys sign Kerberos tickets across the domain;
+    they must be rotated regularly. If exploited, stolen keys allow ‘Golden Ticket’
+    creation, granting unlimited, stealthy domain access.
   threat_timeline: Exploitable within hours
   attacker_profile: Low skill - script kiddie
   cvss_score: 9.0
-  points_deduction: 45
+  points_deduction: 25
   remediation_priority: 1
 framework_mappings:
   nist_csf:
     function: PROTECT
     categories:
-    - AC-14
+    - IA-5
     controls:
-    - AC-14
+    - IA-5
   cis_v8:
     controls:
-    - '15'
+    - '5'
   cis_m365:
     version: v5.0
     recommendations: []
   iso_27001:
     version: '2022'
-    controls:
-    - 'Annex A: Access control; Annex A: Information classification & handling'
+    controls: []
 remediation:
   automated_fix_available: false
   1secure_remediable: false
