@@ -17,14 +17,17 @@
 
 | File | Purpose | Use For |
 |------|---------|---------|
-| **1SECURE_INTEGRATION_PRD.md** | 60-page comprehensive product spec | Replit development, stakeholder alignment |
+| **1SECURE_MVP_PRD.md** | MVP product spec for minimal changes | Quick implementation guide |
+| **1secure_maturity_mapping.yaml** | ✅ Editable mapping config (HOT-RELOAD) | **PRIMARY CONFIG FILE for Replit** |
+| **1SECURE_INTEGRATION_PRD.md** | 60-page comprehensive product spec | Full feature development |
 | **1SECURE_INTEGRATION_SUMMARY.md** | Executive summary with key stats | Quick reference, team briefings |
-| **1secure_integration.json** | Programmatic mapping data | Direct import into Replit app |
+| **1secure_integration.json** | Programmatic mapping data | Alternative format |
 | **1secure_mapping_report.md** | Detailed mapping analysis | Gap analysis, validation |
 | **1secure_risks.csv** | Original 52 1Secure risks | Data reference |
 | **map_1secure_to_drive.py** | Mapping generation script | Regenerate when catalog changes |
 
 All files located in:
+- `/config/` - **YAML configuration file (USE THIS!)**
 - `/docs/` - Documentation and PRD
 - `/analysis/` - Data files and reports
 - `/tools/` - Python scripts
@@ -71,37 +74,45 @@ ONESECURE_ORGANIZATION_ID=<gobias-industries-id>
 DRIVE_CATALOG_PATH=./checks
 ```
 
-### Step 3: Load DRIVE Catalog (15 min)
+### Step 3: Load Maturity Mapping Config (10 min)
 
-**Copy YAML checks to Replit:**
+**Copy mapping file to Replit:**
 ```bash
 # In your Replit project
-mkdir checks
-# Upload all .yaml files from this repo's /checks/ directory
+mkdir config
+# Upload /config/1secure_maturity_mapping.yaml from this repo
 ```
 
-**Test loading:**
+**Load with hot-reload support:**
 ```javascript
 // server.js
 const yaml = require('js-yaml');
 const fs = require('fs');
-const path = require('path');
+const chokidar = require('chokidar');
 
-function loadDriveCatalog() {
-  const checksDir = './checks';
-  const checks = [];
+let maturityConfig;
 
-  fs.readdirSync(checksDir)
-    .filter(f => f.endsWith('.yaml'))
-    .forEach(file => {
-      const content = fs.readFileSync(path.join(checksDir, file), 'utf8');
-      const check = yaml.load(content);
-      checks.push(check);
-    });
+function loadMaturityConfig() {
+  const configPath = './config/1secure_maturity_mapping.yaml';
+  const content = fs.readFileSync(configPath, 'utf8');
+  maturityConfig = yaml.load(content);
 
-  console.log(`Loaded ${checks.length} DRIVE checks`);
-  return checks;
+  console.log(`Loaded ${maturityConfig.data_risks.length} data risks`);
+  console.log(`Loaded ${maturityConfig.identity_risks.length} identity risks`);
+  console.log(`Loaded ${maturityConfig.infrastructure_risks.length} infrastructure risks`);
+
+  return maturityConfig;
 }
+
+// Enable hot-reload
+const watcher = chokidar.watch('./config/1secure_maturity_mapping.yaml');
+watcher.on('change', (path) => {
+  console.log('🔄 Reloading maturity configuration...');
+  loadMaturityConfig();
+});
+
+// Initial load
+loadMaturityConfig();
 ```
 
 ### Step 4: Integrate 1Secure API (30 min)
@@ -150,55 +161,85 @@ client.getOrganizationRisks(process.env.ONESECURE_ORGANIZATION_ID)
 "
 ```
 
-### Step 5: Implement Scoring Engine (45 min)
+### Step 5: Implement Scoring Engine (30 min)
 
-**Use the integration JSON:**
+**Use the MVP mapping config:**
 ```javascript
 // services/drive-scoring.js
-const mappings = require('../analysis/1secure_integration.json');
 
-function calculateMaturityScore(oneSecureRisks, driveCatalog) {
-  const checkResults = [];
+function calculateMaturityScore(oneSecureRiskResults, maturityConfig) {
+  const allRisks = [
+    ...maturityConfig.data_risks,
+    ...maturityConfig.identity_risks,
+    ...maturityConfig.infrastructure_risks
+  ];
 
-  // Map 1Secure risks to DRIVE checks
-  mappings.mappings.forEach(mapping => {
-    const risk = oneSecureRisks.find(r => r.metric === mapping['1secure_metric']);
+  // Calculate Data Security Level
+  const dataLevel = calculateDomainLevel(
+    oneSecureRiskResults,
+    maturityConfig.data_risks
+  );
 
-    if (risk) {
-      mapping.drive_checks.forEach(driveCheck => {
-        const result = evaluateCheck(driveCheck, risk);
-        checkResults.push(result);
-      });
-    }
-  });
-
-  // Calculate level advancement (binary model)
-  const dataChecks = checkResults.filter(c => ['D','R','V'].includes(c.pillar));
-  const identityChecks = checkResults.filter(c => ['I','R','E'].includes(c.pillar));
-
-  const dataLevel = calculateDomainLevel(dataChecks);
-  const identityLevel = calculateDomainLevel(identityChecks);
+  // Calculate Identity Security Level (includes Infrastructure)
+  const identityLevel = calculateDomainLevel(
+    oneSecureRiskResults,
+    [...maturityConfig.identity_risks, ...maturityConfig.infrastructure_risks]
+  );
 
   return {
     overallLevel: Math.min(dataLevel, identityLevel),
     dataLevel,
     identityLevel,
-    checkResults
+    blockingRisks: findBlockingRisks(oneSecureRiskResults, allRisks)
   };
 }
 
-function calculateDomainLevel(checks) {
-  // Binary advancement: must pass ALL checks at level
+function calculateDomainLevel(riskResults, domainRisks) {
+  // Binary advancement: check each level 1-5
   for (let level = 1; level <= 5; level++) {
-    const levelChecks = checks.filter(c => c.minLevel === level);
-    const failed = levelChecks.filter(c => c.status === 'fail');
+    const blockingRisks = riskResults.filter(result => {
+      const riskConfig = domainRisks.find(r => r.risk_id === result.risk_id);
+      if (!riskConfig) return false;
 
-    if (failed.length > 0) {
+      // Get severity from 1Secure result (high, medium, low)
+      const severity = result.severity.toLowerCase();
+
+      // Check if this severity blocks this level
+      return riskConfig.maturity_blocks[severity] === level;
+    });
+
+    if (blockingRisks.length > 0) {
       return level - 1; // Blocked at this level
     }
   }
 
   return 5; // Passed all levels
+}
+
+function findBlockingRisks(riskResults, allRisks) {
+  return riskResults
+    .filter(result => {
+      const riskConfig = allRisks.find(r => r.risk_id === result.risk_id);
+      if (!riskConfig) return false;
+
+      const severity = result.severity.toLowerCase();
+      // Any risk with High/Medium/Low severity is potentially blocking
+      return ['high', 'medium', 'low'].includes(severity);
+    })
+    .map(result => {
+      const riskConfig = allRisks.find(r => r.risk_id === result.risk_id);
+      const severity = result.severity.toLowerCase();
+
+      return {
+        risk_id: result.risk_id,
+        name: riskConfig.name,
+        category: riskConfig.category,
+        severity: result.severity,
+        current_value: result.current_value,
+        threshold: result.threshold,
+        blocks_level: riskConfig.maturity_blocks[severity]
+      };
+    });
 }
 
 module.exports = { calculateMaturityScore };
@@ -406,9 +447,10 @@ function calculateDomainLevel(checks) {
 - Mapping Report: `/analysis/1secure_mapping_report.md`
 
 **Data Files:**
-- Integration JSON: `/analysis/1secure_integration.json` (import this!)
+- **Mapping Config: `/config/1secure_maturity_mapping.yaml` (PRIMARY FILE - use this!)**
+- Integration JSON: `/analysis/1secure_integration.json` (alternative format)
 - Risk Catalog: `/analysis/1secure_risks.csv`
-- DRIVE Checks: `/checks/*.yaml` (copy all to Replit)
+- DRIVE Checks: `/checks/*.yaml` (for full catalog implementation)
 
 **Code Examples:**
 - Scoring algorithm: PRD Section 9.3 (pseudocode)

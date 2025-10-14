@@ -375,6 +375,12 @@ def calculate_maturity_level(risk_results, domain='overall'):
 
 **Pre-configure all 52 risks with sensible defaults based on YAML catalog we created.**
 
+**IMPORTANT:** The complete mapping configuration is available in:
+- **`/config/1secure_maturity_mapping.yaml`** - Editable mapping file for Replit
+- Contains all 52 1Secure risks mapped to DRIVE maturity levels
+- Hot-reloadable configuration (no code changes needed)
+- Format: risk_id, name, category, 1secure_thresholds, maturity_blocks
+
 ---
 
 ## MVP Implementation Plan
@@ -384,8 +390,9 @@ def calculate_maturity_level(risk_results, domain='overall'):
 
 - [ ] Add `maturity_level_blocked` field to Risk Profile data model (config only, not scans)
 - [ ] Extend Risk Profile configuration UI with collapsible "DRIVE Maturity Mapping" section
-- [ ] Pre-configure all 52 risks with default mappings (import from YAML catalog)
+- [ ] Import all 52 risks with default mappings from `/config/1secure_maturity_mapping.yaml`
 - [ ] Add validation: ensure level 1-5, defaults to High→1, Medium→2, Low→3
+- [ ] Implement hot-reload mechanism for mapping file updates
 
 **Deliverable:** Admins can view/edit maturity mappings per risk
 
@@ -573,7 +580,10 @@ def calculate_maturity_level(risk_results, domain='overall'):
 
 ### Configuration Files
 
-- Default maturity mappings JSON (import from existing YAML catalog)
+- **`/config/1secure_maturity_mapping.yaml`** - Complete editable mapping file (✅ CREATED)
+  - All 52 1Secure risks mapped to maturity levels
+  - Hot-reloadable in Replit
+  - Single source of truth for MVP
 - Level definitions (already have in `/levels/levels.yaml`)
 - UI copy/text for maturity descriptions
 
@@ -583,6 +593,131 @@ def calculate_maturity_level(risk_results, domain='overall'):
 - Admin Guide: "Configuring Maturity Mappings"
 - API Documentation: Maturity score endpoint
 - Release Notes: "Introducing DRIVE Maturity Assessment"
+
+---
+
+## Using the Mapping Configuration File
+
+### File Location
+- **Path:** `/config/1secure_maturity_mapping.yaml`
+- **Format:** YAML (human-readable, editable)
+- **Size:** ~820 lines (all 52 risks mapped)
+
+### File Structure
+```yaml
+# Maturity level definitions
+maturity_levels:
+  1:
+    name: "Critical Exposure (Immediate Threat)"
+    color: "#E53E3E"
+
+# Data risks
+data_risks:
+  - risk_id: "1S-DATA-001"
+    name: "High Risk Permissions on Documents"
+    maturity_blocks:
+      high: 1      # High severity → blocks Level 1
+      medium: 2    # Medium severity → blocks Level 2
+      low: 3       # Low severity → blocks Level 3
+
+# Identity risks (23 risks)
+identity_risks:
+  - risk_id: "1S-IDENTITY-001"
+    ...
+
+# Infrastructure risks (20 risks)
+infrastructure_risks:
+  - risk_id: "1S-INFRA-001"
+    ...
+```
+
+### How to Use in Replit
+
+**1. Load Configuration at Startup:**
+```javascript
+import yaml from 'js-yaml';
+import fs from 'fs';
+
+let maturityConfig = yaml.load(
+  fs.readFileSync('/config/1secure_maturity_mapping.yaml', 'utf8')
+);
+```
+
+**2. Implement Hot-Reload:**
+```javascript
+import chokidar from 'chokidar';
+
+const watcher = chokidar.watch('/config/1secure_maturity_mapping.yaml');
+watcher.on('change', (path) => {
+  console.log('Reloading maturity configuration...');
+  maturityConfig = yaml.load(fs.readFileSync(path, 'utf8'));
+});
+```
+
+**3. Calculate Maturity Score:**
+```javascript
+function calculateMaturityLevel(riskResults, domain = 'overall') {
+  const risks = domain === 'data'
+    ? maturityConfig.data_risks
+    : [...maturityConfig.identity_risks, ...maturityConfig.infrastructure_risks];
+
+  for (let level = 1; level <= 5; level++) {
+    const blockingRisks = riskResults.filter(result => {
+      const riskConfig = risks.find(r => r.risk_id === result.risk_id);
+      const severity = result.severity.toLowerCase(); // 'high', 'medium', 'low'
+      return riskConfig?.maturity_blocks[severity] === level;
+    });
+
+    if (blockingRisks.length > 0) {
+      return level - 1; // Blocked at this level
+    }
+  }
+
+  return 5; // Passed all levels
+}
+```
+
+**4. Edit Configuration Without Restart:**
+- Open `/config/1secure_maturity_mapping.yaml` in editor
+- Change `maturity_blocks` values for any risk
+- Save file → Replit automatically reloads
+- Next API call uses updated configuration
+
+### Example Customization Scenarios
+
+**Scenario 1: Make a risk more critical**
+```yaml
+# Before: High severity blocks Level 1
+- risk_id: "1S-DATA-008"
+  maturity_blocks:
+    high: 1
+    medium: 2
+    low: 3
+
+# After: Even Medium severity blocks Level 1 (more strict)
+- risk_id: "1S-DATA-008"
+  maturity_blocks:
+    high: 1
+    medium: 1  # Changed from 2 to 1
+    low: 2     # Changed from 3 to 2
+```
+
+**Scenario 2: Make a risk less critical**
+```yaml
+# Before: High severity blocks Level 1
+- risk_id: "1S-INFRA-015"
+  maturity_blocks:
+    high: 1
+    medium: 2
+    low: 3
+
+# After: High severity only blocks Level 2 (less strict)
+- risk_id: "1S-INFRA-015"
+  maturity_blocks:
+    high: 2   # Changed from 1 to 2
+    medium: 3  # Changed from 2 to 3
+    low: 4     # Changed from 3 to 4
+```
 
 ---
 
