@@ -1,0 +1,818 @@
+# 1Secure to DRIVE Maturity Mapping - MVP Configuration
+#
+# This file maps the existing 1Secure Low/Medium/High severity levels
+# to DRIVE maturity levels (1-5) for each of the 52 risk checks.
+#
+# HOW IT WORKS:
+# - 1Secure scans and evaluates each risk against Low/Medium/High thresholds
+# - This mapping determines which maturity level is BLOCKED by each severity
+# - Example: If "High Risk Permissions" = High severity → blocks Level 1
+#
+# BINARY ADVANCEMENT MODEL:
+# - Organizations must pass ALL risks at a level to advance
+# - Overall Maturity = MIN(Data Security Level, Identity Security Level)
+#
+# EDITING:
+# - Change the level numbers (1-5) to adjust maturity mappings
+# - Save file and Replit will hot-reload the configuration
+# - Default pattern: High→L1, Medium→L2, Low→L3
+#
+# VERSION: 1.0 MVP
+# LAST UPDATED: 2025-10-14
+
+# =============================================================================
+# DATA SECURITY RISKS (9 checks)
+# Category: Data
+# Domain: Data Security (D+R+V pillars)
+# =============================================================================
+
+data_risks:
+
+  - risk_id: "1S-DATA-001"
+    name: "Third-Party Applications Allowed"
+    category: "Data"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null # Not applicable
+      low: null    # Not applicable
+    description: "Third-party applications with data access create exfiltration risk"
+
+  - risk_id: "1S-DATA-002"
+    name: "High Risk Permissions on Documents"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 5%"
+      medium: "5% to 15%"
+      high: "15% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥15%) → blocks Level 1
+      medium: 2    # If Medium severity (5-15%) → blocks Level 2
+      low: 3       # If Low severity (<5%) → blocks Level 3
+    description: "Excessive Full Control/Owner permissions on documents"
+
+  - risk_id: "1S-DATA-003"
+    name: "Stale Direct User Permissions"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 5%"
+      medium: "5% to 15%"
+      high: "15% and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥15%) → blocks Level 2
+      medium: 3    # If Medium severity (5-15%) → blocks Level 3
+      low: 4       # If Low severity (<5%) → blocks Level 4
+    description: "User permissions not accessed in 90+ days"
+
+  - risk_id: "1S-DATA-004"
+    name: "Sites with Broken Permissions Inheritance"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 60%"
+      medium: "60% to 100%"
+      high: "100% and above"
+    maturity_blocks:
+      high: 3      # If High severity (100%) → blocks Level 3
+      medium: 4    # If Medium severity (60-100%) → blocks Level 4
+      low: null    # Passing is acceptable
+    description: "Broken inheritance creates permission sprawl"
+
+  - risk_id: "1S-DATA-005"
+    name: "External and Anonymous Sharing of Sensitive Data"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 5%"
+      medium: "5% to 15%"
+      high: "15% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥15%) → blocks Level 1
+      medium: 2    # If Medium severity (5-15%) → blocks Level 2
+      low: 3       # If Low severity (<5%) → blocks Level 3
+    description: "Sensitive data shared externally or anonymously"
+
+  - risk_id: "1S-DATA-006"
+    name: "Unlabeled Sensitive Files"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 10%"
+      medium: "10% to 30%"
+      high: "30% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥30%) → blocks Level 1
+      medium: 2    # If Medium severity (10-30%) → blocks Level 2
+      low: 3       # If Low severity (<10%) → blocks Level 3
+    description: "Sensitive files without classification labels"
+
+  - risk_id: "1S-DATA-007"
+    name: "Stale User Access to Sensitive Data"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 5%"
+      medium: "5% to 15%"
+      high: "15% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥15%) → blocks Level 1
+      medium: 2    # If Medium severity (5-15%) → blocks Level 2
+      low: 3       # If Low severity (<5%) → blocks Level 3
+    description: "Stale access to sensitive data (90+ days inactive)"
+
+  - risk_id: "1S-DATA-008"
+    name: "Open Access to Sensitive Data"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 0%"
+      medium: "Below 2%"
+      high: "2% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥2%) → blocks Level 1
+      medium: 2    # If Medium severity (<2%) → blocks Level 2
+      low: null    # Passing is acceptable
+    description: "Everyone/All Users access to sensitive data"
+
+  - risk_id: "1S-DATA-009"
+    name: "High-Risk Permissions to Sensitive Data"
+    category: "Data"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 0%"
+      medium: "Below 2%"
+      high: "2% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥2%) → blocks Level 1
+      medium: 2    # If Medium severity (<2%) → blocks Level 2
+      low: null    # Passing is acceptable
+    description: "Full Control/Owner on sensitive data"
+
+# =============================================================================
+# IDENTITY SECURITY RISKS (23 checks)
+# Category: Identity
+# Domain: Identity Security (I+R+E pillars)
+# =============================================================================
+
+identity_risks:
+
+  - risk_id: "1S-IDENTITY-001"
+    name: "User Accounts with \"Password Never Expires\""
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 6"
+      high: "6 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥6) → blocks Level 1
+      medium: 2    # If Medium severity (1-6) → blocks Level 2
+      low: null    # Passing is acceptable
+    description: "Never-expiring passwords are long-lived secrets"
+
+  - risk_id: "1S-IDENTITY-002"
+    name: "User Accounts with \"Password Not Required\""
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 3"
+      high: "3 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥3) → blocks Level 1
+      medium: 2    # If Medium severity (1-3) → blocks Level 2
+      low: null    # Passing is acceptable
+    description: "Accounts without password requirements"
+
+  - risk_id: "1S-IDENTITY-003"
+    name: "Inactive User Accounts"
+    category: "Identity"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 0.01%"
+      medium: "0.01% to 1%"
+      high: "1% and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1%) → blocks Level 2
+      medium: 3    # If Medium severity (0.01-1%) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "User accounts inactive for 90+ days"
+
+  - risk_id: "1S-IDENTITY-004"
+    name: "User Accounts with Administrative Permissions"
+    category: "Identity"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 2%"
+      medium: "2% to 3%"
+      high: "3% and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥3%) → blocks Level 1
+      medium: 2    # If Medium severity (2-3%) → blocks Level 2
+      low: null    # Passing is acceptable
+    description: "Excessive administrative permissions violate least privilege"
+
+  - risk_id: "1S-IDENTITY-005"
+    name: "Administrative Groups"
+    category: "Identity"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 2%"
+      medium: "2% to 3%"
+      high: "3% and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥3%) → blocks Level 2
+      medium: 3    # If Medium severity (2-3%) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Excessive administrative groups create privilege sprawl"
+
+  - risk_id: "1S-IDENTITY-006"
+    name: "Empty Security Groups"
+    category: "Identity"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 1%"
+      medium: "1% to 2%"
+      high: "2% and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥2%) → blocks Level 2
+      medium: 3    # If Medium severity (1-2%) → blocks Level 3
+      low: 4       # If Low severity (<1%) → blocks Level 4
+    description: "Empty groups with permissions create misuse risk"
+
+  - risk_id: "1S-IDENTITY-007"
+    name: "Dangerous Default Permissions"
+    category: "Identity"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 1      # If High severity → blocks Level 1
+      medium: null
+      low: null
+    description: "Default AD permissions allow standard users excessive privileges"
+
+  - risk_id: "1S-IDENTITY-008"
+    name: "Improper Number of Global Administrators"
+    category: "Identity"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 1      # If High severity → blocks Level 1
+      medium: null
+      low: null
+    description: "Global Admin count not in acceptable range (2-4)"
+
+  - risk_id: "1S-IDENTITY-009"
+    name: "Conditional Access Policy Disables Admin Token Persistence"
+    category: "Identity"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null
+      low: null
+    description: "Missing CA policy allows long-lived privileged sessions"
+
+  - risk_id: "1S-IDENTITY-010"
+    name: "Self-Serve Password Reset is Not Enabled"
+    category: "Identity"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 3      # If High severity → blocks Level 3
+      medium: null
+      low: null
+    description: "SSPR not enabled increases help desk risk"
+
+  - risk_id: "1S-IDENTITY-011"
+    name: "MS Graph Powershell Service Principal Assignment Not Enforced"
+    category: "Identity"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null
+      low: null
+    description: "Service principal misconfiguration creates risk"
+
+  - risk_id: "1S-IDENTITY-012"
+    name: "Stale Guest Accounts"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 5"
+      high: "5 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥5) → blocks Level 2
+      medium: 3    # If Medium severity (1-5) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Guest accounts inactive for 90+ days"
+
+  - risk_id: "1S-IDENTITY-013"
+    name: "User Accounts with \"No MFA Configured\""
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 5"
+      high: "5 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥5) → blocks Level 2
+      medium: 3    # If Medium severity (1-5) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Accounts without MFA are vulnerable to credential attacks"
+
+  - risk_id: "1S-IDENTITY-014"
+    name: "User Accounts Created via Email Verified Self-Service Creation"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 5"
+      high: "5 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥5) → blocks Level 2
+      medium: 3    # If Medium severity (1-5) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Self-service account creation without approval"
+
+  - risk_id: "1S-IDENTITY-015"
+    name: "Global Administrators"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "Below 4"
+      medium: "4"
+      high: "5 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥5) → blocks Level 2
+      medium: 3    # If Medium severity (4) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Excessive Global Admin count increases attack surface"
+
+  - risk_id: "1S-IDENTITY-016"
+    name: "Unusual Primary Group on Computer Account"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "Below 5"
+      medium: "5 to 10"
+      high: "10 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥10) → blocks Level 2
+      medium: 3    # If Medium severity (5-10) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Computer account misconfiguration"
+
+  - risk_id: "1S-IDENTITY-017"
+    name: "Restriction of Dangerous Privileges for Standard Users"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 5"
+      high: "5 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥5) → blocks Level 2
+      medium: 3    # If Medium severity (1-5) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Standard users with dangerous privileges"
+
+  - risk_id: "1S-IDENTITY-018"
+    name: "Review of Delegated Permissions for Standard Users on Organizational Units"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "Below 5"
+      medium: "5 to 10"
+      high: "10 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥10) → blocks Level 2
+      medium: 3    # If Medium severity (5-10) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "OU delegation permission issues"
+
+  - risk_id: "1S-IDENTITY-019"
+    name: "Same Domain SID History Association"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "SID History abuse risk"
+
+  - risk_id: "1S-IDENTITY-020"
+    name: "Well-Known SIDs in SID History"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "Well-known SID History abuse"
+
+  - risk_id: "1S-IDENTITY-021"
+    name: "Administrative Accounts Susceptible to Kerberoasting"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "Admin accounts vulnerable to Kerberoasting attacks"
+
+  - risk_id: "1S-IDENTITY-022"
+    name: "Domain Controller RPC Coercion"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "DC RPC coercion vulnerability"
+
+  - risk_id: "1S-IDENTITY-023"
+    name: "Admin Accounts with Email Access"
+    category: "Identity"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "Below 5"
+      medium: "5 and above"
+      high: "-"
+    maturity_blocks:
+      high: null
+      medium: 3    # If Medium severity (≥5) → blocks Level 3
+      low: null
+    description: "Admin accounts with email access increase phishing risk"
+
+# =============================================================================
+# INFRASTRUCTURE SECURITY RISKS (20 checks)
+# Category: Infrastructure
+# Domain: Identity Security (R+V pillars, grouped with Identity)
+# =============================================================================
+
+infrastructure_risks:
+
+  - risk_id: "1S-INFRA-001"
+    name: "Disabled Computer Accounts"
+    category: "Infrastructure"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 1%"
+      medium: "1% to 3%"
+      high: "3% and above"
+    maturity_blocks:
+      high: 3      # If High severity (≥3%) → blocks Level 3
+      medium: 4    # If Medium severity (1-3%) → blocks Level 4
+      low: null    # Passing is acceptable
+    description: "Disabled computer accounts indicate poor lifecycle management"
+
+  - risk_id: "1S-INFRA-002"
+    name: "Inactive Computer Accounts"
+    category: "Infrastructure"
+    measure_type: "Percentage"
+    1secure_thresholds:
+      low: "Below 0.01%"
+      medium: "0.01% to 3%"
+      high: "3% and above"
+    maturity_blocks:
+      high: 3      # If High severity (≥3%) → blocks Level 3
+      medium: 4    # If Medium severity (0.01-3%) → blocks Level 4
+      low: null    # Passing is acceptable
+    description: "Computer accounts inactive for 90+ days"
+
+  - risk_id: "1S-INFRA-003"
+    name: "Unified Audit Log Search is Not Enabled"
+    category: "Infrastructure"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null
+      low: null
+    description: "Audit logging not enabled prevents security investigations"
+
+  - risk_id: "1S-INFRA-004"
+    name: "Conditional Access Policies and Microsoft Secure Defaults status"
+    category: "Infrastructure"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null
+      low: null
+    description: "CA policies and Secure Defaults not configured"
+
+  - risk_id: "1S-INFRA-005"
+    name: "Expired Domain Registrations Found"
+    category: "Infrastructure"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null
+      low: null
+    description: "Expired domain registrations create availability risk"
+
+  - risk_id: "1S-INFRA-006"
+    name: "MS Graph Powershell Service Principal Configuration Missing"
+    category: "Infrastructure"
+    measure_type: "Binary"
+    1secure_thresholds:
+      low: "No risk"
+      medium: "-"
+      high: "Risk"
+    maturity_blocks:
+      high: 2      # If High severity → blocks Level 2
+      medium: null
+      low: null
+    description: "MS Graph service principal misconfiguration"
+
+  - risk_id: "1S-INFRA-007"
+    name: "Legacy authentication protocols enabled"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "Legacy auth protocols create security vulnerabilities"
+
+  - risk_id: "1S-INFRA-008"
+    name: "Domain Controller SMB v1 Vulnerability"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "SMBv1 on domain controllers is a critical vulnerability"
+
+  - risk_id: "1S-INFRA-009"
+    name: "Domain Controller Registration Status"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 3"
+      high: "3 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥3) → blocks Level 2
+      medium: 3    # If Medium severity (1-3) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "DC registration issues"
+
+  - risk_id: "1S-INFRA-010"
+    name: "Domain Controller Logon Privileges Restriction"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥1) → blocks Level 2
+      medium: null
+      low: null
+    description: "DC logon restrictions not properly configured"
+
+  - risk_id: "1S-INFRA-011"
+    name: "Domain Controller Ownership Verification"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 to 5"
+      high: "5 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥5) → blocks Level 2
+      medium: 3    # If Medium severity (1-5) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "DC ownership verification issues"
+
+  - risk_id: "1S-INFRA-012"
+    name: "ESC1: Vulnerable Subject Control in Certificate Templates"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥1) → blocks Level 1 (CRITICAL)
+      medium: null
+      low: null
+    description: "ADCS ESC1 vulnerability enables privilege escalation"
+
+  - risk_id: "1S-INFRA-013"
+    name: "ESC2: Vulnerable EKU Configurations in Certificate Templates"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥1) → blocks Level 1 (CRITICAL)
+      medium: null
+      low: null
+    description: "ADCS ESC2 vulnerability"
+
+  - risk_id: "1S-INFRA-014"
+    name: "ESC4: Low-Privileged User Access to Published Certificate Templates"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥1) → blocks Level 1 (CRITICAL)
+      medium: null
+      low: null
+    description: "ADCS ESC4 vulnerability"
+
+  - risk_id: "1S-INFRA-015"
+    name: "ESC3: Misconfigured Agent Enrollment Templates"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥1) → blocks Level 1 (CRITICAL)
+      medium: null
+      low: null
+    description: "ADCS ESC3 vulnerability"
+
+  - risk_id: "1S-INFRA-016"
+    name: "Obsolete Windows Server 2012 Member Servers"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "Below 6"
+      medium: "6 to 21"
+      high: "21 and above"
+    maturity_blocks:
+      high: 2      # If High severity (≥21) → blocks Level 2
+      medium: 3    # If Medium severity (6-21) → blocks Level 3
+      low: null    # Passing is acceptable
+    description: "Obsolete Windows 2012 servers lack security updates"
+
+  - risk_id: "1S-INFRA-017"
+    name: "Obsolete Windows 2012 Domain Controllers"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "-"
+      high: "1 and above"
+    maturity_blocks:
+      high: 1      # If High severity (≥1) → blocks Level 1 (CRITICAL)
+      medium: null
+      low: null
+    description: "Obsolete DCs create critical security risk"
+
+  - risk_id: "1S-INFRA-018"
+    name: "OU Accidental Deletion Protection"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 and above"
+      high: "-"
+    maturity_blocks:
+      high: null
+      medium: 3    # If Medium severity (≥1) → blocks Level 3
+      low: null
+    description: "OUs without deletion protection"
+
+  - risk_id: "1S-INFRA-019"
+    name: "Weak TLS Protocols used by LDAPS"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 and above"
+      high: "-"
+    maturity_blocks:
+      high: null
+      medium: 2    # If Medium severity (≥1) → blocks Level 2
+      low: null
+    description: "Weak TLS on LDAPS creates encryption vulnerability"
+
+  - risk_id: "1S-INFRA-020"
+    name: "Outdated Domain Functional Level (2012R2)"
+    category: "Infrastructure"
+    measure_type: "Numeric"
+    1secure_thresholds:
+      low: "0"
+      medium: "1 and above"
+      high: "-"
+    maturity_blocks:
+      high: null
+      medium: 3    # If Medium severity (≥1) → blocks Level 3
+      low: null
+    description: "Outdated domain functional level limits security features"
+
+# =============================================================================
+# MATURITY LEVEL DEFINITIONS
+# =============================================================================
+
+maturity_levels:
+  1:
+    name: "Critical Exposure"
+    description: "Immediate threats addressed - hours/days timeline"
+    color: "#D32F2F"  # Red
+  2:
+    name: "High Risk Mitigated"
+    description: "Short-term protection - weeks timeline"
+    color: "#FF6F00"  # Orange
+  3:
+    name: "Standard Security Baseline"
+    description: "Industry-standard controls - months timeline"
+    color: "#FFA726"  # Light Orange
+  4:
+    name: "Enhanced Security Posture"
+    description: "Proactive security management"
+    color: "#66BB6A"  # Light Green
+  5:
+    name: "State-of-the-Art Security"
+    description: "Continuous excellence"
+    color: "#43A047"  # Green
+
+# =============================================================================
+# SCORING CONFIGURATION
+# =============================================================================
+
+scoring:
+  model: "binary_advancement"
+  description: "Organizations must pass ALL risks at a level to advance"
+
+  domains:
+    data_security:
+      pillars: ["D", "R", "V"]
+      categories: ["Data"]
+
+    identity_security:
+      pillars: ["I", "R", "E"]
+      categories: ["Identity", "Infrastructure"]
+
+  overall_calculation: "minimum"  # Overall = MIN(Data, Identity)
