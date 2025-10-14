@@ -1,0 +1,288 @@
+{
+  "version": "1.0",
+  "source": "1Secure",
+  "mappings": [
+    {
+      "1secure_metric": "Admin Accounts with Email Access",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Administrative Accounts Susceptible to Kerberoasting",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Administrative Groups",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Conditional Access Policies and Microsoft Secure Defaults status",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Conditional Access Policy Disables Admin Token Persistence",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Dangerous Default Permissions",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Disabled Computer Accounts",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Domain Controller Logon Privileges Restriction",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Domain Controller Ownership Verification",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Domain Controller RPC Coercion",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Domain Controller Registration Status",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Domain Controller SMB v1 Vulnerability",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "ESC1: Vulnerable Subject Control in Certificate Templates",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "ESC2: Vulnerable EKU Configurations in Certificate Templates",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "ESC3: Misconfigured Agent Enrollment Templates",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "ESC4: Low-Privileged User Access to Published Certificate Templates",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Empty Security Groups",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Expired Domain Registrations Found",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "External and Anonymous Sharing of Sensitive Data",
+      "drive_checks": [
+        {
+          "check_id": "SP-ES-001",
+          "title": "Sharepoint open access (anyone links present)",
+          "platform": "SharePoint",
+          "category": "Access Control",
+          "severity": "Medium",
+          "drive_maturity_min": 3,
+          "drive_pillar": "D",
+          "level_thresholds": [
+            {
+              "level": 1,
+              "threshold_id": "SP-ES-001-L1",
+              "threshold_condition": "Condition to be defined",
+              "threshold_description": "Sharepoint open access (anyone links present)",
+              "severity": "Critical",
+              "business_impact": "\u2018Anyone\u2019 links allow anonymous access from the internet. If exploited, sensitive documents leak publicly and can be indexed by search engines.",
+              "threat_timeline": "Exploitable within hours",
+              "attacker_profile": "Low skill - script kiddie",
+              "cvss_score": 9.0,
+              "points_deduction": 45,
+              "remediation_priority": 1
+            }
+          ]
+        },
+        {
+          "check_id": "SP-ES-002",
+          "title": "Sharepoint anyone links with edit",
+          "platform": "SharePoint",
+          "category": "Access Control",
+          "severity": "Medium",
+          "drive_maturity_min": 3,
+          "drive_pillar": "D",
+          "level_thresholds": [
+            {
+              "level": 1,
+              "threshold_id": "SP-ES-002-L1",
+              "threshold_condition": "Condition to be defined",
+              "threshold_description": "Sharepoint anyone links with edit",
+              "severity": "Critical",
+              "business_impact": "Anonymous edit links let unauthenticated users change files. If exploited, attackers deface content, insert malware, or corrupt records.",
+              "threat_timeline": "Exploitable within hours",
+              "attacker_profile": "Low skill - script kiddie",
+              "cvss_score": 9.0,
+              "points_deduction": 50,
+              "remediation_priority": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "1secure_metric": "Global Administrators",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "High Risk Permissions on Documents",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "High-Risk Permissions to Sensitive Data",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Improper Number of Global Administrators",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Inactive Computer Accounts",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Inactive User Accounts",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Legacy authentication protocols enabled",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "MS Graph Powershell Service Principal Assignment Not Enforced",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "MS Graph Powershell Service Principal Configuration Missing",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "OU Accidental Deletion Protection",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Obsolete Windows 2012 Domain Controllers",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Obsolete Windows Server 2012 Member Servers",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Open Access to Sensitive Data",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Outdated Domain Functional Level (2012R2)",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Restriction of Dangerous Privileges for Standard Users",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Review of Delegated Permissions for Standard Users on Organizational Units",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Same Domain SID History Association",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Self-Serve Password Reset is Not Enabled",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Sites with Broken Permissions Inheritance",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Stale Direct User Permissions",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Stale Guest Accounts",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Stale User Access to Sensitive Data",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Third-Party Applications Allowed",
+      "drive_checks": [
+        {
+          "check_id": "SP-ES-006",
+          "title": "Sharepoint external sharing to consumer domains",
+          "platform": "SharePoint",
+          "category": "Access Control",
+          "severity": "Medium",
+          "drive_maturity_min": 3,
+          "drive_pillar": "D",
+          "level_thresholds": [
+            {
+              "level": 3,
+              "threshold_id": "SP-ES-006-L3",
+              "threshold_condition": "Condition to be defined",
+              "threshold_description": "Sharepoint external sharing to consumer domains",
+              "severity": "Medium",
+              "business_impact": "Sharing to personal email domains weakens identity assurance and revocation. If exploited, attackers forward or retain access beyond business need.",
+              "threat_timeline": "Exploitable within weeks to months",
+              "attacker_profile": "Advanced - persistent threat actor",
+              "cvss_score": 5.5,
+              "points_deduction": 35,
+              "remediation_priority": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "1secure_metric": "Unified Audit Log Search is Not Enabled",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Unlabeled Sensitive Files",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Unusual Primary Group on Computer Account",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "User Accounts Created via Email Verified Self-Service Creation",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "User Accounts with \"No MFA Configured\"",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "User Accounts with \"Password Never Expires\"",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "User Accounts with \"Password Not Required\"",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "User Accounts with Administrative Permissions",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Weak TLS Protocols used by LDAPS",
+      "drive_checks": []
+    },
+    {
+      "1secure_metric": "Well-Known SIDs in SID History",
+      "drive_checks": []
+    }
+  ]
+}

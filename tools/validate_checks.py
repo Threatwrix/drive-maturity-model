@@ -21,8 +21,9 @@ REQUIRED_ROOT_FIELDS = [
 REQUIRED_THRESHOLD_FIELDS = [
     'level', 'threshold_id', 'threshold_condition', 'threshold_description',
     'severity', 'business_impact', 'threat_timeline', 'attacker_profile',
-    'cvss_score', 'points_deduction', 'remediation_priority'
+    'cvss_score', 'remediation_priority'
 ]
+# Note: points_deduction removed - using binary advancement model (pass/fail only)
 
 VALID_SEVERITIES = ['Critical', 'High', 'Medium', 'Low']
 VALID_PLATFORMS = [
@@ -157,11 +158,6 @@ class CheckValidator:
             if cvss is not None and (not isinstance(cvss, (int, float)) or cvss < 0 or cvss > 10):
                 self.errors.append(f"Threshold {idx}: Invalid CVSS score {cvss}. Must be 0-10")
 
-            # Validate points deduction
-            points = threshold.get('points_deduction')
-            if points is not None and (not isinstance(points, (int, float)) or points < 0):
-                self.errors.append(f"Threshold {idx}: Invalid points_deduction {points}. Must be >= 0")
-
             # Validate remediation priority
             priority = threshold.get('remediation_priority')
             if priority is not None and (not isinstance(priority, int) or priority < 1):
@@ -171,21 +167,7 @@ class CheckValidator:
         if 1 not in levels_covered:
             self.warnings.append("No Level 1 threshold defined - check may not block critical exposures")
 
-        # Level ordering validation
-        sorted_levels = sorted(levels_covered)
-        if len(sorted_levels) > 1:
-            expected_points = []
-            for level in sorted_levels:
-                level_thresholds = [t for t in thresholds if t.get('level') == level]
-                max_points = max([t.get('points_deduction', 0) for t in level_thresholds])
-                expected_points.append((level, max_points))
-
-            # Lower levels should generally have higher point deductions
-            for i in range(len(expected_points) - 1):
-                if expected_points[i][1] < expected_points[i+1][1]:
-                    self.warnings.append(
-                        f"Level {expected_points[i+1][0]} has higher points_deduction than Level {expected_points[i][0]} - verify this is intentional"
-                    )
+        # Note: Level ordering validation removed - using binary advancement model
 
     def _validate_framework_mappings(self, check: Dict):
         """Validate framework mappings"""

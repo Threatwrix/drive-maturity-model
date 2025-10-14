@@ -1,0 +1,102 @@
+check_id: 1S-IDENTITY-006
+title: Empty Security Groups
+short_description: Empty Security Groups
+detailed_description: 'Empty Security Groups - Measured as % with thresholds: Low=Below
+  1, Medium=1 to 2, High=2 and above'
+category: Identity
+platform: Active Directory
+drive_pillars:
+- I
+- R
+automatable: true
+owner: Netwrix-1Secure
+status: active
+created_date: '2025-10-14'
+last_updated: '2025-10-14T15:04:27Z'
+detection:
+  data_sources:
+  - Netwrix 1Secure
+  - Active Directory State
+  - Microsoft 365 API
+  query_logic: '% measurement with thresholds'
+  data_points_required:
+  - '1Secure metric: Empty Security Groups'
+  - Current value comparison
+  - Threshold evaluation
+level_thresholds:
+- level: 2
+  threshold_id: 1S-IDENTITY-006-L2
+  threshold_condition: ≥2 and above for Empty Security Groups
+  threshold_description: Empty Security Groups at Level 2
+  severity: High
+  business_impact: Impact varies based on % threshold breach
+  threat_timeline: Exploitable within weeks
+  attacker_profile: Varies by severity
+  cvss_score: 5.5
+  remediation_priority: 2
+- level: 3
+  threshold_id: 1S-IDENTITY-006-L3
+  threshold_condition: 1 to 2 for Empty Security Groups
+  threshold_description: Empty Security Groups at Level 3
+  severity: Medium
+  business_impact: Impact varies based on % threshold breach
+  threat_timeline: Exploitable within months
+  attacker_profile: Varies by severity
+  cvss_score: 3.5
+  remediation_priority: 3
+framework_mappings:
+  nist_csf:
+    function: PROTECT
+    categories: []
+    controls: []
+  cis_v8:
+    controls: []
+  cis_m365:
+    version: v5.0
+    recommendations: []
+  iso_27001:
+    version: '2022'
+    controls: []
+remediation:
+  automated_fix_available: false
+  1secure_remediable: true
+  fix_complexity: Medium
+  estimated_time_minutes: 60
+  prerequisites:
+  - Administrator access
+  - 1Secure remediation access
+  steps:
+  - step: 2
+    level_target:
+    - 2
+    action: Remediate to pass Level 2
+    details: 'Use 1Secure to identify and fix: ≥2 and above for Empty Security Groups'
+    requires_manual: false
+    manual_reason: Automated via 1Secure
+  - step: 3
+    level_target:
+    - 3
+    action: Remediate to pass Level 3
+    details: 'Use 1Secure to identify and fix: 1 to 2 for Empty Security Groups'
+    requires_manual: false
+    manual_reason: Automated via 1Secure
+validation:
+  test_queries:
+  - Verify Empty Security Groups is within acceptable threshold
+  false_positive_scenarios: []
+references:
+  microsoft_docs: []
+  industry_guidance:
+  - Netwrix 1Secure Risk Catalog
+  threat_intelligence: []
+metadata:
+  version: 1.0.0
+  schema_version: '2.0'
+  last_reviewed: '2025-10-14'
+  next_review_due: '2026-01-14'
+  reviewed_by: DRIVE-Team
+  change_history:
+  - date: '2025-10-14'
+    version: 1.0.0
+    change: Initial creation from 1Secure risk catalog
+    author: DRIVE-1Secure-Integration

@@ -1,0 +1,86 @@
+check_id: 1S-IDENTITY-008
+title: Improper Number of Global Administrators
+short_description: Improper Number of Global Administrators
+detailed_description: 'Improper Number of Global Administrators - Measured as Binary
+  with thresholds: Low=No risk, Medium=-, High=None'
+category: Identity
+platform: Active Directory
+drive_pillars:
+- I
+- R
+automatable: true
+owner: Netwrix-1Secure
+status: active
+created_date: '2025-10-14'
+last_updated: '2025-10-14T15:04:27Z'
+detection:
+  data_sources:
+  - Netwrix 1Secure
+  - Active Directory State
+  - Microsoft 365 API
+  query_logic: Binary measurement with thresholds
+  data_points_required:
+  - '1Secure metric: Improper Number of Global Administrators'
+  - Current value comparison
+  - Threshold evaluation
+level_thresholds:
+- level: 1
+  threshold_id: 1S-IDENTITY-008-L1
+  threshold_condition: Improper Number of Global Administrators detected
+  threshold_description: Improper Number of Global Administrators at Level 1
+  severity: Critical
+  business_impact: Impact varies based on Binary threshold breach
+  threat_timeline: Exploitable within immediate to days
+  attacker_profile: Varies by severity
+  cvss_score: 7.5
+  remediation_priority: 1
+framework_mappings:
+  nist_csf:
+    function: PROTECT
+    categories: []
+    controls: []
+  cis_v8:
+    controls: []
+  cis_m365:
+    version: v5.0
+    recommendations: []
+  iso_27001:
+    version: '2022'
+    controls: []
+remediation:
+  automated_fix_available: false
+  1secure_remediable: true
+  fix_complexity: Medium
+  estimated_time_minutes: 60
+  prerequisites:
+  - Administrator access
+  - 1Secure remediation access
+  steps:
+  - step: 1
+    level_target:
+    - 1
+    action: Remediate to pass Level 1
+    details: 'Use 1Secure to identify and fix: Improper Number of Global Administrators
+      detected'
+    requires_manual: false
+    manual_reason: Automated via 1Secure
+validation:
+  test_queries:
+  - Verify Improper Number of Global Administrators is within acceptable threshold
+  false_positive_scenarios: []
+references:
+  microsoft_docs: []
+  industry_guidance:
+  - Netwrix 1Secure Risk Catalog
+  threat_intelligence: []
+metadata:
+  version: 1.0.0
+  schema_version: '2.0'
+  last_reviewed: '2025-10-14'
+  next_review_due: '2026-01-14'
+  reviewed_by: DRIVE-Team
+  change_history:
+  - date: '2025-10-14'
+    version: 1.0.0
+    change: Initial creation from 1Secure risk catalog
+    author: DRIVE-1Secure-Integration

@@ -1,0 +1,53 @@
+Category,Metric,Measure In,Low,Medium,High
+Data,Third-Party Applications Allowed,Binary,No risk,-,
+Data,High Risk Permissions on Documents,%,Below 5,5 to 15,15 and above
+Data,Stale Direct User Permissions,%,Below 5,5 to 15,15 and above
+Data,Sites with Broken Permissions Inheritance,%,Below 60,60 to 100,100 and above
+Data,External and Anonymous Sharing of Sensitive Data,%,Below 5,5 to 15,15 and above
+Data,Unlabeled Sensitive Files,%,Below 10,10 to 30,30 and above
+Data,Stale User Access to Sensitive Data,%,Below 5,5 to 15,15 and above
+Data,Open Access to Sensitive Data,%,Below 0,Below 2,2 and above
+Data,High-Risk Permissions to Sensitive Data,%,Below 0,Below 2,2 and above
+Identity,"User Accounts with ""Password Never Expires""",Num,0,1 to 6,6 and above
+Identity,"User Accounts with ""Password Not Required""",Num,0,1 to 3,3 and above
+Identity,Inactive User Accounts,%,Below 0.01,0.01 to 1,1 and above
+Identity,User Accounts with Administrative Permissions,%,Below 2,2 to 3,3 and above
+Identity,Administrative Groups,%,Below 2,2 to 3,3 and above
+Identity,Empty Security Groups,%,Below 1,1 to 2,2 and above
+Identity,Dangerous Default Permissions,Binary,No risk,-,
+Identity,Improper Number of Global Administrators,Binary,No risk,-,
+Identity,Conditional Access Policy Disables Admin Token Persistence,Binary,No risk,-,
+Identity,Self-Serve Password Reset is Not Enabled,Binary,No risk,-,
+Identity,MS Graph Powershell Service Principal Assignment Not Enforced,Binary,No risk,-,
+Identity,Stale Guest Accounts,Num,0,1 to 5,5 and above
+Identity,"User Accounts with ""No MFA Configured""",Num,0,1 to 5,5 and above
+Identity,User Accounts Created via Email Verified Self-Service Creation,Num,0,1 to 5,5 and above
+Identity,Global Administrators,Num,Below 4,4,5 and above
+Identity,Unusual Primary Group on Computer Account,Num,Below 5,5 to 10,10 and above
+Identity,Restriction of Dangerous Privileges for Standard Users,Num,0,1 to 5,5 and above
+Identity,Review of Delegated Permissions for Standard Users on Organizational Units,Num,Below 5,5 to 10,10 and above
+Identity,Same Domain SID History Association,Num,0,-,1 and above
+Identity,Well-Known SIDs in SID History,Num,0,-,1 and above
+Identity,Administrative Accounts Susceptible to Kerberoasting,Num,0,-,1 and above
+Identity,Domain Controller RPC Coercion,Num,0,-,1 and above
+Identity,Admin Accounts with Email Access,Num,Below 5,5 and above,-
+Infrastructure,Disabled Computer Accounts,%,Below 1,1 to 3,3 and above
+Infrastructure,Inactive Computer Accounts,%,Below 0.01,0.01 to 3,3 and above
+Infrastructure,Unified Audit Log Search is Not Enabled,Binary,No risk,-,
+Infrastructure,Conditional Access Policies and Microsoft Secure Defaults status,Binary,No risk,-,
+Infrastructure,Expired Domain Registrations Found,Binary,No risk,-,
+Infrastructure,MS Graph Powershell Service Principal Configuration Missing,Binary,No risk,-,
+Infrastructure,Legacy authentication protocols enabled,Num,0,-,1 and above
+Infrastructure,Domain Controller SMB v1 Vulnerability,Num,0,-,1 and above
+Infrastructure,Domain Controller Registration Status,Num,0,1 to 3,3 and above
+Infrastructure,Domain Controller Logon Privileges Restriction,Num,0,-,1 and above
+Infrastructure,Domain Controller Ownership Verification,Num,0,1 to 5,5 and above
+Infrastructure,ESC1: Vulnerable Subject Control in Certificate Templates,Num,0,-,1 and above
+Infrastructure,ESC2: Vulnerable EKU Configurations in Certificate Templates,Num,0,-,1 and above
+Infrastructure,ESC4: Low-Privileged User Access to Published Certificate Templates,Num,0,-,1 and above
+Infrastructure,ESC3: Misconfigured Agent Enrollment Templates,Num,0,-,1 and above
+Infrastructure,Obsolete Windows Server 2012 Member Servers,Num,Below 6,6 to 21,21 and above
+Infrastructure,Obsolete Windows 2012 Domain Controllers,Num,0,-,1 and above
+Infrastructure,OU Accidental Deletion Protection,Num,0,1 and above,-
+Infrastructure,Weak TLS Protocols used by LDAPS,Num,0,1 and above,-
+Infrastructure,Outdated Domain Functional Level (2012R2),Num,0,1 and above,-

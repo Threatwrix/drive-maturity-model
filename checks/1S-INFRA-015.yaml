@@ -1,0 +1,87 @@
+check_id: 1S-INFRA-015
+title: 'ESC3: Misconfigured Agent Enrollment Templates'
+short_description: 'ESC3: Misconfigured Agent Enrollment Templates'
+detailed_description: 'ESC3: Misconfigured Agent Enrollment Templates - Measured as
+  Num with thresholds: Low=0, Medium=-, High=1 and above'
+category: Configuration
+platform: Active Directory
+drive_pillars:
+- R
+- V
+automatable: true
+owner: Netwrix-1Secure
+status: active
+created_date: '2025-10-14'
+last_updated: '2025-10-14T15:04:27Z'
+detection:
+  data_sources:
+  - Netwrix 1Secure
+  - Active Directory State
+  - Microsoft 365 API
+  query_logic: Num measurement with thresholds
+  data_points_required:
+  - '1Secure metric: ESC3: Misconfigured Agent Enrollment Templates'
+  - Current value comparison
+  - Threshold evaluation
+level_thresholds:
+- level: 1
+  threshold_id: 1S-INFRA-015-L1
+  threshold_condition: 'Any ESC3: Misconfigured Agent Enrollment Templates vulnerabilities'
+  threshold_description: 'ESC3: Misconfigured Agent Enrollment Templates at Level
+    1'
+  severity: Critical
+  business_impact: Impact varies based on Num threshold breach
+  threat_timeline: Exploitable within immediate
+  attacker_profile: Varies by severity
+  cvss_score: 7.5
+  remediation_priority: 1
+framework_mappings:
+  nist_csf:
+    function: PROTECT
+    categories: []
+    controls: []
+  cis_v8:
+    controls: []
+  cis_m365:
+    version: v5.0
+    recommendations: []
+  iso_27001:
+    version: '2022'
+    controls: []
+remediation:
+  automated_fix_available: false
+  1secure_remediable: true
+  fix_complexity: Medium
+  estimated_time_minutes: 60
+  prerequisites:
+  - Administrator access
+  - 1Secure remediation access
+  steps:
+  - step: 1
+    level_target:
+    - 1
+    action: Remediate to pass Level 1
+    details: 'Use 1Secure to identify and fix: Any ESC3: Misconfigured Agent Enrollment
+      Templates vulnerabilities'
+    requires_manual: false
+    manual_reason: Automated via 1Secure
+validation:
+  test_queries:
+  - 'Verify ESC3: Misconfigured Agent Enrollment Templates is within acceptable threshold'
+  false_positive_scenarios: []
+references:
+  microsoft_docs: []
+  industry_guidance:
+  - Netwrix 1Secure Risk Catalog
+  threat_intelligence: []
+metadata:
+  version: 1.0.0
+  schema_version: '2.0'
+  last_reviewed: '2025-10-14'
+  next_review_due: '2026-01-14'
+  reviewed_by: DRIVE-Team
+  change_history:
+  - date: '2025-10-14'
+    version: 1.0.0
+    change: Initial creation from 1Secure risk catalog
+    author: DRIVE-1Secure-Integration
