@@ -12,7 +12,7 @@ automatable: true
 owner: Netwrix-1Secure
 status: active
 created_date: '2025-10-14'
-last_updated: '2025-10-14T15:04:27Z'
+last_updated: '2025-10-14T15:44:09Z'
 detection:
   data_sources:
   - Netwrix 1Secure
@@ -44,6 +44,18 @@ level_thresholds:
   attacker_profile: Varies by severity
   cvss_score: 3.5
   remediation_priority: 3
+- level: 5
+  threshold_id: 1S-INFRA-016-L5
+  threshold_condition: 0 obsolete Windows Server 2012 member servers
+  threshold_description: Obsolete Windows Server 2012 Member Servers at Level 5 -
+    Always current
+  severity: Low
+  business_impact: Organizations with zero obsolete systems demonstrate continuous
+    patching, modern infrastructure, and zero technical debt
+  threat_timeline: Ongoing operational excellence
+  attacker_profile: State-of-the-art security posture
+  cvss_score: 2.0
+  remediation_priority: 5
 framework_mappings:
   nist_csf:
     function: PROTECT
@@ -82,6 +94,14 @@ remediation:
       2012 Member Servers'
     requires_manual: false
     manual_reason: Automated via 1Secure
+  - step: 5
+    level_target:
+    - 5
+    action: Achieve Level 5 state-of-the-art security
+    details: 'Use 1Secure to continuously monitor and maintain: 0 obsolete Windows
+      Server 2012 member servers'
+    requires_manual: false
+    manual_reason: Automated via 1Secure continuous monitoring
 validation:
   test_queries:
   - Verify Obsolete Windows Server 2012 Member Servers is within acceptable threshold
@@ -92,7 +112,7 @@ references:
   - Netwrix 1Secure Risk Catalog
   threat_intelligence: []
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   schema_version: '2.0'
   last_reviewed: '2025-10-14'
   next_review_due: '2026-01-14'
@@ -101,4 +121,8 @@ metadata:
   - date: '2025-10-14'
     version: 1.0.0
     change: Initial creation from 1Secure risk catalog
+    author: DRIVE-1Secure-Integration
+  - date: '2025-10-14'
+    version: 1.1.0
+    change: Added Level 5 (State-of-the-Art) threshold
     author: DRIVE-1Secure-Integration
