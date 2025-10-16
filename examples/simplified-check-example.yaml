@@ -1,0 +1,139 @@
+# Simplified YAML Check Example
+# This is a streamlined version focusing on core fields needed for MVP implementation
+
+check_id: 1S-DATA-002
+title: High Risk Permissions on Documents
+short_description: Documents with overly permissive access rights
+detailed_description: |
+  Identifies documents in SharePoint where permissions grant excessive access rights to users,
+  increasing the risk of unauthorized data exposure. High-risk permissions include Edit/Full Control
+  access to sensitive documents by users who should only have Read access.
+
+category: Access Control
+platform: SharePoint
+automatable: true
+owner: Netwrix-1Secure
+status: active
+created_date: '2025-10-14'
+last_updated: '2025-10-16'
+
+# Detection configuration
+detection:
+  data_sources:
+  - SharePoint State
+  query_logic: 'Percentage-based threshold measurement'
+  data_points_required:
+  - 'Percentage of documents with high-risk permissions (Edit/Full Control on sensitive data)'
+  - 'Total document count'
+  - 'Risk classification by sensitivity label'
+
+# Multi-level threshold model
+level_thresholds:
+  # Level 1: Critical exposure - immediate risk
+  - level: 1
+    threshold_id: 1S-DATA-002-L1
+    threshold_condition: '≥15% of documents have high-risk permissions'
+    threshold_description: 'Critical level of overly permissive access'
+    severity: Critical
+    remediation_priority: 1
+
+  # Level 2: High risk - short-term remediation needed
+  - level: 2
+    threshold_id: 1S-DATA-002-L2
+    threshold_condition: '5-15% of documents have high-risk permissions'
+    threshold_description: 'Significant permissions risk requiring attention'
+    severity: High
+    remediation_priority: 2
+
+  # Level 3: Baseline security - maintain best practices
+  - level: 3
+    threshold_id: 1S-DATA-002-L3
+    threshold_condition: '<5% of documents have high-risk permissions'
+    threshold_description: 'Acceptable baseline with minimal risk'
+    severity: Medium
+    remediation_priority: 3
+
+# Framework mappings
+framework_mappings:
+  # Data Security Maturity Model (DSMM)
+  dsmm:
+    function: DPR  # Protect
+    control_id: DPR001
+    control_name: 'Controlling Access'
+    level: L1  # Static access control lists based on user identities
+    url: 'https://docs.datasecurity.org/protect/dpr001'
+
+  # NIST Cybersecurity Framework
+  nist_csf:
+    function: PROTECT
+    categories:
+    - PR.AC-4  # Access permissions are managed
+    - PR.DS-5  # Protections against data leaks
+    controls:
+    - PR.AC-4
+    - PR.DS-5
+
+  # CIS Controls v8
+  cis_v8:
+    controls:
+    - '3.3'   # Configure Data Access Control Lists
+    - '6.1'   # Establish Access Control Policies
+    - '6.2'   # Establish Access Based on Need to Know
+
+  # ISO 27001:2022
+  iso_27001:
+    version: '2022'
+    controls:
+    - 'A.5.15'  # Access control
+    - 'A.5.18'  # Access rights
+    - 'A.8.3'   # Information access restriction
+
+# Remediation
+remediation:
+  automated_fix_available: false
+  steps:
+  - step: 1
+    action: 'Identify documents with high-risk permissions via 1Secure dashboard'
+    details: 'Filter by sensitivity labels and permission types (Edit/Full Control)'
+  - step: 2
+    action: 'Review business justification for each high-risk permission'
+    details: 'Work with document owners to validate legitimate access requirements'
+  - step: 3
+    action: 'Remove or downgrade excessive permissions'
+    details: 'Convert Edit → Read access where appropriate, remove unnecessary Full Control'
+  - step: 4
+    action: 'Implement SharePoint permission inheritance'
+    details: 'Use library/folder-level permissions instead of item-level overrides'
+
+# References
+references:
+  microsoft_docs:
+  - 'https://learn.microsoft.com/en-us/sharepoint/modern-experience-sharing-permissions'
+  - 'https://learn.microsoft.com/en-us/sharepoint/what-is-permissions-inheritance'
+  industry_guidance:
+  - 'Netwrix 1Secure Risk Catalog'
+  - 'DSMM Framework - DPR001: Controlling Access'
+  - 'CIS Microsoft 365 Foundations Benchmark v3.0'
+  threat_intelligence:
+  - 'MITRE ATT&CK T1530 - Data from Cloud Storage'
+
+# PowerPoint export configuration
+powerpoint_export:
+  include: true
+  priority: 1-PrimaryFocus
+  slide_section: 'Critical Findings'
+  executive_summary: 'Over 15% of documents have excessive permissions, enabling unauthorized access to sensitive data'
+  chart_visualization: gauge
+
+# Metadata
+metadata:
+  version: 1.0.0
+  schema_version: '2.1'
+  last_reviewed: '2025-10-16'
+  next_review_due: '2026-01-16'
+  reviewed_by: DRIVE-Team
+  change_history:
+  - date: '2025-10-16'
+    version: 1.0.0
+    change: 'Created simplified example with DSMM framework mapping'
+    author: DRIVE-Team
