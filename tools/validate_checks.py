@@ -33,6 +33,8 @@ VALID_PLATFORMS = [
 VALID_PILLARS = ['D', 'R', 'I', 'V', 'E']
 VALID_LEVELS = [1, 2, 3, 4, 5]
 VALID_STATUSES = ['active', 'draft', 'deprecated', 'archived']
+VALID_POWERPOINT_PRIORITIES = ['1-PrimaryFocus', '2-SecondaryFocus', '3-AdditionalFinding', '4-Exclude']
+VALID_CHART_VISUALIZATIONS = ['trend', 'gauge', 'bar', 'heatmap', 'table', 'none']
 
 class CheckValidator:
     def __init__(self):
@@ -63,6 +65,7 @@ class CheckValidator:
         self._validate_level_thresholds(check)
         self._validate_framework_mappings(check)
         self._validate_remediation(check)
+        self._validate_powerpoint_export(check)
         self._validate_metadata(check)
 
         return len(self.errors) == 0
@@ -221,6 +224,56 @@ class CheckValidator:
                     if 'action' not in step:
                         self.errors.append(f"Remediation step {idx}: Missing 'action' description")
 
+    def _validate_powerpoint_export(self, check: Dict):
+        """Validate PowerPoint export section (schema v2.1+)"""
+        if 'powerpoint_export' not in check:
+            # Optional section - no error, just info
+            schema_version = check.get('metadata', {}).get('schema_version', '2.0')
+            if schema_version == '2.1':
+                self.warnings.append("Schema v2.1 check missing powerpoint_export section - will use defaults")
+            return
+
+        pptx = check['powerpoint_export']
+
+        # Validate required fields
+        if 'include' not in pptx:
+            self.errors.append("powerpoint_export: Missing required field 'include'")
+        elif not isinstance(pptx['include'], bool):
+            self.errors.append(f"powerpoint_export.include must be boolean, got: {type(pptx['include']).__name__}")
+
+        if 'priority' not in pptx:
+            self.errors.append("powerpoint_export: Missing required field 'priority'")
+        elif pptx['priority'] not in VALID_POWERPOINT_PRIORITIES:
+            self.errors.append(f"powerpoint_export.priority must be one of {VALID_POWERPOINT_PRIORITIES}, got: {pptx['priority']}")
+
+        # Validate consistency rules
+        priority = pptx.get('priority')
+        include = pptx.get('include')
+
+        if priority == '4-Exclude' and include is True:
+            self.warnings.append("powerpoint_export: priority='4-Exclude' but include=true (should be false)")
+
+        if include is False and priority != '4-Exclude':
+            self.warnings.append(f"powerpoint_export: include=false but priority='{priority}' (should be 4-Exclude)")
+
+        if priority == '1-PrimaryFocus' and 'executive_summary' not in pptx:
+            self.warnings.append("powerpoint_export: 1-PrimaryFocus checks should have executive_summary for slide readability")
+
+        # Validate optional fields
+        if 'executive_summary' in pptx:
+            summary = pptx['executive_summary']
+            if len(summary) > 200:
+                self.warnings.append(f"powerpoint_export.executive_summary is {len(summary)} characters (recommend <200 for slide readability)")
+
+        if 'chart_visualization' in pptx:
+            chart_type = pptx['chart_visualization']
+            if chart_type not in VALID_CHART_VISUALIZATIONS:
+                self.errors.append(f"powerpoint_export.chart_visualization must be one of {VALID_CHART_VISUALIZATIONS}, got: {chart_type}")
+
+        # Best practice checks
+        if priority == '1-PrimaryFocus':
+            self.info.append("Primary Focus check - ensure executive_summary is compelling and concise")
+
     def _validate_metadata(self, check: Dict):
         """Validate metadata section"""
         if 'metadata' not in check:
@@ -232,6 +285,11 @@ class CheckValidator:
         version = metadata.get('version', '')
         if not version or not version.count('.') >= 2:
             self.warnings.append(f"Invalid version format: {version}. Expected X.Y.Z")
+
+        # Check schema version
+        schema_version = metadata.get('schema_version', '2.0')
+        if schema_version not in ['2.0', '2.1']:
+            self.warnings.append(f"Unknown schema_version: {schema_version}. Expected 2.0 or 2.1")
 
         # Check dates
         last_reviewed = metadata.get('last_reviewed', '')

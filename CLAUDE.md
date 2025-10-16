@@ -19,16 +19,21 @@ This repository contains:
 
 ### Core Components
 
-**New Architecture (v2.0 - ANSSI-Inspired)**
+**New Architecture (v2.1 - ANSSI-Inspired with PowerPoint Export)**
 
 The repository now supports TWO catalog formats:
 1. **Legacy CSV format** (`/catalog/*.csv`) - Single level assignment per check
-2. **New YAML format** (`/checks/*.yaml`) - Multi-level thresholds per check (PREFERRED)
+2. **New YAML format** (`/checks/*.yaml`) - Multi-level thresholds per check with PowerPoint export tagging (PREFERRED)
 
 **Check Definitions** (`/checks/` - NEW)
 - Individual YAML files per check (e.g., `SP-ES-001.yaml`, `AD-FL-001.yaml`)
 - Each check defines multiple `level_thresholds` array entries
 - Same check can block different maturity levels with different severity thresholds
+- **PowerPoint export tagging** (schema v2.1) - Prioritize checks for executive presentations
+  - `1-PrimaryFocus`: Critical findings requiring executive attention
+  - `2-SecondaryFocus`: Important findings for management review
+  - `3-AdditionalFinding`: Supporting details and context
+  - `4-Exclude`: Technical detail only (not for executives)
 - Example: Anonymous links could be Critical (Level 1) with edit permissions, High (Level 2) with >10 confidential files, Medium (Level 3) with >50 permanent links
 
 **Catalog Format** (`/catalog/` - LEGACY)
@@ -79,7 +84,7 @@ Each risk check includes:
 
 ## Common Development Tasks
 
-### Creating New Checks (v2.0 YAML Format - PREFERRED)
+### Creating New Checks (v2.1 YAML Format - PREFERRED)
 
 **1. Create YAML file for new check:**
 ```bash
@@ -144,6 +149,30 @@ ls -la checks/
 # Enhance with multi-level thresholds
 # (Manual editing required for nuanced threshold logic)
 ```
+
+### Adding PowerPoint Export Tags (v2.1)
+
+**Add PowerPoint export prioritization to all checks:**
+```bash
+# Preview changes (dry run)
+python3 tools/add_powerpoint_export_tags.py --dry-run
+
+# Apply to all checks
+python3 tools/add_powerpoint_export_tags.py
+
+# Apply to specific checks only
+python3 tools/add_powerpoint_export_tags.py checks/SP-*.yaml checks/1S-*.yaml
+
+# Use custom priority mapping
+python3 tools/add_powerpoint_export_tags.py --priority-mapping custom_rules.json
+```
+
+**This migration:**
+- Adds `powerpoint_export` section to each check
+- Intelligently assigns priority (1-PrimaryFocus, 2-SecondaryFocus, 3-AdditionalFinding, 4-Exclude)
+- Based on severity, maturity level, and business impact keywords
+- Updates schema version from 2.0 → 2.1
+- Preserves all existing check data
 
 ### Data Management Scripts
 
@@ -223,12 +252,15 @@ python3 tools/remap_maturity_levels.py
   scoring.yaml               # Scoring categories, severity weights, exposure model
 
 /tools/
-  merge_catalog.py           # Transform raw risks into DRIVE format
-  remap_maturity_levels.py   # Assign threat-focused maturity levels
+  merge_catalog.py                # Transform raw risks into DRIVE format
+  remap_maturity_levels.py        # Assign threat-focused maturity levels
+  add_powerpoint_export_tags.py   # Add PowerPoint export tagging (v2.0 → v2.1)
+  validate_checks.py              # Validate YAML check definitions (supports v2.1)
 
 /docs/
   DRIVE_PRD.md              # Comprehensive Product Requirements Document
                              # Includes Replit implementation guide
+  YAML_SCHEMA_V2.1.md       # Schema v2.1 specification with PowerPoint export
 ```
 
 ## Data Model Patterns
